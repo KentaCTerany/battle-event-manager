@@ -1,6 +1,6 @@
 {
   "server": {
-    "baseDir": "dist"
+    "baseDir": "docs"
   },
-  "files": ["dist/*.html", "dist/*.css", "dist/*.js"]
+  "files": ["docs/*.html", "docs/*.css", "docs/*.js"]
 }

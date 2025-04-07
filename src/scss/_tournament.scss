@@ -1,0 +1,229 @@
+@use "mixin";
+
+:root {
+  --battler-width: 200px;
+  --battler-height: 56px;
+  --battler-gap: 8px;
+  --match-width: 36px;
+  --match-height: calc(var(--battler-height) + var(--battler-gap));
+  --match-side-width: calc(var(--battler-width) + var(--match-width));
+}
+
+.BEMTournament {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid#000;
+  aspect-ratio: 297/210;
+  overflow: scroll;
+}
+
+.BEMTournamentBattlerContainer {
+  display: grid;
+  gap: var(--battler-gap);
+  grid-template-columns: calc(var(--battler-width) / 3) 1fr;
+
+  .BEMTournamentBattlerContainer_info {
+    display: grid;
+    align-items: center;
+  }
+
+  .BEMTournamentBattlerContainer_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: var(--battler-width);
+    height: var(--battler-height);
+    border: 1px solid #000;
+    box-sizing: border-box;
+
+    > span {
+      text-align: center;
+      direction: ltr;
+
+      &.-name {
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+
+      &.-desc {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+.BEMTournamentMatch {
+  position: relative;
+  display: flex;
+  width: fit-content;
+
+  .BEMTournamentMatch_game {
+    position: relative;
+    display: grid;
+    width: var(--match-width);
+    gap: var(--battler-gap);
+
+    .BEMTournamentMatch_side {
+      position: relative;
+      height: calc(100%);
+
+      &::before {
+        position: absolute;
+        top: 50%;
+        display: block;
+        width: var(--match-width);
+        height: 1px;
+        background-color: #000;
+        content: "";
+        transform: translateY(-50%);
+      }
+
+      &::after {
+        position: absolute;
+        left: var(--match-width);
+        width: 1px;
+        height: calc((100% + var(--battler-gap)) / 2 + 1px);
+        background-color: #000;
+        content: "";
+      }
+
+      &.-sideA::after {
+        top: 50%;
+        transform: translateY(-0.5px);
+      }
+
+      &.-sideB::after {
+        bottom: 50%;
+        transform: translateY(0.5px);
+      }
+    }
+
+    div.-desc {
+      position: absolute;
+      top: 50%;
+      right: 0.5em;
+      text-align: right;
+      transform: translateY(-50%);
+    }
+  }
+
+  .BEMTournamentMatch_battler {
+    &:has(.BEMTournamentMatch) {
+      display: grid;
+      gap: var(--battler-gap);
+    }
+
+    &:has(.BEMTournament_block) {
+      display: grid;
+      gap: calc(var(--battler-width) + (var(--match-width) * 2));
+      grid-template-columns: 1fr 1fr;
+
+      .BEMTournament_block:last-child {
+        .BEMTournamentMatch {
+          flex-direction: row-reverse;
+
+          .BEMTournamentMatch_game .BEMTournamentMatch_side::after {
+            right: var(--match-width);
+            left: auto;
+          }
+        }
+
+        .BEMTournamentBattlerContainer {
+          direction: rtl;
+        }
+      }
+    }
+  }
+
+  &.-final {
+    // background-color: red;
+
+    > .BEMTournamentMatch_game {
+      display: flex;
+      width: calc(var(--battler-width) + (var(--match-width) * 2));
+      height: 100%;
+      gap:0;
+      @include mixin.center-ab;
+
+      .BEMTournamentMatch_winner {
+        top: auto;
+        bottom: calc(50% + var(--match-width));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: var(--battler-width);
+        height: calc(var(--battler-height) * 1.5);
+        border: 1px solid #000;
+        box-sizing: border-box;
+        @include mixin.center-ab(true, false);
+      }
+
+      div.-desc {
+        text-align: center;
+        margin-top: 0.5em;
+        @include mixin.center-ab(true, false);
+      }
+
+      .BEMTournamentMatch_side {
+        width: 50%;
+
+        &::before{
+          width: 100%;
+          height: 1px;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */
+        &::after{
+          top: auto;
+          bottom: 50%;
+          height: var(--match-width);
+        }
+
+        &.-sideA::after{
+          right: -1px;
+          left: auto;
+        }
+
+        &.-sideB::after{
+          right: auto;
+          left: 0;
+        }
+      }
+    }
+  }
+
+  &[data-win="A"] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA,
+  &[data-win="B"] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB {
+    &::before,
+    &::after {
+      z-index: 1;
+      background-color: red;
+    }
+
+    &::before {
+      height: 3px;
+    }
+
+    &::after {
+      width: 3px;
+      height: calc((100% + var(--battler-gap)) / 2 + 3px);
+    }
+  }
+
+  &[data-win="A"] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA {
+    &::after {
+      transform: translate(-1px, -1.5px);
+    }
+  }
+
+  &[data-win="B"] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB {
+    &::after {
+      transform: translate(-1px, 1.5px);
+    }
+  }
+}
+
+.BEMTournamentBattler {
+  display: grid;
+  gap: var(--battler-gap);
+}

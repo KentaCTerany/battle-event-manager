@@ -1,0 +1,193 @@
+:root {
+  --battler-width: 200px;
+  --battler-height: 56px;
+  --battler-gap: 8px;
+  --match-width: 36px;
+  --match-height: calc(var(--battler-height) + var(--battler-gap));
+  --match-side-width: calc(var(--battler-width) + var(--match-width));
+}
+
+.BEMTournament {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #000;
+  aspect-ratio: 297/210;
+  overflow: scroll;
+}
+
+.BEMTournamentBattlerContainer {
+  display: grid;
+  gap: var(--battler-gap);
+  grid-template-columns: calc(var(--battler-width) / 3) 1fr;
+}
+.BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_info {
+  display: grid;
+  align-items: center;
+}
+.BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: var(--battler-width);
+  height: var(--battler-height);
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+.BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_card > span {
+  text-align: center;
+  direction: ltr;
+}
+.BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_card > span.-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_card > span.-desc {
+  font-size: 1.1rem;
+}
+
+.BEMTournamentMatch {
+  position: relative;
+  display: flex;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.BEMTournamentMatch .BEMTournamentMatch_game {
+  position: relative;
+  display: grid;
+  width: var(--match-width);
+  gap: var(--battler-gap);
+}
+.BEMTournamentMatch .BEMTournamentMatch_game .BEMTournamentMatch_side {
+  position: relative;
+  height: 100%;
+}
+.BEMTournamentMatch .BEMTournamentMatch_game .BEMTournamentMatch_side::before {
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: var(--match-width);
+  height: 1px;
+  background-color: #000;
+  content: "";
+  transform: translateY(-50%);
+}
+.BEMTournamentMatch .BEMTournamentMatch_game .BEMTournamentMatch_side::after {
+  position: absolute;
+  left: var(--match-width);
+  width: 1px;
+  height: calc((100% + var(--battler-gap)) / 2 + 1px);
+  background-color: #000;
+  content: "";
+}
+.BEMTournamentMatch .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA::after {
+  top: 50%;
+  transform: translateY(-0.5px);
+}
+.BEMTournamentMatch .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB::after {
+  bottom: 50%;
+  transform: translateY(0.5px);
+}
+.BEMTournamentMatch .BEMTournamentMatch_game div.-desc {
+  position: absolute;
+  top: 50%;
+  right: 0.5em;
+  text-align: right;
+  transform: translateY(-50%);
+}
+.BEMTournamentMatch .BEMTournamentMatch_battler:has(.BEMTournamentMatch) {
+  display: grid;
+  gap: var(--battler-gap);
+}
+.BEMTournamentMatch .BEMTournamentMatch_battler:has(.BEMTournament_block) {
+  display: grid;
+  gap: calc(var(--battler-width) + var(--match-width) * 2);
+  grid-template-columns: 1fr 1fr;
+}
+.BEMTournamentMatch .BEMTournamentMatch_battler:has(.BEMTournament_block) .BEMTournament_block:last-child .BEMTournamentMatch {
+  flex-direction: row-reverse;
+}
+.BEMTournamentMatch .BEMTournamentMatch_battler:has(.BEMTournament_block) .BEMTournament_block:last-child .BEMTournamentMatch .BEMTournamentMatch_game .BEMTournamentMatch_side::after {
+  right: var(--match-width);
+  left: auto;
+}
+.BEMTournamentMatch .BEMTournamentMatch_battler:has(.BEMTournament_block) .BEMTournament_block:last-child .BEMTournamentBattlerContainer {
+  direction: rtl;
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game {
+  display: flex;
+  width: calc(var(--battler-width) + var(--match-width) * 2);
+  height: 100%;
+  gap: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game .BEMTournamentMatch_winner {
+  top: auto;
+  bottom: calc(50% + var(--match-width));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: var(--battler-width);
+  height: calc(var(--battler-height) * 1.5);
+  border: 1px solid #000;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game div.-desc {
+  text-align: center;
+  margin-top: 0.5em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game .BEMTournamentMatch_side {
+  width: 50%;
+  /* stylelint-disable-next-line no-descending-specificity */
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game .BEMTournamentMatch_side::before {
+  width: 100%;
+  height: 1px;
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game .BEMTournamentMatch_side::after {
+  top: auto;
+  bottom: 50%;
+  height: var(--match-width);
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA::after {
+  right: -1px;
+  left: auto;
+}
+.BEMTournamentMatch.-final > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB::after {
+  right: auto;
+  left: 0;
+}
+.BEMTournamentMatch[data-win=A] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA::before, .BEMTournamentMatch[data-win=A] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA::after, .BEMTournamentMatch[data-win=B] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB::before, .BEMTournamentMatch[data-win=B] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB::after {
+  z-index: 1;
+  background-color: red;
+}
+.BEMTournamentMatch[data-win=A] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA::before, .BEMTournamentMatch[data-win=B] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB::before {
+  height: 3px;
+}
+.BEMTournamentMatch[data-win=A] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA::after, .BEMTournamentMatch[data-win=B] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB::after {
+  width: 3px;
+  height: calc((100% + var(--battler-gap)) / 2 + 3px);
+}
+.BEMTournamentMatch[data-win=A] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideA::after {
+  transform: translate(-1px, -1.5px);
+}
+.BEMTournamentMatch[data-win=B] > .BEMTournamentMatch_game .BEMTournamentMatch_side.-sideB::after {
+  transform: translate(-1px, 1.5px);
+}
+
+.BEMTournamentBattler {
+  display: grid;
+  gap: var(--battler-gap);
+}
+
+:root {
+  font-size: 10px;
+}/*# sourceMappingURL=index.css.map */

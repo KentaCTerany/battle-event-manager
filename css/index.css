@@ -8,21 +8,37 @@
 }
 
 .BEMTournament {
+  display: grid;
+  align-items: center;
   width: 100%;
+  max-width: 1024px;
   padding: 16px;
   border: 1px solid #000;
-  aspect-ratio: 297/210;
+  margin-inline: auto;
   overflow: scroll;
+}
+.BEMTournament.-html2pdf {
+  width: 11.69in;
+  max-width: inherit;
+  margin: auto;
+  padding: 0;
+  border: none;
+  aspect-ratio: 297/210;
+  --battler-height: 60px;
+  --battler-gap: 16px;
+  --match-width: 44px;
 }
 
 .BEMTournamentBattlerContainer {
   display: grid;
   gap: var(--battler-gap);
-  grid-template-columns: calc(var(--battler-width) / 3) 1fr;
+  grid-template-columns: 1fr auto;
 }
 .BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_info {
   display: grid;
   align-items: center;
+  width: 100%;
+  text-align: right;
 }
 .BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_card {
   display: flex;
@@ -112,6 +128,12 @@
 }
 .BEMTournamentMatch .BEMTournamentMatch_battler:has(.BEMTournament_block) .BEMTournament_block:last-child .BEMTournamentBattlerContainer {
   direction: rtl;
+}
+.BEMTournamentMatch .BEMTournamentMatch_battler:has(.BEMTournament_block) .BEMTournament_block:last-child .BEMTournamentBattlerContainer .BEMTournamentBattlerContainer_info {
+  text-align: left;
+}
+.BEMTournamentMatch.-final {
+  margin-inline: auto;
 }
 .BEMTournamentMatch.-final > .BEMTournamentMatch_game {
   display: flex;

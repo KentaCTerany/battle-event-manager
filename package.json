@@ -24,5 +24,8 @@
     "stylelint-config-standard-scss": "^14.0.0",
     "stylelint-order": "^6.0.4",
     "stylelint-scss": "^6.11.1"
+  },
+  "dependencies": {
+    "html2pdf.js": "^0.10.3"
   }
 }

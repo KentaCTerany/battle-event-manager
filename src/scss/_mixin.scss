@@ -10,7 +10,6 @@
     transform: translate(-50%, -50%);
   } @else if $y {
     transform: translateY(-50%);
-
   } @else if $x {
     transform: translateX(-50%);
   }

@@ -17,6 +17,7 @@ const battlerList = [
   { name: '14位', desc: '( 所属 )', info: '14位' },
   { name: '15位', desc: '( 所属 )', info: '15位' },
   { name: '16位', desc: '( 所属 )', info: '16位' },
+  { name: '16位', desc: '( 所属 )', info: '16位' },
 ]
 
 export default class TournamentGenerator {
@@ -60,12 +61,18 @@ export default class TournamentGenerator {
     }
 
     const html = `
-    <div class="BEMTournamentPDFControl">
-      <button class="BEMTournamentPDFControl_button">PDF出力</button>
-    </div>
-
-    <div class="BEMTournament">
-      ${this.getMatchHTML()}
+    <div class="BEMTournamentFrame">
+      <div class="BEMTournamentFrame_head">
+        <div class="BEMTournamentFrame_title">Tournament Generator</div>
+      </div>
+      <div class="BEMTournamentFrame_body BEMTournament">
+        ${this.getMatchHTML()}
+      </div>
+      <div class="BEMTournamentFrame_foot">
+        <div class="BEMTournamentFrame_PDFControl BEMTournamentPDFControl">
+          <button class="BEMTournamentPDFControl_button">PDF出力</button>
+        </div>
+      </div>
     </div>
     `
 
@@ -159,7 +166,7 @@ export default class TournamentGenerator {
       </div>
       <div class="BEMTournamentMatch_game">
         <div class="BEMTournamentMatch_side -sideA"></div>
-        <div class="-desc"></div>
+        <div class="-desc">延<br>長</div>
         <div class="BEMTournamentMatch_side -sideB"></div>
         ${isFinal ? `<div class="BEMTournamentMatch_winner"></div>` : ''}
       </div>
@@ -232,14 +239,21 @@ export default class TournamentGenerator {
 
   exportToPDF() {
     const element = this.container // トーナメント表を囲むDOM
+    const format = this.matchNum < 4 ? 'a4' : 'a3'
+    const orientation = this.matchNum < 4 ? 'landscape' : 'portrait'
     this.container.classList.add('-html2pdf')
+    this.container.classList.add(`-${orientation}`)
 
     const opt = {
       margin: 0,
       filename: 'tournament.pdf',
       image: { type: 'jpg', quality: 1 },
       html2canvas: { scale: 3 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' },
+      jsPDF: {
+        unit: 'in',
+        format,
+        orientation,
+      },
     }
 
     html2pdf()

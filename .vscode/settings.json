@@ -7,6 +7,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "prettier.singleQuote": true,
-  "prettier.semi": false,
+  "prettier.semi": true,
   "prettier.trailingComma": "es5"
 }

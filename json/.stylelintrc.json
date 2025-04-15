@@ -4,6 +4,8 @@
   "rules": {
     "selector-class-pattern": null,
     "at-rule-empty-line-before": "never",
+    "block-no-empty": null,
+    "no-descending-specificity": null,
     "order/properties-order": [
       [
         "position",

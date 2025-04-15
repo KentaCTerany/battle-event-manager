@@ -1,17 +1,19 @@
-import TournamentGenerator from './tournament.js'
+import TournamentManager from './tournament.js';
+import { defineCommonVariable } from '../variable.js';
 
 export default class BattleEventManager {
   constructor() {
-    this.container = document.getElementById('battleEventManager')
-    this.tournament = new TournamentGenerator({ app: this, mode: 'ranking' })
+    this.container = document.getElementById('battleEventManager');
+    this.tournament = new TournamentManager({ app: this, mode: 'ranking' });
   }
   init() {
-    this.defineModule()
+    defineCommonVariable();
+    this.defineModule();
   }
 
   defineModule() {
-    this.container.classList.add('battleEventManager')
-    this.tournament.init()
+    this.container.classList.add('battleEventManager');
+    this.tournament.init();
   }
 
   generateTounamentHTML() {}

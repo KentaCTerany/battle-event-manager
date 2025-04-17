@@ -8,5 +8,6 @@
   "editor.formatOnSave": true,
   "prettier.singleQuote": true,
   "prettier.semi": true,
+  "prettier.printWidth": 360,
   "prettier.trailingComma": "es5"
 }

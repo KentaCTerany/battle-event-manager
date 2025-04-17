@@ -1,4 +1,4 @@
-import TournamentManager from './tournament.js';
+import TournamentManager from './Tournament/Tournament.js';
 import { defineCommonVariable } from '../variable.js';
 
 export default class BattleEventManager {

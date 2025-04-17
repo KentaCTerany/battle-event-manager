@@ -1,4 +1,4 @@
-import BattleEventManager from "./module/app.js";
+import BattleEventManager from './module/app.js';
 
 (() => {
   new BattleEventManager().init();

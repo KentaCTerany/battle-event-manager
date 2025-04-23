@@ -189,12 +189,12 @@ export default class TournamentManager {
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format, orientation },
     };
-    html2pdf()
-      .set(opt)
-      .from(this.container)
-      .save()
-      .then(() => {
-        this.container.classList.remove('-html2pdf');
-      });
+    // html2pdf()
+    //   .set(opt)
+    //   .from(this.container)
+    //   .save()
+    //   .then(() => {
+    //     this.container.classList.remove('-html2pdf');
+    //   });
   }
 }

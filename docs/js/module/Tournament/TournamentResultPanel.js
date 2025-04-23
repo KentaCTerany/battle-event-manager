@@ -100,6 +100,7 @@ export default class TournamentManagerResultPanel {
   getResultPanel({ battlerA, battlerB }) {
     return `
       <div class="BEMTournamentPanel" aria-hidden="true">
+        <div class="BEMTournamentPanel_matchInfo"></div>
         <div class="BEMTournamentPanel_match">
           <div class="BEMTournamentPanel_battler -sideA">${battlerA}</div>
           <span class="BEMTournamentPanel_vs">vs</span>

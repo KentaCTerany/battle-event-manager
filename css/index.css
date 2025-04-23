@@ -16,6 +16,9 @@
   --match-height: calc(var(--battler-height) + var(--battler-gap));
   --line-color: #d50000;
 }
+.BEMTournament.-html2pdf {
+  background-color: #d50000;
+}
 .BEMTournament .BEMTournament_body {
   display: grid;
   justify-content: center;
@@ -270,7 +273,7 @@
   padding: 8px;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: #000 0 0 8px;
+  box-shadow: rgba(0, 0, 0, 0.75) 0 0 4px;
   direction: ltr;
   transform: translate(calc(100% + 8px), -50%);
 }
@@ -306,8 +309,10 @@
   display: grid;
   gap: 1em;
   grid-template-columns: 1fr 1fr;
+  place-items: center;
 }
 .BEMTournamentPanel .BEMTournamentPanel_winnerSelect button {
+  width: 75%;
   font-size: 1rem;
 }
 .BEMTournamentMatch:has(.BEMTournamentResult_winner) > .BEMTournamentPanel {

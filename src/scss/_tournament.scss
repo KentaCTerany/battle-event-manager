@@ -1,12 +1,12 @@
-@use 'mixin';
+@use 'mixin' as *;
 
-.BEMTournament {
+.BEM-tournament {
   display: grid;
   align-items: center;
   max-width: 1024px;
   min-height: 256px;
   padding: 16px;
-  border: 1px solid#000;
+  border: 1px solid #000;
   aspect-ratio: 297/210;
   margin-inline: auto;
   overflow: scroll;
@@ -23,19 +23,19 @@
     background-color: #d50000;
   }
 
-  .BEMTournament_body {
+  .BEM-tournament_body {
     display: grid;
     justify-content: center;
   }
 }
 
-.BEMTournamentBracket {
+.BEM-tournament-bracket {
   display: grid;
   height: fit-content;
   gap: 0.5em;
   grid-template-columns: 1fr auto;
 
-  .BEMTournamentBracket_container {
+  .BEM-tournament-bracket_container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -59,7 +59,7 @@
     }
   }
 
-  .BEMTournamentBracket_info {
+  .BEM-tournament-bracket_info {
     display: grid;
     align-items: center;
     width: 100%;
@@ -67,55 +67,55 @@
   }
 }
 
-.BEMTournamentBlock {
-  .BEMTournamentBlock_title {
+.BEM-tournament-block {
+  .BEM-tournament-block_title {
     position: absolute;
     top: 0;
   }
 }
 
-.BEMTournamentMatch {
+.BEM-tournament-match {
   position: relative;
   display: grid;
   width: fit-content;
   height: 100%;
   grid-template-columns: auto auto;
 
-  .BEMTournamentMatch_bracket {
+  .BEM-tournament-match_bracket {
     position: relative;
     display: grid;
     width: fit-content;
     gap: var(--battler-gap);
 
-    &:has(.BEMTournamentBlock) {
+    &:has(.BEM-tournament-block) {
       gap: var(--match-width-final);
       grid-template-columns: 1fr 1fr;
 
-      .BEMTournamentBlock:last-child {
-        .BEMTournamentMatch {
+      .BEM-tournament-block:last-child {
+        .BEM-tournament-match {
           direction: rtl;
 
-          .BEMTournamentMatch_result {
-            > .BEMTournamentResult_desc {
+          .BEM-tournament-match_result {
+            > .BEM-tournament-result_desc {
               right: auto;
               left: 0.5em;
             }
 
-            .BEMTournamentResult_side::after {
+            .BEM-tournament-result_side::after {
               right: var(--match-width);
               left: auto;
             }
           }
 
-          .BEMTournamentMatch_bracket {
+          .BEM-tournament-match_bracket {
             direction: ltr;
           }
         }
 
-        .BEMTournamentBracket {
+        .BEM-tournament-bracket {
           direction: rtl;
 
-          .BEMTournamentBracket_info {
+          .BEM-tournament-bracket_info {
             text-align: left;
           }
         }
@@ -123,19 +123,28 @@
     }
   }
 
-  .BEMTournamentMatch_result {
+  .BEM-tournament-match_result {
     position: relative;
     display: grid;
     width: var(--match-width);
     gap: var(--battler-gap);
   }
+
+  &:has(.BEM-tournament-result_winner) {
+    > .BEM-tournament-panel {
+      position: absolute;
+      top: calc(50% + var(--battler-gap));
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
 }
 
-.BEMTournamentResult {
+.BEM-tournament-result {
   position: relative;
   height: calc(100%);
 
-  .BEMTournamentResult_desc {
+  .BEM-tournament-result_desc {
     position: absolute;
     top: calc(50% + 0.5em);
     left: 50%;
@@ -151,7 +160,7 @@
       display: none;
     }
 
-    .BEMTournamentBlock & {
+    .BEM-tournament-block & {
       position: absolute;
       top: 50%;
       right: 0.5em;
@@ -169,7 +178,7 @@
     }
   }
 
-  .BEMTournamentResult_winner {
+  .BEM-tournament-result_winner {
     top: auto;
     bottom: calc(50% + var(--match-width));
     display: flex;
@@ -180,10 +189,10 @@
     border: 1px solid #000;
     box-sizing: border-box;
     cursor: default;
-    @include mixin.center-ab(true, false);
+    @include center-ab(true, false);
   }
 
-  .BEMTournamentResult_side {
+  .BEM-tournament-result_side {
     position: relative;
     height: calc(100%);
     pointer-events: none;
@@ -230,7 +239,7 @@
   &:hover {
     cursor: pointer;
 
-    .BEMTournamentResult_side {
+    .BEM-tournament-result_side {
       &::before,
       &::after {
         background-color: #01f;
@@ -246,8 +255,8 @@
     }
   }
 
-  &[data-win='A'] > .BEMTournamentResult_side.-sideA,
-  &[data-win='B'] > .BEMTournamentResult_side.-sideB {
+  &[data-win='A'] > .BEM-tournament-result_side.-sideA,
+  &[data-win='B'] > .BEM-tournament-result_side.-sideB {
     &::before,
     &::after {
       z-index: 1;
@@ -264,8 +273,8 @@
     }
   }
 
-  &[data-win='A']:has(.BEMTournamentResult_winner) > .BEMTournamentResult_side.-sideA,
-  &[data-win='B']:has(.BEMTournamentResult_winner) > .BEMTournamentResult_side.-sideB {
+  &[data-win='A']:has(.BEM-tournament-result_winner) > .BEM-tournament-result_side.-sideA,
+  &[data-win='B']:has(.BEM-tournament-result_winner) > .BEM-tournament-result_side.-sideB {
     &::after {
       width: 3px;
       height: calc(var(--match-width) + 1.5px);
@@ -273,23 +282,23 @@
     }
   }
 
-  &[data-win='A'] > .BEMTournamentResult_side.-sideA::after {
+  &[data-win='A'] > .BEM-tournament-result_side.-sideA::after {
     transform: translateY(-1.5px);
   }
 
-  &[data-win='B'] > .BEMTournamentResult_side.-sideB::after {
+  &[data-win='B'] > .BEM-tournament-result_side.-sideB::after {
     transform: translateY(1.5px);
   }
 
-  &:has(.BEMTournamentResult_winner) {
+  &:has(.BEM-tournament-result_winner) {
     display: grid;
     width: var(--match-width-final);
     height: 100%;
     gap: 0;
     grid-template-columns: 1fr 1fr;
-    @include mixin.center-ab;
+    @include center-ab;
 
-    .BEMTournamentResult_side {
+    .BEM-tournament-result_side {
       // width: 50%;
 
       &::before {
@@ -314,7 +323,7 @@
       }
     }
 
-    &:hover .BEMTournamentResult_side {
+    &:hover .BEM-tournament-result_side {
       &::before {
         height: 2px;
       }
@@ -326,7 +335,7 @@
   }
 }
 
-.BEMTournamentPanel {
+.BEM-tournament-panel {
   position: absolute;
   top: 50%;
   right: 0;
@@ -346,13 +355,13 @@
     display: none;
   }
 
-  .BEMTournamentBlock:last-child & {
+  .BEM-tournament-block:last-child & {
     right: auto;
     left: 0;
     transform: translate(calc(-100% - 8px), -50%);
   }
 
-  .BEMTournamentPanel_match {
+  .BEM-tournament-panel_match {
     display: grid;
     align-items: center;
     line-height: 2;
@@ -360,7 +369,7 @@
     grid-template-columns: 1fr auto 1fr;
   }
 
-  .BEMTournamentPanel_battler {
+  .BEM-tournament-panel_battler {
     font-size: 1.2rem;
     font-weight: 700;
 
@@ -373,11 +382,11 @@
     }
   }
 
-  .BEMTournamentPanel_vs {
+  .BEM-tournament-panel_vs {
     font-size: 1rem;
   }
 
-  .BEMTournamentPanel_winnerSelect {
+  .BEM-tournament-panel_winnerSelect {
     display: grid;
     gap: 1em;
     grid-template-columns: 1fr 1fr;
@@ -387,23 +396,13 @@
       width: 75%;
       font-size: 1rem;
 
-      .-sideA {
-      }
-    }
-  }
-  @at-root {
-    .BEMTournamentMatch:has(.BEMTournamentResult_winner) {
-      > .BEMTournamentPanel {
-        position: absolute;
-        top: calc(50% + var(--battler-gap));
-        left: 50%;
-        transform: translateX(-50%);
-      }
+      // .-sideA {
+      // }
     }
   }
 }
 
-.BEMTournamentFrame {
+.BEM-tournament-frame {
   display: grid;
   width: calc(100% - 16px);
   max-width: 1200px;
@@ -414,14 +413,14 @@
   margin-inline: auto;
   overflow: hidden;
 
-  .BEMTournamentFrame_head {
+  .BEM-tournament-frame_head {
     display: grid;
     width: fit-content;
     gap: 8px;
     margin-inline: auto;
   }
 
-  .BEMTournamentFrame_title {
+  .BEM-tournament-frame_title {
     padding: 0.25em 1em;
     font-size: 1.8rem;
     font-weight: 700;
@@ -432,21 +431,19 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     pointer-events: none;
     text-shadow: 0 0 5px #fff;
-
-    // background-color: #fff;
   }
 
-  .BEMTournamentFrame_body {
+  .BEM-tournament-frame_body {
     width: calc(100% - 34px);
     background-color: #fff;
   }
 
-  .BEMTournamentFrame_foot {
+  .BEM-tournament-frame_foot {
     display: grid;
   }
 
-  .BEMTournamentPDFControl {
-    > .BEMTournamentPDFControl_button {
+  .BEM-tournament-PDFControl {
+    > .BEM-tournament-PDFControl_button {
       padding: 1em 2em;
       background-color: #fff;
       border: #000 1px solid;

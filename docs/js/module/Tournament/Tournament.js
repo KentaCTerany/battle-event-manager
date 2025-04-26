@@ -41,8 +41,8 @@ export default class TournamentManager {
 
     document.addEventListener('click', (e) => {
       const hasClassName = (className) => e.target.classList.contains(className);
-      if (hasClassName('BEMTournamentResult')) this.onClickTournamentResult(e);
-      else if (hasClassName('BEMTournamentPDFControl_button')) this.exportToPDF();
+      if (hasClassName('BEM-tournament-result')) this.onClickTournamentResult(e);
+      else if (hasClassName('BEM-tournament-PDFControl_button')) this.exportToPDF();
     });
   }
 
@@ -72,22 +72,22 @@ export default class TournamentManager {
     }
 
     const html = `
-    <div class="BEMTournamentFrame">
-      <div class="BEMTournamentFrame_head">
-        <div class="BEMTournamentFrame_title">Tournament Generator</div>
+    <div class="BEM-tournament-frame">
+      <div class="BEM-tournament-frame_head">
+        <div class="BEM-tournament-frame_title">Tournament Generator</div>
       </div>
-      <div class="BEMTournamentFrame_body BEMTournament">
+      <div class="BEM-tournament-frame_body BEM-tournament">
         ${this.getTournamentBodyHTML()}
       </div>
-      <div class="BEMTournamentFrame_foot">
-        <div class="BEMTournamentFrame_PDFControl BEMTournamentPDFControl">
-          <button class="BEMTournamentPDFControl_button">PDF出力</button>
+      <div class="BEM-tournament-frame_foot">
+        <div class="BEM-tournament-frame_PDFControl BEM-tournament-PDFControl">
+          <button class="BEM-tournament-PDFControl_button">PDF出力</button>
         </div>
       </div>
     </div>
     `;
     this.app.container.insertAdjacentHTML('beforeend', html);
-    this.container = this.app.container.querySelector('.BEMTournament');
+    this.container = this.app.container.querySelector('.BEM-tournament');
   }
 
   getMatchTree(battlers) {
@@ -121,7 +121,7 @@ export default class TournamentManager {
         : [...this.battlerList];
 
     const matchTree = this.getMatchTree(arranged);
-    return `<div class="BEMTournament_body">${this.getMatchHTML(matchTree, this.matchNum)}</div>`;
+    return `<div class="BEM-tournament_body">${this.getMatchHTML(matchTree, this.matchNum)}</div>`;
   }
 
   getMatchHTML(node, depth) {
@@ -131,9 +131,9 @@ export default class TournamentManager {
     if (!node.children) {
       const player = node.player || {};
       return `
-        <div class="BEMTournamentBracket">
-          <div class="BEMTournamentBracket_info">${player.info}</div>
-          <div class="BEMTournamentBracket_container">
+        <div class="BEM-tournament-bracket">
+          <div class="BEM-tournament-bracket_info">${player.info}</div>
+          <div class="BEM-tournament-bracket_container">
             <span class="-name">${player.name}</span>
             <span class="-desc">${player.desc}</span>
           </div>
@@ -144,7 +144,7 @@ export default class TournamentManager {
     const childrenHTML = node.children
       .map((child) => {
         const html = this.getMatchHTML(child, depth - 1);
-        return isFinal ? `<div class="BEMTournamentBlock">${html}</div>` : html;
+        return isFinal ? `<div class="BEM-tournament-block">${html}</div>` : html;
       })
       .join('');
 
@@ -152,16 +152,16 @@ export default class TournamentManager {
     const battlerB = node.children[1]?.player?.name || 'B';
 
     return `
-      <div class="BEMTournamentMatch" data-id="${node.id}">
-        <div class="BEMTournamentMatch_bracket">
+      <div class="BEM-tournament-match" data-id="${node.id}">
+        <div class="BEM-tournament-match_bracket">
           ${childrenHTML}
         </div>
 
-        <div class="BEMTournamentMatch_result BEMTournamentResult" data-id="${node.id}">
-          <div class="BEMTournamentResult_side -sideA"></div>
-          <div class="BEMTournamentResult_desc" aria-hidden="true">延<br>長</div>
-          <div class="BEMTournamentResult_side -sideB"></div>
-          ${isFinal ? '<div class="BEMTournamentResult_winner"></div>' : ''}
+        <div class="BEM-tournament-match_result BEM-tournament-result" data-id="${node.id}">
+          <div class="BEM-tournament-result_side -sideA"></div>
+          <div class="BEM-tournament-result_desc" aria-hidden="true">延<br>長</div>
+          <div class="BEM-tournament-result_side -sideB"></div>
+          ${isFinal ? '<div class="BEM-tournament-result_winner"></div>' : ''}
         </div>
 
         ${this.resultPanel.getResultPanel({ battlerA, battlerB })}

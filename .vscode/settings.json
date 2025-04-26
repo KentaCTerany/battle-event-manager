@@ -6,6 +6,7 @@
   "stylelint.configFile": "json/.stylelintrc.json",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
+  "editor.wordSeparators": "`~!@#$%^&*()_=+[{]}\\|;:'\",.<>/?",
   "prettier.singleQuote": true,
   "prettier.semi": true,
   "prettier.printWidth": 360,

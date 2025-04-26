@@ -1,11 +1,26 @@
+$root-font-size: 16;
+$root-font-size-sp: 14;
+
+@mixin fontsize($font-size-px) {
+  font-size: ($font-size-px / $root-font-size) * 1rem;
+
+  @media (width <= 768px) {
+    font-size: ($font-size-px / $root-font-size-sp) * 1rem;
+  }
+}
+
+// position absoluteの中央寄せ用mixin
 @mixin center-ab($x: true, $y: true) {
   position: absolute;
+
   @if $y {
     top: 50%;
   }
+
   @if $x {
     left: 50%;
   }
+
   @if $x and $y {
     transform: translate(-50%, -50%);
   } @else if $y {

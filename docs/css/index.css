@@ -1,4 +1,4 @@
-.BEMTournament {
+.BEM-tournament {
   display: grid;
   align-items: center;
   max-width: 1024px;
@@ -16,21 +16,21 @@
   --match-height: calc(var(--battler-height) + var(--battler-gap));
   --line-color: #d50000;
 }
-.BEMTournament.-html2pdf {
+.BEM-tournament.-html2pdf {
   background-color: #d50000;
 }
-.BEMTournament .BEMTournament_body {
+.BEM-tournament .BEM-tournament_body {
   display: grid;
   justify-content: center;
 }
 
-.BEMTournamentBracket {
+.BEM-tournament-bracket {
   display: grid;
   height: fit-content;
   gap: 0.5em;
   grid-template-columns: 1fr auto;
 }
-.BEMTournamentBracket .BEMTournamentBracket_container {
+.BEM-tournament-bracket .BEM-tournament-bracket_container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,78 +39,84 @@
   border: 1px solid #000;
   box-sizing: border-box;
 }
-.BEMTournamentBracket .BEMTournamentBracket_container > span {
+.BEM-tournament-bracket .BEM-tournament-bracket_container > span {
   text-align: center;
   direction: ltr;
 }
-.BEMTournamentBracket .BEMTournamentBracket_container > span.-name {
+.BEM-tournament-bracket .BEM-tournament-bracket_container > span.-name {
   font-size: 1.4rem;
   font-weight: 700;
 }
-.BEMTournamentBracket .BEMTournamentBracket_container > span.-desc {
+.BEM-tournament-bracket .BEM-tournament-bracket_container > span.-desc {
   font-size: 1.1rem;
 }
-.BEMTournamentBracket .BEMTournamentBracket_info {
+.BEM-tournament-bracket .BEM-tournament-bracket_info {
   display: grid;
   align-items: center;
   width: 100%;
   text-align: right;
 }
 
-.BEMTournamentBlock .BEMTournamentBlock_title {
+.BEM-tournament-block .BEM-tournament-block_title {
   position: absolute;
   top: 0;
 }
 
-.BEMTournamentMatch {
+.BEM-tournament-match {
   position: relative;
   display: grid;
   width: fit-content;
   height: 100%;
   grid-template-columns: auto auto;
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket {
+.BEM-tournament-match .BEM-tournament-match_bracket {
   position: relative;
   display: grid;
   width: fit-content;
   gap: var(--battler-gap);
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket:has(.BEMTournamentBlock) {
+.BEM-tournament-match .BEM-tournament-match_bracket:has(.BEM-tournament-block) {
   gap: var(--match-width-final);
   grid-template-columns: 1fr 1fr;
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket:has(.BEMTournamentBlock) .BEMTournamentBlock:last-child .BEMTournamentMatch {
+.BEM-tournament-match .BEM-tournament-match_bracket:has(.BEM-tournament-block) .BEM-tournament-block:last-child .BEM-tournament-match {
   direction: rtl;
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket:has(.BEMTournamentBlock) .BEMTournamentBlock:last-child .BEMTournamentMatch .BEMTournamentMatch_result > .BEMTournamentResult_desc {
+.BEM-tournament-match .BEM-tournament-match_bracket:has(.BEM-tournament-block) .BEM-tournament-block:last-child .BEM-tournament-match .BEM-tournament-match_result > .BEM-tournament-result_desc {
   right: auto;
   left: 0.5em;
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket:has(.BEMTournamentBlock) .BEMTournamentBlock:last-child .BEMTournamentMatch .BEMTournamentMatch_result .BEMTournamentResult_side::after {
+.BEM-tournament-match .BEM-tournament-match_bracket:has(.BEM-tournament-block) .BEM-tournament-block:last-child .BEM-tournament-match .BEM-tournament-match_result .BEM-tournament-result_side::after {
   right: var(--match-width);
   left: auto;
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket:has(.BEMTournamentBlock) .BEMTournamentBlock:last-child .BEMTournamentMatch .BEMTournamentMatch_bracket {
+.BEM-tournament-match .BEM-tournament-match_bracket:has(.BEM-tournament-block) .BEM-tournament-block:last-child .BEM-tournament-match .BEM-tournament-match_bracket {
   direction: ltr;
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket:has(.BEMTournamentBlock) .BEMTournamentBlock:last-child .BEMTournamentBracket {
+.BEM-tournament-match .BEM-tournament-match_bracket:has(.BEM-tournament-block) .BEM-tournament-block:last-child .BEM-tournament-bracket {
   direction: rtl;
 }
-.BEMTournamentMatch .BEMTournamentMatch_bracket:has(.BEMTournamentBlock) .BEMTournamentBlock:last-child .BEMTournamentBracket .BEMTournamentBracket_info {
+.BEM-tournament-match .BEM-tournament-match_bracket:has(.BEM-tournament-block) .BEM-tournament-block:last-child .BEM-tournament-bracket .BEM-tournament-bracket_info {
   text-align: left;
 }
-.BEMTournamentMatch .BEMTournamentMatch_result {
+.BEM-tournament-match .BEM-tournament-match_result {
   position: relative;
   display: grid;
   width: var(--match-width);
   gap: var(--battler-gap);
 }
+.BEM-tournament-match:has(.BEM-tournament-result_winner) > .BEM-tournament-panel {
+  position: absolute;
+  top: calc(50% + var(--battler-gap));
+  left: 50%;
+  transform: translateX(-50%);
+}
 
-.BEMTournamentResult {
+.BEM-tournament-result {
   position: relative;
   height: 100%;
 }
-.BEMTournamentResult .BEMTournamentResult_desc {
+.BEM-tournament-result .BEM-tournament-result_desc {
   position: absolute;
   top: calc(50% + 0.5em);
   left: 50%;
@@ -122,10 +128,10 @@
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
-.BEMTournamentResult .BEMTournamentResult_desc > br {
+.BEM-tournament-result .BEM-tournament-result_desc > br {
   display: none;
 }
-.BEMTournamentBlock .BEMTournamentResult .BEMTournamentResult_desc {
+.BEM-tournament-block .BEM-tournament-result .BEM-tournament-result_desc {
   position: absolute;
   top: 50%;
   right: 0.5em;
@@ -133,13 +139,13 @@
   line-height: 1;
   transform: translateY(-50%);
 }
-.BEMTournamentBlock .BEMTournamentResult .BEMTournamentResult_desc > br {
+.BEM-tournament-block .BEM-tournament-result .BEM-tournament-result_desc > br {
   display: block;
 }
-.BEMTournamentResult .BEMTournamentResult_desc[aria-hidden=true] {
+.BEM-tournament-result .BEM-tournament-result_desc[aria-hidden=true] {
   display: none;
 }
-.BEMTournamentResult .BEMTournamentResult_winner {
+.BEM-tournament-result .BEM-tournament-result_winner {
   top: auto;
   bottom: calc(50% + var(--match-width));
   display: flex;
@@ -154,12 +160,12 @@
   left: 50%;
   transform: translateX(-50%);
 }
-.BEMTournamentResult .BEMTournamentResult_side {
+.BEM-tournament-result .BEM-tournament-result_side {
   position: relative;
   height: 100%;
   pointer-events: none;
 }
-.BEMTournamentResult .BEMTournamentResult_side::before {
+.BEM-tournament-result .BEM-tournament-result_side::before {
   position: absolute;
   top: 50%;
   display: block;
@@ -169,7 +175,7 @@
   content: "";
   transform: translateY(-50%);
 }
-.BEMTournamentResult .BEMTournamentResult_side::after {
+.BEM-tournament-result .BEM-tournament-result_side::after {
   position: absolute;
   left: var(--match-width);
   width: 1px;
@@ -177,55 +183,55 @@
   background-color: #000;
   content: "";
 }
-.BEMTournamentResult .BEMTournamentResult_side.-sideA::after {
+.BEM-tournament-result .BEM-tournament-result_side.-sideA::after {
   top: 50%;
   transform: translateY(-0.5px);
 }
-[data-win=A] .BEMTournamentResult .BEMTournamentResult_side.-sideA::after {
+[data-win=A] .BEM-tournament-result .BEM-tournament-result_side.-sideA::after {
   transform: translateY(-1.5px);
 }
-.BEMTournamentResult .BEMTournamentResult_side.-sideB::after {
+.BEM-tournament-result .BEM-tournament-result_side.-sideB::after {
   bottom: 50%;
   transform: translateY(0.5px);
 }
-[data-win=B] .BEMTournamentResult .BEMTournamentResult_side.-sideB::after {
+[data-win=B] .BEM-tournament-result .BEM-tournament-result_side.-sideB::after {
   transform: translateY(1.5px);
 }
-.BEMTournamentResult:hover {
+.BEM-tournament-result:hover {
   cursor: pointer;
 }
-.BEMTournamentResult:hover .BEMTournamentResult_side::before, .BEMTournamentResult:hover .BEMTournamentResult_side::after {
+.BEM-tournament-result:hover .BEM-tournament-result_side::before, .BEM-tournament-result:hover .BEM-tournament-result_side::after {
   background-color: #01f;
 }
-.BEMTournamentResult:hover .BEMTournamentResult_side::before {
+.BEM-tournament-result:hover .BEM-tournament-result_side::before {
   height: 2px;
 }
-.BEMTournamentResult:hover .BEMTournamentResult_side::after {
+.BEM-tournament-result:hover .BEM-tournament-result_side::after {
   width: 2px;
 }
-.BEMTournamentResult[data-win=A] > .BEMTournamentResult_side.-sideA::before, .BEMTournamentResult[data-win=A] > .BEMTournamentResult_side.-sideA::after, .BEMTournamentResult[data-win=B] > .BEMTournamentResult_side.-sideB::before, .BEMTournamentResult[data-win=B] > .BEMTournamentResult_side.-sideB::after {
+.BEM-tournament-result[data-win=A] > .BEM-tournament-result_side.-sideA::before, .BEM-tournament-result[data-win=A] > .BEM-tournament-result_side.-sideA::after, .BEM-tournament-result[data-win=B] > .BEM-tournament-result_side.-sideB::before, .BEM-tournament-result[data-win=B] > .BEM-tournament-result_side.-sideB::after {
   z-index: 1;
   background-color: var(--line-color);
 }
-.BEMTournamentResult[data-win=A] > .BEMTournamentResult_side.-sideA::before, .BEMTournamentResult[data-win=B] > .BEMTournamentResult_side.-sideB::before {
+.BEM-tournament-result[data-win=A] > .BEM-tournament-result_side.-sideA::before, .BEM-tournament-result[data-win=B] > .BEM-tournament-result_side.-sideB::before {
   height: 3px;
 }
-.BEMTournamentResult[data-win=A] > .BEMTournamentResult_side.-sideA::after, .BEMTournamentResult[data-win=B] > .BEMTournamentResult_side.-sideB::after {
+.BEM-tournament-result[data-win=A] > .BEM-tournament-result_side.-sideA::after, .BEM-tournament-result[data-win=B] > .BEM-tournament-result_side.-sideB::after {
   width: 3px;
   height: calc((100% + var(--battler-gap)) / 2 + 3px);
 }
-.BEMTournamentResult[data-win=A]:has(.BEMTournamentResult_winner) > .BEMTournamentResult_side.-sideA::after, .BEMTournamentResult[data-win=B]:has(.BEMTournamentResult_winner) > .BEMTournamentResult_side.-sideB::after {
+.BEM-tournament-result[data-win=A]:has(.BEM-tournament-result_winner) > .BEM-tournament-result_side.-sideA::after, .BEM-tournament-result[data-win=B]:has(.BEM-tournament-result_winner) > .BEM-tournament-result_side.-sideB::after {
   width: 3px;
   height: calc(var(--match-width) + 1.5px);
   transform: translateY(1.5px);
 }
-.BEMTournamentResult[data-win=A] > .BEMTournamentResult_side.-sideA::after {
+.BEM-tournament-result[data-win=A] > .BEM-tournament-result_side.-sideA::after {
   transform: translateY(-1.5px);
 }
-.BEMTournamentResult[data-win=B] > .BEMTournamentResult_side.-sideB::after {
+.BEM-tournament-result[data-win=B] > .BEM-tournament-result_side.-sideB::after {
   transform: translateY(1.5px);
 }
-.BEMTournamentResult:has(.BEMTournamentResult_winner) {
+.BEM-tournament-result:has(.BEM-tournament-result_winner) {
   display: grid;
   width: var(--match-width-final);
   height: 100%;
@@ -236,31 +242,31 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.BEMTournamentResult:has(.BEMTournamentResult_winner) .BEMTournamentResult_side::before {
+.BEM-tournament-result:has(.BEM-tournament-result_winner) .BEM-tournament-result_side::before {
   width: 100%;
   height: 1px;
 }
-.BEMTournamentResult:has(.BEMTournamentResult_winner) .BEMTournamentResult_side::after {
+.BEM-tournament-result:has(.BEM-tournament-result_winner) .BEM-tournament-result_side::after {
   top: auto;
   bottom: 50%;
   height: var(--match-width);
 }
-.BEMTournamentResult:has(.BEMTournamentResult_winner) .BEMTournamentResult_side.-sideA::after {
+.BEM-tournament-result:has(.BEM-tournament-result_winner) .BEM-tournament-result_side.-sideA::after {
   right: -1px;
   left: auto;
 }
-.BEMTournamentResult:has(.BEMTournamentResult_winner) .BEMTournamentResult_side.-sideB::after {
+.BEM-tournament-result:has(.BEM-tournament-result_winner) .BEM-tournament-result_side.-sideB::after {
   right: auto;
   left: 0;
 }
-.BEMTournamentResult:has(.BEMTournamentResult_winner):hover .BEMTournamentResult_side::before {
+.BEM-tournament-result:has(.BEM-tournament-result_winner):hover .BEM-tournament-result_side::before {
   height: 2px;
 }
-.BEMTournamentResult:has(.BEMTournamentResult_winner):hover .BEMTournamentResult_side::after {
+.BEM-tournament-result:has(.BEM-tournament-result_winner):hover .BEM-tournament-result_side::after {
   width: 1.5px;
 }
 
-.BEMTournamentPanel {
+.BEM-tournament-panel {
   position: absolute;
   top: 50%;
   right: 0;
@@ -274,52 +280,46 @@
   direction: ltr;
   transform: translate(calc(100% + 8px), -50%);
 }
-.BEMTournamentPanel[aria-hidden=true] {
+.BEM-tournament-panel[aria-hidden=true] {
   display: none;
 }
-.BEMTournamentBlock:last-child .BEMTournamentPanel {
+.BEM-tournament-block:last-child .BEM-tournament-panel {
   right: auto;
   left: 0;
   transform: translate(calc(-100% - 8px), -50%);
 }
-.BEMTournamentPanel .BEMTournamentPanel_match {
+.BEM-tournament-panel .BEM-tournament-panel_match {
   display: grid;
   align-items: center;
   line-height: 2;
   gap: 0.75em;
   grid-template-columns: 1fr auto 1fr;
 }
-.BEMTournamentPanel .BEMTournamentPanel_battler {
+.BEM-tournament-panel .BEM-tournament-panel_battler {
   font-size: 1.2rem;
   font-weight: 700;
 }
-.BEMTournamentPanel .BEMTournamentPanel_battler.-sideA {
+.BEM-tournament-panel .BEM-tournament-panel_battler.-sideA {
   text-align: right;
 }
-.BEMTournamentPanel .BEMTournamentPanel_battler.-sideB {
+.BEM-tournament-panel .BEM-tournament-panel_battler.-sideB {
   text-align: left;
 }
-.BEMTournamentPanel .BEMTournamentPanel_vs {
+.BEM-tournament-panel .BEM-tournament-panel_vs {
   font-size: 1rem;
 }
-.BEMTournamentPanel .BEMTournamentPanel_winnerSelect {
+.BEM-tournament-panel .BEM-tournament-panel_winnerSelect {
   display: grid;
   gap: 1em;
   grid-template-columns: 1fr 1fr;
   place-items: center;
 }
-.BEMTournamentPanel .BEMTournamentPanel_winnerSelect button {
+.BEM-tournament-panel .BEM-tournament-panel_winnerSelect button {
   width: 75%;
   font-size: 1rem;
 }
-.BEMTournamentMatch:has(.BEMTournamentResult_winner) > .BEMTournamentPanel {
-  position: absolute;
-  top: calc(50% + var(--battler-gap));
-  left: 50%;
-  transform: translateX(-50%);
-}
 
-.BEMTournamentFrame {
+.BEM-tournament-frame {
   display: grid;
   width: calc(100% - 16px);
   max-width: 1200px;
@@ -330,13 +330,13 @@
   margin-inline: auto;
   overflow: hidden;
 }
-.BEMTournamentFrame .BEMTournamentFrame_head {
+.BEM-tournament-frame .BEM-tournament-frame_head {
   display: grid;
   width: fit-content;
   gap: 8px;
   margin-inline: auto;
 }
-.BEMTournamentFrame .BEMTournamentFrame_title {
+.BEM-tournament-frame .BEM-tournament-frame_title {
   padding: 0.25em 1em;
   font-size: 1.8rem;
   font-weight: 700;
@@ -348,20 +348,20 @@
   pointer-events: none;
   text-shadow: 0 0 5px #fff;
 }
-.BEMTournamentFrame .BEMTournamentFrame_body {
+.BEM-tournament-frame .BEM-tournament-frame_body {
   width: calc(100% - 34px);
   background-color: #fff;
 }
-.BEMTournamentFrame .BEMTournamentFrame_foot {
+.BEM-tournament-frame .BEM-tournament-frame_foot {
   display: grid;
 }
-.BEMTournamentFrame .BEMTournamentPDFControl > .BEMTournamentPDFControl_button {
+.BEM-tournament-frame .BEM-tournament-PDFControl > .BEM-tournament-PDFControl_button {
   padding: 1em 2em;
   background-color: #fff;
   border: #000 1px solid;
   border-radius: 8px;
 }
-.BEMTournamentFrame .BEMTournamentPDFControl > .BEMTournamentPDFControl_button:hover {
+.BEM-tournament-frame .BEM-tournament-PDFControl > .BEM-tournament-PDFControl_button:hover {
   text-decoration: underline;
   cursor: pointer;
 }

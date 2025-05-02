@@ -16,9 +16,6 @@
   --match-height: calc(var(--battler-height) + var(--battler-gap));
   --line-color: #d50000;
 }
-.BEM-tournament.-html2pdf {
-  background-color: #d50000;
-}
 .BEM-tournament .BEM-tournament_body {
   display: grid;
   justify-content: center;
@@ -107,7 +104,7 @@
 }
 .BEM-tournament-match:has(.BEM-tournament-result_winner) > .BEM-tournament-panel {
   position: absolute;
-  top: calc(50% + var(--battler-gap));
+  top: calc(50% + var(--match-width));
   left: 50%;
   transform: translateX(-50%);
 }
@@ -160,6 +157,16 @@
   left: 50%;
   transform: translateX(-50%);
 }
+.BEM-tournament-result .BEM-tournament-result_winner > span {
+  text-align: center;
+}
+.BEM-tournament-result .BEM-tournament-result_winner > span.-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.BEM-tournament-result .BEM-tournament-result_winner > span.-desc {
+  font-size: 1.1rem;
+}
 .BEM-tournament-result .BEM-tournament-result_side {
   position: relative;
   height: 100%;
@@ -201,7 +208,7 @@
   cursor: pointer;
 }
 .BEM-tournament-result:hover .BEM-tournament-result_side::before, .BEM-tournament-result:hover .BEM-tournament-result_side::after {
-  background-color: #01f;
+  background-color: #7d7d7d;
 }
 .BEM-tournament-result:hover .BEM-tournament-result_side::before {
   height: 2px;
@@ -234,7 +241,7 @@
 .BEM-tournament-result:has(.BEM-tournament-result_winner) {
   display: grid;
   width: var(--match-width-final);
-  height: 100%;
+  height: 25%;
   gap: 0;
   grid-template-columns: 1fr 1fr;
   position: absolute;
@@ -272,12 +279,14 @@
   right: 0;
   z-index: 10;
   display: grid;
-  width: var(--match-width-final);
-  padding: 8px;
+  width: fit-content;
+  min-width: var(--match-width-final);
+  padding: 8px 12px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.75) 0 0 4px;
   direction: ltr;
+  gap: 12px;
   transform: translate(calc(100% + 8px), -50%);
 }
 .BEM-tournament-panel[aria-hidden=true] {
@@ -288,6 +297,43 @@
   left: 0;
   transform: translate(calc(-100% - 8px), -50%);
 }
+.BEM-tournament-panel .BEM-tournament-panel_close {
+  position: absolute;
+  right: 0;
+  z-index: 100;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.BEM-tournament-panel .BEM-tournament-panel_close:hover {
+  border: #aaa 1px solid;
+}
+.BEM-tournament-panel .BEM-tournament-panel_close::before, .BEM-tournament-panel .BEM-tournament-panel_close::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 16px;
+  height: 1px;
+  background-color: #000;
+  content: "";
+  transform: translateX(-50%) rotate(45deg);
+}
+.BEM-tournament-panel .BEM-tournament-panel_close::after {
+  transform: translateX(-50%) rotate(-45deg);
+}
+.BEM-tournament-panel .BEM-tournament-panel_matchContainer {
+  display: grid;
+  gap: 8px;
+}
+.BEM-tournament-panel .BEM-tournament-panel_matchLabel {
+  font-size: 1.2rem;
+  text-align: center;
+}
 .BEM-tournament-panel .BEM-tournament-panel_match {
   display: grid;
   align-items: center;
@@ -296,14 +342,35 @@
   grid-template-columns: 1fr auto 1fr;
 }
 .BEM-tournament-panel .BEM-tournament-panel_battler {
+  padding: 8px;
   font-size: 1.2rem;
   font-weight: 700;
+  text-align: center;
+  border-radius: 8px;
 }
 .BEM-tournament-panel .BEM-tournament-panel_battler.-sideA {
-  text-align: right;
+  background-color: #ffd8d8;
+}
+.BEM-tournament-panel .BEM-tournament-panel_battler.-sideA button {
+  background-color: #940202;
 }
 .BEM-tournament-panel .BEM-tournament-panel_battler.-sideB {
-  text-align: left;
+  background-color: #d8daff;
+}
+.BEM-tournament-panel .BEM-tournament-panel_battler.-sideB button {
+  background-color: #12008a;
+}
+.BEM-tournament-panel[data-win=A] .BEM-tournament-panel_battler.-sideB {
+  background-color: #ccc;
+}
+.BEM-tournament-panel[data-win=B] .BEM-tournament-panel_battler.-sideA {
+  background-color: #ccc;
+}
+.BEM-tournament-panel .BEM-tournament-panel_battlerName {
+  padding: 0.75rem 1.5rem;
+  line-height: 1;
+  background-color: #fff;
+  white-space: nowrap;
 }
 .BEM-tournament-panel .BEM-tournament-panel_vs {
   font-size: 1rem;
@@ -311,12 +378,80 @@
 .BEM-tournament-panel .BEM-tournament-panel_winnerSelect {
   display: grid;
   gap: 1em;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  margin-top: 8px;
   place-items: center;
 }
 .BEM-tournament-panel .BEM-tournament-panel_winnerSelect button {
   width: 75%;
   font-size: 1rem;
+  font-weight: 700;
+  line-height: 2;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 1px 1px 2px #000;
+}
+.BEM-tournament-panel .BEM-tournament-panel_winnerSelect button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.BEM-tournament-panel .BEM-tournament-panel_winnerSelect button:active {
+  box-shadow: inset 1px 1px 2px #000;
+  transform: translate(1px, 1px);
+}
+.BEM-tournament-panel .BEM-tournament-panel_option {
+  display: grid;
+  justify-content: space-between;
+  padding: 8px;
+  background-color: #eddfff;
+  border-radius: 8px;
+  grid-template-columns: auto auto;
+}
+.BEM-tournament-panel .BEM-tournament-panel_option label {
+  display: grid;
+  padding: 4px 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #d737ff;
+  background-color: #fff;
+  border: none;
+  border-radius: 16px;
+  gap: 0.5em;
+  grid-template-columns: auto auto;
+  margin-inline: auto;
+  place-content: center;
+  place-items: center;
+}
+.BEM-tournament-panel .BEM-tournament-panel_option label input {
+  display: inline-block;
+  margin: 0;
+  border: none;
+  accent-color: #d737ff;
+  place-content: center;
+  place-items: center;
+}
+.BEM-tournament-panel .BEM-tournament-panel_reset {
+  width: 70px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #fff;
+  background-color: #666;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 1px 1px 2px #000;
+}
+.BEM-tournament-panel .BEM-tournament-panel_reset:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.BEM-tournament-panel .BEM-tournament-panel_reset:active {
+  box-shadow: inset 1px 1px 2px #000;
+  transform: translate(1px, 1px);
 }
 
 .BEM-tournament-frame {
@@ -351,6 +486,11 @@
 .BEM-tournament-frame .BEM-tournament-frame_body {
   width: calc(100% - 34px);
   background-color: #fff;
+}
+.BEM-tournament-frame .BEM-tournament-frame_body.-html2pdf {
+  width: 100%;
+  padding: 0;
+  border: none;
 }
 .BEM-tournament-frame .BEM-tournament-frame_foot {
   display: grid;

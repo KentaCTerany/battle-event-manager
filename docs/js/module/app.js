@@ -1,5 +1,4 @@
 import TournamentManager from './Tournament/Tournament.js';
-import { defineCommonVariable } from '../variable.js';
 
 export default class BattleEventManager {
   constructor() {
@@ -7,7 +6,7 @@ export default class BattleEventManager {
     this.tournament = new TournamentManager({ app: this, mode: 'ranking' });
   }
   init() {
-    defineCommonVariable();
+    this.generateVariableScript();
     this.defineModule();
   }
 
@@ -16,5 +15,10 @@ export default class BattleEventManager {
     this.tournament.init();
   }
 
-  generateTounamentHTML() {}
+  generateVariableScript() {
+    const scriptElem = document.createElement('script');
+    scriptElem.setAttribute('src', '/js/variable.js');
+
+    document.body.insertAdjacentElement('beforeend', scriptElem);
+  }
 }

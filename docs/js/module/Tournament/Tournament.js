@@ -27,7 +27,7 @@ export default class TournamentManager {
     this.battlerList = battlerList;
     this.container = null;
     this.matchNum = null;
-    this.resultPanel = new TournamentManagerResultPanel();
+    this.resultPanel = new TournamentManagerResultPanel({ tournamentApp: this });
   }
 
   init() {
@@ -91,20 +91,36 @@ export default class TournamentManager {
   }
 
   getMatchTree(battlers) {
-    const queue = battlers.map((battler) => ({
+    const depthCounters = {};
+
+    const queue = battlers.map((battler, index) => ({
       id: crypto.randomUUID(),
       player: battler,
       children: null,
+      depth: 0,
+      matchIndex: index,
     }));
+
+    depthCounters[0] = battlers.length;
 
     while (queue.length > 1) {
       const left = queue.shift();
       const right = queue.shift();
 
+      const parentDepth = Math.max(left.depth, right.depth) + 1;
+
+      if (depthCounters[parentDepth] === undefined) {
+        depthCounters[parentDepth] = 0;
+      }
+
       const parent = {
         id: crypto.randomUUID(),
         children: [left, right],
+        depth: parentDepth,
+        matchIndex: depthCounters[parentDepth],
       };
+
+      depthCounters[parentDepth]++;
 
       queue.push(parent);
     }
@@ -121,11 +137,13 @@ export default class TournamentManager {
         : [...this.battlerList];
 
     const matchTree = this.getMatchTree(arranged);
+
     return `<div class="BEM-tournament_body">${this.getMatchHTML(matchTree, this.matchNum)}</div>`;
   }
 
   getMatchHTML(node, depth) {
     if (!node) return '';
+
     const isFinal = depth === this.matchNum;
 
     if (!node.children) {
@@ -152,7 +170,7 @@ export default class TournamentManager {
     const battlerB = node.children[1]?.player?.name || 'B';
 
     return `
-      <div class="BEM-tournament-match" data-id="${node.id}">
+      <div class="BEM-tournament-match" data-index="${depth}" data-id="${node.id}">
         <div class="BEM-tournament-match_bracket">
           ${childrenHTML}
         </div>
@@ -161,10 +179,17 @@ export default class TournamentManager {
           <div class="BEM-tournament-result_side -sideA"></div>
           <div class="BEM-tournament-result_desc" aria-hidden="true">延<br>長</div>
           <div class="BEM-tournament-result_side -sideB"></div>
-          ${isFinal ? '<div class="BEM-tournament-result_winner"></div>' : ''}
+          ${
+            isFinal
+              ? `
+            <div class="BEM-tournament-result_winner">
+              <span class="-name"></span><span class="-desc"></span>
+            </div>`
+              : ''
+          }
         </div>
 
-        ${this.resultPanel.getResultPanel({ battlerA, battlerB })}
+        ${this.resultPanel.getResultPanelHTML({ depth, matchIndex: node.matchIndex, battlerA, battlerB })}
       </div>
     `;
   }
@@ -181,6 +206,7 @@ export default class TournamentManager {
   exportToPDF() {
     const format = this.matchNum < 5 ? 'a4' : 'a3';
     const orientation = this.matchNum < 5 ? 'landscape' : 'portrait';
+    // const targetElem = this.container.querySelector('.BEM-tournament_body');
     this.container.classList.add('-html2pdf', `-${orientation}`);
     const opt = {
       margin: 0,
@@ -189,12 +215,12 @@ export default class TournamentManager {
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format, orientation },
     };
-    // html2pdf()
-    //   .set(opt)
-    //   .from(this.container)
-    //   .save()
-    //   .then(() => {
-    //     this.container.classList.remove('-html2pdf');
-    //   });
+    html2pdf()
+      .set(opt)
+      .from(this.container)
+      .save()
+      .then(() => {
+        this.container.classList.remove('-html2pdf');
+      });
   }
 }

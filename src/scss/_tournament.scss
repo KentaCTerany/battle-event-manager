@@ -17,7 +17,24 @@
   --match-width: 36px;
   --match-width-final: calc(var(--battler-width) + var(--match-width) * 2);
   --match-height: calc(var(--battler-height) + var(--battler-gap));
-  --line-color: #d50000;
+  --line-color: #e60012;
+
+  &.-html2pdf {
+    --battler-width: 192px;
+    --battler-height: 64px;
+    --battler-gap: 12px;
+    --match-width: 44px;
+    --match-width-final: calc(var(--battler-width) + var(--match-width) * 2);
+    --match-height: calc(var(--battler-height) + var(--battler-gap));
+
+    .BEM-tournament-bracket {
+      gap: 1em;
+
+      .BEM-tournament-bracket_info {
+        font-size: 1.2rem;
+      }
+    }
+  }
 
   .BEM-tournament_body {
     display: grid;
@@ -242,7 +259,7 @@
       transform: translateY(0.5px);
 
       [data-win='B'] & {
-        transform: translateY(1.5px);
+        transform: translate(1.5px);
       }
     }
   }
@@ -289,16 +306,24 @@
     &::after {
       width: 3px;
       height: calc(var(--match-width) + 1.5px);
-      transform: translateY(1.5px);
+      transform: translate(-1.5px, 1.5px);
     }
   }
 
+  &[data-win='A']:has(.BEM-tournament-result_winner) > .BEM-tournament-result_side.-sideA::after {
+    transform: translate(0.5px, 1.5px);
+  }
+
+  &[data-win='B']:has(.BEM-tournament-result_winner) > .BEM-tournament-result_side.-sideB::after {
+    transform: translate(-1.5px, 1.5px);
+  }
+
   &[data-win='A'] > .BEM-tournament-result_side.-sideA::after {
-    transform: translateY(-1.5px);
+    transform: translate(-1px, -1.5px);
   }
 
   &[data-win='B'] > .BEM-tournament-result_side.-sideB::after {
-    transform: translateY(1.5px);
+    transform: translate(-1px, 1.5px);
   }
 
   &:has(.BEM-tournament-result_winner) {
@@ -356,8 +381,6 @@
   min-width: var(--match-width-final);
   padding: 8px 12px;
   background-color: #fff;
-
-  // border: 2px solid #333;
   border-radius: 8px;
   box-shadow: rgb(0 0 0 / 75%) 0 0 4px;
   direction: ltr;
@@ -450,10 +473,7 @@
     }
   }
 
-  &[data-win='A'] .BEM-tournament-panel_battler.-sideB {
-    background-color: #ccc;
-  }
-
+  &[data-win='A'] .BEM-tournament-panel_battler.-sideB,
   &[data-win='B'] .BEM-tournament-panel_battler.-sideA {
     background-color: #ccc;
   }
@@ -594,7 +614,9 @@
     background-color: #fff;
 
     &.-html2pdf {
-      width: 100%;
+      width: 11.69in;
+      max-width: inherit;
+      margin: auto;
       padding: 0;
       border: none;
     }
@@ -615,6 +637,20 @@
         text-decoration: underline;
         cursor: pointer;
       }
+    }
+  }
+
+  &:has(.-html2pdf) {
+    width: fit-content;
+    max-width: none;
+    margin: auto;
+    padding: 0;
+    background: none;
+
+    .BEM-tournament-frame_head,
+    .BEM-tournament-frame_foot,
+    .BEM-tournament-panel {
+      display: none;
     }
   }
 }

@@ -166,4 +166,50 @@ export default class TournamentManagerResultPanel {
       </div>
       `;
   }
+
+  syncBattlerWidth() {
+    const panels = this.container.querySelectorAll('.BEM-tournament-panel');
+
+    panels.forEach((panel) => {
+      const sideA = panel.querySelector('.-sideA .BEM-tournament-panel_battlerName');
+      const sideB = panel.querySelector('.-sideB .BEM-tournament-panel_battlerName');
+
+      if (!sideA || !sideB) return;
+
+      // 非表示状態なら一時表示
+      const wasHidden = getComputedStyle(panel).display === 'none';
+
+      if (wasHidden) {
+        panel.style.visibility = 'hidden';
+        panel.style.position = 'absolute';
+        panel.style.display = 'block';
+      }
+
+      // 一旦リセット
+      sideA.style.width = 'auto';
+      sideB.style.width = 'auto';
+
+      // 内容の幅を取得（paddingを引く）
+      const getContentWidth = (el) => {
+        const style = getComputedStyle(el);
+        const paddingLeft = parseFloat(style.paddingLeft) || 0;
+        const paddingRight = parseFloat(style.paddingRight) || 0;
+        return el.offsetWidth - paddingLeft - paddingRight;
+      };
+
+      const widthA = getContentWidth(sideA);
+      const widthB = getContentWidth(sideB);
+      const maxContentWidth = Math.max(widthA, widthB);
+
+      sideA.style.width = `${maxContentWidth}px`;
+      sideB.style.width = `${maxContentWidth}px`;
+
+      // 元に戻す
+      if (wasHidden) {
+        panel.style.removeProperty('visibility');
+        panel.style.removeProperty('position');
+        panel.style.display = '';
+      }
+    });
+  }
 }

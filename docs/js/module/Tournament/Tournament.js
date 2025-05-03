@@ -2,7 +2,7 @@ import html2pdf from 'https://cdn.skypack.dev/html2pdf.js';
 import TournamentManagerResultPanel from './TournamentResultPanel.js';
 
 const battlerList = [
-  { name: '1位', desc: '( 所属 )', info: '1位' },
+  { name: 'SHUHO', desc: '( 所属 )', info: '1位' },
   { name: 'Kenta "C" Terany', desc: '( 所属 )', info: '2位' },
   { name: '3位', desc: '( 所属 )', info: '3位' },
   { name: '4位', desc: '( 所属 )', info: '4位' },
@@ -16,7 +16,7 @@ const battlerList = [
   { name: '12位', desc: '( 所属 )', info: '12位' },
   { name: '13位', desc: '( 所属 )', info: '13位' },
   { name: '14位', desc: '( 所属 )', info: '14位' },
-  { name: 'Nico the Natural', desc: '( 所属 )', info: '15位' },
+  { name: '15位', desc: '( 所属 )', info: '15位' },
   { name: '16位', desc: '( 所属 )', info: '16位' },
 ];
 
@@ -88,6 +88,8 @@ export default class TournamentManager {
     `;
     this.app.container.insertAdjacentHTML('beforeend', html);
     this.container = this.app.container.querySelector('.BEM-tournament');
+
+    this.resultPanel.syncBattlerWidth();
   }
 
   getMatchTree(battlers) {
@@ -206,7 +208,8 @@ export default class TournamentManager {
   exportToPDF() {
     const format = this.matchNum < 5 ? 'a4' : 'a3';
     const orientation = this.matchNum < 5 ? 'landscape' : 'portrait';
-    // const targetElem = this.container.querySelector('.BEM-tournament_body');
+    const targetElem = document.querySelector('.BEM-tournament-frame');
+
     this.container.classList.add('-html2pdf', `-${orientation}`);
     const opt = {
       margin: 0,
@@ -217,7 +220,7 @@ export default class TournamentManager {
     };
     html2pdf()
       .set(opt)
-      .from(this.container)
+      .from(targetElem)
       .save()
       .then(() => {
         this.container.classList.remove('-html2pdf');

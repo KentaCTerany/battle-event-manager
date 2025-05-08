@@ -2,8 +2,8 @@ import html2pdf from 'https://cdn.skypack.dev/html2pdf.js';
 import TournamentManagerResultPanel from './TournamentResultPanel.js';
 
 const battlerList = [
-  { name: 'SHUHO', desc: '( 所属 )', info: '1位' },
-  { name: 'Kenta "C" Terany', desc: '( 所属 )', info: '2位' },
+  { name: '1位', desc: '( 所属 )', info: '1位' },
+  { name: '2位', desc: '( 所属 )', info: '2位' },
   { name: '3位', desc: '( 所属 )', info: '3位' },
   { name: '4位', desc: '( 所属 )', info: '4位' },
   { name: '5位', desc: '( 所属 )', info: '5位' },
@@ -31,7 +31,7 @@ export default class TournamentManager {
   }
 
   init() {
-    this.checkBattlerLength();
+    this.fotmatBattlerList();
     this.generateTournament();
     this.addEvents();
   }
@@ -43,12 +43,19 @@ export default class TournamentManager {
       const hasClassName = (className) => e.target.classList.contains(className);
       if (hasClassName('BEM-tournament-result')) this.onClickTournamentResult(e);
       else if (hasClassName('BEM-tournament-PDFControl_button')) this.exportToPDF();
+      else if (hasClassName('BEM-tournament-option_reset')) this.onClickOptionReset();
     });
   }
 
   onClickTournamentResult(e) {
     this.resultPanel.updateTargetByEvent(e);
     this.resultPanel.togglePanel();
+  }
+
+  onClickOptionReset() {
+    this.resultPanel.resetAllMatchInfo();
+    this.resultPanel.resetTournamentWinner();
+    this.resultPanel.hidePanel();
   }
 
   checkBattlerLength() {
@@ -89,7 +96,13 @@ export default class TournamentManager {
     this.app.container.insertAdjacentHTML('beforeend', html);
     this.container = this.app.container.querySelector('.BEM-tournament');
 
-    this.resultPanel.syncBattlerWidth();
+    if (this.matchNum === 3) {
+      this.container.style.setProperty('--battler-gap', '56px');
+      this.container.style.setProperty('--match-width', '56px');
+      this.container.style.setProperty('--battler-height', '72px');
+    }
+
+    this.resultPanel.syncAllBattlerWidth();
   }
 
   getMatchTree(battlers) {
@@ -115,6 +128,9 @@ export default class TournamentManager {
         depthCounters[parentDepth] = 0;
       }
 
+      left.side = 'A';
+      right.side = 'B';
+
       const parent = {
         id: crypto.randomUUID(),
         children: [left, right],
@@ -131,16 +147,21 @@ export default class TournamentManager {
   }
 
   getTournamentBodyHTML() {
-    const arranged =
+    const battlers =
       this.mode === 'ranking'
         ? this.getTournamentSeedOrder()
             .map((i) => this.battlerList[i - 1])
             .reverse()
         : [...this.battlerList];
 
-    const matchTree = this.getMatchTree(arranged);
+    const matchTree = this.getMatchTree(battlers);
 
-    return `<div class="BEM-tournament_body">${this.getMatchHTML(matchTree, this.matchNum)}</div>`;
+    return `
+      <div class="BEM-tournament_body">${this.getMatchHTML(matchTree, this.matchNum)}</div>
+      <div class="BEM-tournament_option BEM-tournament-option">
+        <button class="BEM-tournament-option_reset">ALL RESET</button>
+      </div>
+    `;
   }
 
   getMatchHTML(node, depth) {
@@ -151,7 +172,7 @@ export default class TournamentManager {
     if (!node.children) {
       const player = node.player || {};
       return `
-        <div class="BEM-tournament-bracket">
+        <div class="BEM-tournament-bracket" data-entry="${player.entryIndex}">
           <div class="BEM-tournament-bracket_info">${player.info}</div>
           <div class="BEM-tournament-bracket_container">
             <span class="-name">${player.name}</span>
@@ -168,11 +189,13 @@ export default class TournamentManager {
       })
       .join('');
 
-    const battlerA = node.children[0]?.player?.name || 'A';
-    const battlerB = node.children[1]?.player?.name || 'B';
+    const battlers = node.children.map(({ player }) => player);
+    // const battlerA = node.children[0]?.player?.name || 'A';
+    // const battlerB = node.children[1]?.player?.name || 'B';
+    const sideAttribute = node.side ? `data-side="${node.side}"` : '';
 
     return `
-      <div class="BEM-tournament-match" data-index="${depth}" data-id="${node.id}">
+      <div class="BEM-tournament-match" ${sideAttribute} data-index="${depth}" data-id="${node.id}">
         <div class="BEM-tournament-match_bracket">
           ${childrenHTML}
         </div>
@@ -191,7 +214,7 @@ export default class TournamentManager {
           }
         </div>
 
-        ${this.resultPanel.getResultPanelHTML({ depth, matchIndex: node.matchIndex, battlerA, battlerB })}
+        ${this.resultPanel.getResultPanelHTML({ depth, matchIndex: node.matchIndex, battlers })}
       </div>
     `;
   }
@@ -205,6 +228,13 @@ export default class TournamentManager {
     return buildSeeds(this.battlerList.length);
   }
 
+  fotmatBattlerList() {
+    this.battlerList = this.battlerList.map((battler, index) => {
+      return { ...battler, entryIndex: index };
+    });
+    this.checkBattlerLength();
+  }
+
   exportToPDF() {
     const format = this.matchNum < 5 ? 'a4' : 'a3';
     const orientation = this.matchNum < 5 ? 'landscape' : 'portrait';
@@ -214,7 +244,7 @@ export default class TournamentManager {
     const opt = {
       margin: 0,
       filename: 'tournament.pdf',
-      image: { type: 'jpg', quality: 0.8 },
+      image: { type: 'png', quality: 0.8 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format, orientation },
     };

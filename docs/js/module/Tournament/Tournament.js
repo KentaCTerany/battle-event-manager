@@ -1,5 +1,6 @@
 import html2pdf from 'https://cdn.skypack.dev/html2pdf.js';
 import TournamentManagerResultPanel from './TournamentResultPanel.js';
+import TournamentGenerator from './TournamentGenarator.js';
 
 const battlerList = [
   { name: '1位', desc: '( 所属 )', info: '1位' },
@@ -27,6 +28,7 @@ export default class TournamentManager {
     this.battlerList = battlerList;
     this.container = null;
     this.matchNum = null;
+    this.generator = new TournamentGenerator({ tournamentApp: this });
     this.resultPanel = new TournamentManagerResultPanel({ tournamentApp: this });
   }
 
@@ -105,127 +107,16 @@ export default class TournamentManager {
     this.resultPanel.syncAllBattlerWidth();
   }
 
-  getMatchTree(battlers) {
-    const depthCounters = {};
-
-    const queue = battlers.map((battler, index) => ({
-      id: crypto.randomUUID(),
-      player: battler,
-      children: null,
-      depth: 0,
-      matchIndex: index,
-    }));
-
-    depthCounters[0] = battlers.length;
-
-    while (queue.length > 1) {
-      const left = queue.shift();
-      const right = queue.shift();
-
-      const parentDepth = Math.max(left.depth, right.depth) + 1;
-
-      if (depthCounters[parentDepth] === undefined) {
-        depthCounters[parentDepth] = 0;
-      }
-
-      left.side = 'A';
-      right.side = 'B';
-
-      const parent = {
-        id: crypto.randomUUID(),
-        children: [left, right],
-        depth: parentDepth,
-        matchIndex: depthCounters[parentDepth],
-      };
-
-      depthCounters[parentDepth]++;
-
-      queue.push(parent);
-    }
-
-    return queue[0];
-  }
-
   getTournamentBodyHTML() {
     const battlers =
       this.mode === 'ranking'
-        ? this.getTournamentSeedOrder()
+        ? this.generator
+            .getTournamentSeedOrder()
             .map((i) => this.battlerList[i - 1])
             .reverse()
         : [...this.battlerList];
 
-    const matchTree = this.getMatchTree(battlers);
-
-    return `
-      <div class="BEM-tournament_body">${this.getMatchHTML(matchTree, this.matchNum)}</div>
-      <div class="BEM-tournament_option BEM-tournament-option">
-        <button class="BEM-tournament-option_reset">ALL RESET</button>
-      </div>
-    `;
-  }
-
-  getMatchHTML(node, depth) {
-    if (!node) return '';
-
-    const isFinal = depth === this.matchNum;
-
-    if (!node.children) {
-      const player = node.player || {};
-      return `
-        <div class="BEM-tournament-bracket" data-entry="${player.entryIndex}">
-          <div class="BEM-tournament-bracket_info">${player.info}</div>
-          <div class="BEM-tournament-bracket_container">
-            <span class="-name">${player.name}</span>
-            <span class="-desc">${player.desc}</span>
-          </div>
-        </div>
-      `;
-    }
-
-    const childrenHTML = node.children
-      .map((child) => {
-        const html = this.getMatchHTML(child, depth - 1);
-        return isFinal ? `<div class="BEM-tournament-block">${html}</div>` : html;
-      })
-      .join('');
-
-    const battlers = node.children.map(({ player }) => player);
-    // const battlerA = node.children[0]?.player?.name || 'A';
-    // const battlerB = node.children[1]?.player?.name || 'B';
-    const sideAttribute = node.side ? `data-side="${node.side}"` : '';
-
-    return `
-      <div class="BEM-tournament-match" ${sideAttribute} data-index="${depth}" data-id="${node.id}">
-        <div class="BEM-tournament-match_bracket">
-          ${childrenHTML}
-        </div>
-
-        <div class="BEM-tournament-match_result BEM-tournament-result" data-id="${node.id}">
-          <div class="BEM-tournament-result_side -sideA"></div>
-          <div class="BEM-tournament-result_desc" aria-hidden="true">延<br>長</div>
-          <div class="BEM-tournament-result_side -sideB"></div>
-          ${
-            isFinal
-              ? `
-            <div class="BEM-tournament-result_winner">
-              <span class="-name"></span><span class="-desc"></span>
-            </div>`
-              : ''
-          }
-        </div>
-
-        ${this.resultPanel.getResultPanelHTML({ depth, matchIndex: node.matchIndex, battlers })}
-      </div>
-    `;
-  }
-
-  getTournamentSeedOrder() {
-    const buildSeeds = (size) => {
-      if (size === 1) return [1];
-      const prev = buildSeeds(size / 2);
-      return prev.flatMap((i) => [i, size + 1 - i]);
-    };
-    return buildSeeds(this.battlerList.length);
+    return this.generator.generateHTML(battlers, this.matchNum);
   }
 
   fotmatBattlerList() {
@@ -248,6 +139,7 @@ export default class TournamentManager {
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format, orientation },
     };
+
     html2pdf()
       .set(opt)
       .from(targetElem)

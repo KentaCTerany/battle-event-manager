@@ -1,6 +1,6 @@
 export default class TournamentManagerResultPanel {
   constructor({ tournamentApp }) {
-    this.tournamentApp = tournamentApp;
+    this.app = tournamentApp;
     this.container = document.getElementById('battleEventManager');
     this.target = null;
     this.targetMatch = null;
@@ -92,7 +92,7 @@ export default class TournamentManagerResultPanel {
     const panelElem = finalMatchElem.querySelector(':scope > .BEM-tournament-panel');
     const panelWinnerEntry = panelElem.querySelector(`.BEM-tournament-panel_battler.-side${winnerSide}`).dataset.entry;
     const winnerEntryIndex = Number(panelWinnerEntry);
-    const winner = this.tournamentApp.battlerList[winnerEntryIndex];
+    const winner = this.app.battlerList[winnerEntryIndex];
 
     const winnerNameElem = this.winnerDisplay.querySelector('.-name');
     const winnerDescElem = this.winnerDisplay.querySelector('.-desc');
@@ -116,7 +116,7 @@ export default class TournamentManagerResultPanel {
       const matchPanelWinnerEntry = matchPanelWinnerSide.dataset.entry;
       const winnerEntryIndex = Number(matchPanelWinnerEntry);
 
-      const winner = this.tournamentApp.battlerList[winnerEntryIndex];
+      const winner = this.app.battlerList[winnerEntryIndex];
 
       const matchIndex = Number(match.dataset.index);
       const parentMatch = match.closest(`.BEM-tournament-match[data-index='${matchIndex + 1}']`);
@@ -168,7 +168,7 @@ export default class TournamentManagerResultPanel {
     const battlerA = battlers[0];
     const battlerB = battlers[1];
 
-    const { matchNum, battlerList } = this.tournamentApp;
+    const { matchNum, battlerList } = this.app;
     const matchNumText = `第${matchIndex + 1}試合`;
     const dataEntryA = String(battlerA?.entryIndex) ? `data-entry="${battlerA?.entryIndex}"` : '';
     const dataEntryB = String(battlerB?.entryIndex) ? `data-entry="${battlerB?.entryIndex}"` : '';

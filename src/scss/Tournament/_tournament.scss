@@ -1,15 +1,16 @@
-@use 'mixin' as *;
+@use '../mixin' as *;
 
 .BEM-tournament {
   position: relative;
   display: grid;
   align-items: center;
+  width: 100%;
   max-width: 1024px;
   min-height: 256px;
   padding: 54px 16px 32px;
-  border: 1px solid #000;
+  background-color: #fff;
+  border: 3px double #000;
   margin-inline: auto;
-  overflow: scroll;
 
   --battler-width: 200px;
   --battler-height: 56px;
@@ -28,6 +29,20 @@
     --match-width-final: calc(var(--battler-width) + var(--match-width) * 2);
     --match-height: calc(var(--battler-height) + var(--battler-gap));
 
+    width: 11.69in;
+    max-width: inherit;
+    margin: auto;
+    padding: 0;
+    border: none;
+
+    &.-landscape {
+      aspect-ratio: 297/210;
+    }
+
+    &.-portrait {
+      aspect-ratio: 210/297;
+    }
+
     .BEM-tournament-bracket {
       gap: 1em;
 
@@ -38,6 +53,7 @@
   }
 
   .BEM-tournament_body {
+    position: relative;
     display: grid;
     justify-content: center;
   }
@@ -70,6 +86,42 @@
     &:active {
       box-shadow: inset 1px 1px 2px #000;
       transform: translate(1px, 1px);
+    }
+  }
+}
+
+.BEM-tournament_upperText {
+  position: absolute;
+  top: calc(54px - 2em);
+  @include center-ab(true, false);
+
+  > p {
+    text-align: center;
+
+    &:first-child {
+      font-size: 1.4rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+    }
+
+    &:last-child {
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+  }
+
+  .-html2pdf & {
+    top: 54px;
+
+    > p {
+      &:first-child {
+        font-size: 19px;
+      }
+
+      &:last-child {
+        font-size: 17px;
+        line-height: 2;
+      }
     }
   }
 }
@@ -409,300 +461,6 @@
       &::after {
         width: 1.5px;
       }
-    }
-  }
-}
-
-.BEM-tournament-panel {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  z-index: 10;
-  display: grid;
-  width: fit-content;
-  min-width: var(--match-width-final);
-  padding: 8px 12px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: rgb(0 0 0 / 75%) 0 0 4px;
-  direction: ltr;
-  gap: 12px;
-  transform: translate(calc(100% + 8px), -50%);
-
-  &[aria-hidden='true'] {
-    display: none;
-  }
-
-  .BEM-tournament-block:last-child & {
-    right: auto;
-    left: 0;
-    transform: translate(calc(-100% - 8px), -50%);
-  }
-
-  .BEM-tournament-panel_close {
-    position: absolute;
-    right: 0;
-    z-index: 100;
-    width: 32px;
-    height: 32px;
-    background-color: transparent;
-    border: none;
-    border-radius: 50%;
-    box-sizing: border-box;
-    cursor: pointer;
-
-    &:hover {
-      border: #aaa 1px solid;
-    }
-
-    &::before,
-    &::after {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      display: block;
-      width: 16px;
-      height: 1px;
-      background-color: #000;
-      content: '';
-      transform: translateX(-50%) rotate(45deg);
-    }
-
-    &::after {
-      transform: translateX(-50%) rotate(-45deg);
-    }
-  }
-
-  .BEM-tournament-panel_matchContainer {
-    display: grid;
-    gap: 8px;
-  }
-
-  .BEM-tournament-panel_matchLabel {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-
-  .BEM-tournament-panel_match {
-    display: grid;
-    align-items: center;
-    line-height: 2;
-    gap: 0.75em;
-    grid-template-columns: 1fr auto 1fr;
-  }
-
-  .BEM-tournament-panel_battler {
-    padding: 8px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 8px;
-
-    &.-sideA {
-      background-color: #ffd8d8;
-
-      button {
-        background-color: #940202;
-      }
-    }
-
-    &.-sideB {
-      background-color: #d8daff;
-
-      button {
-        background-color: #12008a;
-      }
-    }
-  }
-
-  &[data-win='A'] .BEM-tournament-panel_battler.-sideB,
-  &[data-win='B'] .BEM-tournament-panel_battler.-sideA {
-    background-color: #ccc;
-  }
-
-  .BEM-tournament-panel_battlerName {
-    min-height: 1rem;
-    padding: 0.75rem 1.5rem;
-    line-height: 1;
-    background-color: #fff;
-    white-space: nowrap;
-  }
-
-  .BEM-tournament-panel_vs {
-    font-size: 1rem;
-  }
-
-  .BEM-tournament-panel_winnerSelect {
-    display: grid;
-    gap: 1em;
-    grid-template-columns: 1fr;
-    margin-top: 8px;
-    place-items: center;
-
-    button {
-      width: 75%;
-      font-size: 1rem;
-      font-weight: 700;
-      line-height: 2;
-      color: #fff;
-      border: none;
-      border-radius: 16px;
-      box-shadow: 1px 1px 2px #000;
-
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-        opacity: 0.85;
-      }
-
-      &:active {
-        box-shadow: inset 1px 1px 2px #000;
-        transform: translate(1px, 1px);
-      }
-    }
-  }
-
-  .BEM-tournament-panel_option {
-    display: grid;
-    justify-content: space-between;
-    padding: 8px;
-    background-color: #eddfff;
-    border-radius: 8px;
-    grid-template-columns: auto auto;
-
-    label {
-      display: grid;
-      padding: 4px 12px;
-      font-size: 1rem;
-      font-weight: 700;
-      line-height: 1.5;
-      color: #d737ff;
-      background-color: #fff;
-      border: none;
-      border-radius: 16px;
-      gap: 0.5em;
-      grid-template-columns: auto auto;
-      margin-inline: auto;
-      place-content: center;
-      place-items: center;
-
-      input {
-        display: inline-block;
-        margin: 0;
-        border: none;
-        accent-color: #d737ff;
-        place-content: center;
-        place-items: center;
-      }
-    }
-  }
-
-  .BEM-tournament-panel_reset {
-    width: 70px;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.5;
-    color: #fff;
-    background-color: #666;
-    border: none;
-    border-radius: 16px;
-    box-shadow: 1px 1px 2px #000;
-
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-      opacity: 0.85;
-    }
-
-    &:active {
-      box-shadow: inset 1px 1px 2px #000;
-      transform: translate(1px, 1px);
-    }
-  }
-}
-
-.BEM-tournament-frame {
-  display: grid;
-  width: calc(100% - 16px);
-  max-width: 1200px;
-  padding: 8px;
-  background-color: #ccc;
-  border-radius: 8px;
-  gap: 8px;
-  margin-inline: auto;
-  overflow: hidden;
-
-  .BEM-tournament-frame_head {
-    display: grid;
-    width: fit-content;
-    gap: 8px;
-    margin-inline: auto;
-  }
-
-  .BEM-tournament-frame_title {
-    padding: 0.25em 1em;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #666;
-    text-align: center;
-    border: 1px #999 groove;
-    border-radius: 8px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    pointer-events: none;
-    text-shadow: 0 0 5px #fff;
-  }
-
-  .BEM-tournament-frame_body {
-    width: calc(100% - 34px);
-    background-color: #fff;
-
-    &.-html2pdf {
-      width: 11.69in;
-      max-width: inherit;
-      margin: auto;
-      padding: 0;
-      border: none;
-
-      &.-landscape {
-        aspect-ratio: 297/210;
-      }
-
-      &.-portrait {
-        aspect-ratio: 210/297;
-      }
-    }
-  }
-
-  .BEM-tournament-frame_foot {
-    display: grid;
-  }
-
-  .BEM-tournament-PDFControl {
-    > .BEM-tournament-PDFControl_button {
-      padding: 1em 2em;
-      background-color: #fff;
-      border: #000 1px solid;
-      border-radius: 8px;
-
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
-  }
-
-  &:has(.-html2pdf) {
-    width: fit-content;
-    max-width: none;
-    margin: auto;
-    padding: 0;
-    background: none;
-
-    .BEM-tournament-frame_head,
-    .BEM-tournament-frame_foot,
-    .BEM-tournament-panel,
-    .BEM-tournament-option {
-      display: none;
     }
   }
 }

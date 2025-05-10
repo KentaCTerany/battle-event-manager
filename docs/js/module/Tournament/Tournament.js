@@ -1,24 +1,25 @@
-import html2pdf from 'https://cdn.skypack.dev/html2pdf.js';
-import TournamentManagerResultPanel from './TournamentResultPanel.js';
+import { exportMedia } from '../../export.js';
+import TournamentSetting from './TournamentSetting.js';
 import TournamentGenerator from './TournamentGenarator.js';
+import TournamentManagerResultPanel from './TournamentResultPanel.js';
 
 const battlerList = [
-  { name: '1位', desc: '( 所属 )', info: '1位' },
-  { name: '2位', desc: '( 所属 )', info: '2位' },
-  { name: '3位', desc: '( 所属 )', info: '3位' },
-  { name: '4位', desc: '( 所属 )', info: '4位' },
-  { name: '5位', desc: '( 所属 )', info: '5位' },
-  { name: '6位', desc: '( 所属 )', info: '6位' },
-  { name: '7位', desc: '( 所属 )', info: '7位' },
-  { name: '8位', desc: '( 所属 )', info: '8位' },
-  { name: '9位', desc: '( 所属 )', info: '9位' },
-  { name: '10位', desc: '( 所属 )', info: '10位' },
-  { name: '11位', desc: '( 所属 )', info: '11位' },
-  { name: '12位', desc: '( 所属 )', info: '12位' },
-  { name: '13位', desc: '( 所属 )', info: '13位' },
-  { name: '14位', desc: '( 所属 )', info: '14位' },
-  { name: '15位', desc: '( 所属 )', info: '15位' },
-  { name: '16位', desc: '( 所属 )', info: '16位' },
+  { name: '1位', desc: '所属', info: '1位' },
+  { name: '2位', desc: '所属', info: '2位' },
+  { name: '3位', desc: '所属', info: '3位' },
+  { name: '4位', desc: '所属', info: '4位' },
+  { name: '5位', desc: '所属', info: '5位' },
+  { name: '6位', desc: '所属', info: '6位' },
+  { name: '7位', desc: '所属', info: '7位' },
+  { name: '8位', desc: '所属', info: '8位' },
+  { name: '9位', desc: '所属', info: '9位' },
+  { name: '10位', desc: '所属', info: '10位' },
+  { name: '11位', desc: '所属', info: '11位' },
+  { name: '12位', desc: '所属', info: '12位' },
+  { name: '13位', desc: '所属', info: '13位' },
+  { name: '14位', desc: '所属', info: '14位' },
+  { name: '15位', desc: '所属', info: '15位' },
+  { name: '16位', desc: '所属', info: '16位' },
 ];
 
 export default class TournamentManager {
@@ -27,15 +28,59 @@ export default class TournamentManager {
     this.mode = mode;
     this.battlerList = battlerList;
     this.container = null;
-    this.matchNum = null;
+    this.matchNum = 4;
     this.generator = new TournamentGenerator({ tournamentApp: this });
+    this.setting = new TournamentSetting({ tournamentApp: this });
     this.resultPanel = new TournamentManagerResultPanel({ tournamentApp: this });
   }
 
   init() {
+    this.generateFrame();
+    this.generateSettingUI();
+    this.initTournament();
+  }
+
+  initTournament() {
+    const existTournament = this.container.querySelector('.BEM-tournament_body');
+    if (existTournament) {
+      this.container.querySelector('.BEM-tournament_option').remove();
+      existTournament.remove();
+    }
+
     this.fotmatBattlerList();
     this.generateTournament();
     this.addEvents();
+  }
+
+  generateFrame() {
+    const html = `
+    <div class="BEM-tournament-frame">
+      <div class="BEM-tournament-frame_head">
+        <div class="BEM-tournament-frame_title">Tournament Generator</div>
+      </div>
+      <div class="BEM-tournament-frame_body">
+        <div class="BEM-tournament-setting"></div>
+        <div class="BEM-tournament"></div>
+      </div>
+      <div class="BEM-tournament-frame_foot">
+        <div class="BEM-tournament-frame_PDFControl BEM-tournament-PDFControl">
+          <button class="BEM-tournament-PDFControl_button">PDF出力</button>
+        </div>
+      </div>
+    </div>
+    `;
+
+    this.app.container.insertAdjacentHTML('beforeend', html);
+    this.container = this.app.container.querySelector('.BEM-tournament');
+  }
+
+  generateSettingUI() {
+    const html = this.setting.getSettingHTML();
+
+    this.settingUI = this.app.container.querySelector('.BEM-tournament-setting');
+    this.settingUI.innerHTML = html;
+    this.form = this.settingUI.querySelector('form');
+    this.setting.addSettingEvents();
   }
 
   addEvents() {
@@ -80,23 +125,7 @@ export default class TournamentManager {
       return;
     }
 
-    const html = `
-    <div class="BEM-tournament-frame">
-      <div class="BEM-tournament-frame_head">
-        <div class="BEM-tournament-frame_title">Tournament Generator</div>
-      </div>
-      <div class="BEM-tournament-frame_body BEM-tournament">
-        ${this.getTournamentBodyHTML()}
-      </div>
-      <div class="BEM-tournament-frame_foot">
-        <div class="BEM-tournament-frame_PDFControl BEM-tournament-PDFControl">
-          <button class="BEM-tournament-PDFControl_button">PDF出力</button>
-        </div>
-      </div>
-    </div>
-    `;
-    this.app.container.insertAdjacentHTML('beforeend', html);
-    this.container = this.app.container.querySelector('.BEM-tournament');
+    this.container.insertAdjacentHTML('beforeend', this.getTournamentBodyHTML());
 
     if (this.matchNum === 3) {
       this.container.style.setProperty('--battler-gap', '56px');
@@ -129,10 +158,18 @@ export default class TournamentManager {
   exportToPDF() {
     const format = this.matchNum < 5 ? 'a4' : 'a3';
     const orientation = this.matchNum < 5 ? 'landscape' : 'portrait';
-    const targetElem = document.querySelector('.BEM-tournament-frame');
+    const target = document.querySelector('.BEM-tournament');
 
     this.container.classList.add('-html2pdf', `-${orientation}`);
-    const opt = {
+    const handler = () => {
+      document.querySelector('.BEM-tournament-option').style.display = '';
+      this.container.classList.remove('-html2pdf');
+    };
+    // const handler = undefined;
+
+    document.querySelector('.BEM-tournament-option').style.display = 'none';
+
+    const option = {
       margin: 0,
       filename: 'tournament.pdf',
       image: { type: 'png', quality: 0.8 },
@@ -140,12 +177,6 @@ export default class TournamentManager {
       jsPDF: { unit: 'in', format, orientation },
     };
 
-    html2pdf()
-      .set(opt)
-      .from(targetElem)
-      .save()
-      .then(() => {
-        this.container.classList.remove('-html2pdf');
-      });
+    exportMedia.htmlToPDF({ target, option, handler });
   }
 }

@@ -17,7 +17,8 @@ export default class BattleEventManager {
 
   generateVariableScript() {
     const scriptElem = document.createElement('script');
-    scriptElem.setAttribute('src', '/js/variable.js');
+    scriptElem.setAttribute('src', '/js/export.js');
+    scriptElem.setAttribute('type', 'module');
 
     document.body.insertAdjacentElement('beforeend', scriptElem);
   }

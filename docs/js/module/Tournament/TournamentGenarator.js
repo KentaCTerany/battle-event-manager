@@ -6,6 +6,10 @@ export default class TournamentGenerator {
   generateHTML(battlers, matchNum) {
     const matchTree = this.getMatchTree(battlers);
     return `
+      <div class="BEM-tournament_upperText">
+        <p>A-POP HOUSE 1on1 side</p>
+        <p>トーナメント表</p>
+      </div>
       <div class="BEM-tournament_body">
         ${this.getMatchHTML(matchTree, matchNum)}
       </div>
@@ -88,7 +92,7 @@ export default class TournamentGenerator {
         <div class="BEM-tournament-bracket_info">${player.info}</div>
         <div class="BEM-tournament-bracket_container">
           <span class="-name">${player.name}</span>
-          <span class="-desc">${player.desc}</span>
+          <span class="-desc">${player.desc ? `( ${player.desc} )` : ''}</span>
         </div>
       </div>
     `;

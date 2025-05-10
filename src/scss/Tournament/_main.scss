@@ -1,0 +1,78 @@
+@use 'tournament';
+@use 'resultPanel';
+@use 'setting';
+
+.BEM-tournament-frame {
+  display: grid;
+  width: calc(100% - 16px);
+  max-width: 1200px;
+  padding: 8px;
+  background-color: #ccc;
+  border-radius: 8px;
+  gap: 8px;
+  margin-inline: auto;
+  overflow: hidden;
+
+  .BEM-tournament-frame_head {
+    display: grid;
+    width: fit-content;
+    gap: 8px;
+    margin-inline: auto;
+  }
+
+  .BEM-tournament-frame_title {
+    padding: 0.25em 1em;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #666;
+    text-align: center;
+    border: 1px #999 groove;
+    border-radius: 8px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    pointer-events: none;
+    text-shadow: 0 0 5px #fff;
+  }
+
+  .BEM-tournament-frame_body {
+    display: grid;
+    width: calc(100% - 34px);
+    gap: 16px;
+    margin-inline: auto;
+    overflow: scroll;
+  }
+
+  .BEM-tournament-frame_foot {
+    display: grid;
+  }
+
+  .BEM-tournament-PDFControl {
+    > .BEM-tournament-PDFControl_button {
+      padding: 1em 2em;
+      background-color: #fff;
+      border: #000 1px solid;
+      border-radius: 8px;
+
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &:has(.-html2pdf) {
+    width: fit-content;
+    max-width: none;
+    margin: auto;
+    padding: 0;
+    background: none;
+
+    .BEM-tournament-frame_head,
+    .BEM-tournament-frame_foot,
+    .BEM-tournament-panel,
+    .BEM-tournament-option,
+    .BEM-tournament-option_reset {
+      display: none;
+      opacity: 0;
+    }
+  }
+}

@@ -1,13 +1,15 @@
+@charset "UTF-8";
 .BEM-tournament {
   position: relative;
   display: grid;
   align-items: center;
+  width: 100%;
   max-width: 1024px;
   min-height: 256px;
   padding: 54px 16px 32px;
-  border: 1px solid #000;
+  background-color: #fff;
+  border: 3px double #000;
   margin-inline: auto;
-  overflow: scroll;
   --battler-width: 200px;
   --battler-height: 56px;
   --battler-gap: 8px;
@@ -24,6 +26,17 @@
   --match-width: 44px;
   --match-width-final: calc(var(--battler-width) + var(--match-width) * 2);
   --match-height: calc(var(--battler-height) + var(--battler-gap));
+  width: 11.69in;
+  max-width: inherit;
+  margin: auto;
+  padding: 0;
+  border: none;
+}
+.BEM-tournament.-html2pdf.-landscape {
+  aspect-ratio: 297/210;
+}
+.BEM-tournament.-html2pdf.-portrait {
+  aspect-ratio: 210/297;
 }
 .BEM-tournament.-html2pdf .BEM-tournament-bracket {
   gap: 1em;
@@ -32,6 +45,7 @@
   font-size: 1.2rem;
 }
 .BEM-tournament .BEM-tournament_body {
+  position: relative;
   display: grid;
   justify-content: center;
 }
@@ -60,6 +74,36 @@
 .BEM-tournament-option .BEM-tournament-option_reset:active {
   box-shadow: inset 1px 1px 2px #000;
   transform: translate(1px, 1px);
+}
+
+.BEM-tournament_upperText {
+  position: absolute;
+  top: calc(54px - 2em);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.BEM-tournament_upperText > p {
+  text-align: center;
+}
+.BEM-tournament_upperText > p:first-child {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+.BEM-tournament_upperText > p:last-child {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+.-html2pdf .BEM-tournament_upperText {
+  top: 54px;
+}
+.-html2pdf .BEM-tournament_upperText > p:first-child {
+  font-size: 19px;
+}
+.-html2pdf .BEM-tournament_upperText > p:last-child {
+  font-size: 17px;
+  line-height: 2;
 }
 
 .BEM-tournament-bracket {
@@ -427,6 +471,7 @@
   padding: 0.75rem 1.5rem;
   line-height: 1;
   background-color: #fff;
+  box-sizing: content-box;
   white-space: nowrap;
 }
 .BEM-tournament-panel .BEM-tournament-panel_vs {
@@ -511,6 +556,146 @@
   transform: translate(1px, 1px);
 }
 
+.BEM-tournament-setting {
+  display: grid;
+  padding: 1em 1.5em;
+  color: #fff;
+  background-color: #333;
+  border-radius: 16px;
+  gap: 12px;
+}
+.BEM-tournament-setting ol,
+.BEM-tournament-setting ul {
+  display: grid;
+  list-style: none;
+  padding-inline-start: 0;
+}
+.BEM-tournament-setting ol {
+  margin: 0;
+  counter-reset: listnum; /* カウンターをリセット */
+  gap: 4px;
+}
+.BEM-tournament-setting ol li {
+  display: grid;
+  align-items: center;
+  padding: 0.5em 1em;
+  background-color: #000;
+  border-radius: 8px;
+  gap: 0.5em;
+}
+.BEM-tournament-setting ol li::before {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #999;
+  content: "No." counter(listnum); /* カウントした数に応じて番号を表示 */
+  counter-increment: listnum; /* counter-resetと同じ文字列 */
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.BEM-tournament-setting ul {
+  display: grid;
+  margin: 0;
+}
+.BEM-tournament-setting label {
+  display: grid;
+  font-size: 1rem;
+  font-weight: 700;
+  padding-bottom: 0.25em;
+}
+.BEM-tournament-setting input[type=text] {
+  padding: 0.25rem 1rem;
+}
+.BEM-tournament-setting input[type=file] {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 1.1rem;
+  color: rgb(31, 41, 55);
+  background-color: #fff;
+  border: 1px solid rgb(191, 194, 199);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  padding-right: 0.5rem;
+}
+.BEM-tournament-setting ::file-selector-button,
+.BEM-tournament-setting ::-webkit-file-upload-button {
+  padding: 0.25rem 1rem;
+  color: rgb(31, 41, 55);
+  background-color: rgb(209, 213, 219);
+  border: none;
+  border-right: 1px solid rgb(191, 194, 199);
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.BEM-tournament-setting > form {
+  display: grid;
+  gap: 1.5em;
+  grid-template-columns: 1fr 1fr;
+}
+.BEM-tournament-setting .BEM-tournament-setting_container {
+  display: grid;
+  height: -moz-fit-content;
+  height: fit-content;
+  gap: 2em;
+}
+.BEM-tournament-setting .BEM-tournament-setting_option {
+  display: grid;
+  gap: 0.5em;
+}
+.BEM-tournament-setting .BEM-tournament-setting_option ul {
+  gap: 1em;
+  padding-left: 1em;
+}
+.BEM-tournament-setting .BEM-tournament-setting_option li:has(input[type=radio]) {
+  display: grid;
+  align-items: center;
+  gap: 0.5em;
+  grid-template-columns: auto 1fr;
+}
+.BEM-tournament-setting .BEM-tournament-setting_option li:has(input[type=radio]) input,
+.BEM-tournament-setting .BEM-tournament-setting_option li:has(input[type=radio]) label {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: normal;
+}
+.BEM-tournament-setting .BEM-tournament-setting_entry {
+  display: grid;
+  gap: 0.5em;
+}
+.BEM-tournament-setting .BEM-tournament-setting_entry ol {
+  height: 420px;
+  overflow: scroll;
+}
+.BEM-tournament-setting .BEM-tournament-setting_entry li {
+  grid-template-columns: 5em 1fr 1fr 1fr;
+}
+.BEM-tournament-setting .BEM-tournament-setting_eventInfo {
+  display: grid;
+  gap: 0.5em;
+}
+.BEM-tournament-setting .BEM-tournament-setting_eventInfo ul {
+  gap: 1.5em;
+}
+.BEM-tournament-setting .BEM-tournament-setting_eventInfo p > br {
+  display: none;
+}
+.BEM-tournament-setting .BEM-tournament-setting_submitContainer {
+  display: grid;
+  justify-items: end;
+}
+.BEM-tournament-setting .BEM-tournament-setting_submitContainer button {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 1em 2em;
+  font-size: 1.4rem;
+  background-color: #fff;
+  border: #000 1px solid;
+  border-radius: 8px;
+}
+.BEM-tournament-setting .BEM-tournament-setting_submitContainer button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .BEM-tournament-frame {
   display: grid;
   width: calc(100% - 16px);
@@ -542,21 +727,11 @@
   text-shadow: 0 0 5px #fff;
 }
 .BEM-tournament-frame .BEM-tournament-frame_body {
+  display: grid;
   width: calc(100% - 34px);
-  background-color: #fff;
-}
-.BEM-tournament-frame .BEM-tournament-frame_body.-html2pdf {
-  width: 11.69in;
-  max-width: inherit;
-  margin: auto;
-  padding: 0;
-  border: none;
-}
-.BEM-tournament-frame .BEM-tournament-frame_body.-html2pdf.-landscape {
-  aspect-ratio: 297/210;
-}
-.BEM-tournament-frame .BEM-tournament-frame_body.-html2pdf.-portrait {
-  aspect-ratio: 210/297;
+  gap: 16px;
+  margin-inline: auto;
+  overflow: scroll;
 }
 .BEM-tournament-frame .BEM-tournament-frame_foot {
   display: grid;
@@ -582,10 +757,19 @@
 .BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-frame_head,
 .BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-frame_foot,
 .BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-panel,
-.BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-option {
+.BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-option,
+.BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-option_reset {
   display: none;
+  opacity: 0;
 }
 
 :root {
   font-size: 10px;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }/*# sourceMappingURL=index.css.map */

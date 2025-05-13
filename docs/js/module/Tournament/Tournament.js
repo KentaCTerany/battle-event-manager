@@ -37,19 +37,18 @@ export default class TournamentManager {
   init() {
     this.generateFrame();
     this.generateSettingUI();
+    this.addEvents();
     this.initTournament();
   }
 
   initTournament() {
     const existTournament = this.container.querySelector('.BEM-tournament_body');
     if (existTournament) {
-      this.container.querySelector('.BEM-tournament_option').remove();
-      existTournament.remove();
+      this.container.innerHTML = '';
     }
 
     this.fotmatBattlerList();
     this.generateTournament();
-    this.addEvents();
   }
 
   generateFrame() {
@@ -137,13 +136,18 @@ export default class TournamentManager {
   }
 
   getTournamentBodyHTML() {
-    const battlers =
-      this.mode === 'ranking'
-        ? this.generator
-            .getTournamentSeedOrder()
-            .map((i) => this.battlerList[i - 1])
-            .reverse()
-        : [...this.battlerList];
+    let battlers = [];
+
+    if (this.mode === 'seed') {
+      battlers = this.generator
+        .getTournamentSeedOrder()
+        .map((i) => this.battlerList[i - 1])
+        .reverse();
+    } else if (this.mode === 'random') {
+      battlers = this.generator.getTournamentRandomOrder();
+    } else {
+      battlers = [...this.battlerList];
+    }
 
     return this.generator.generateHTML(battlers, this.matchNum);
   }
@@ -165,7 +169,6 @@ export default class TournamentManager {
       document.querySelector('.BEM-tournament-option').style.display = '';
       this.container.classList.remove('-html2pdf');
     };
-    // const handler = undefined;
 
     document.querySelector('.BEM-tournament-option').style.display = 'none';
 

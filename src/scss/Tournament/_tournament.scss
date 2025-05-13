@@ -96,6 +96,7 @@
   @include center-ab(true, false);
 
   > p {
+    height: 2.1rem;
     text-align: center;
 
     &:first-child {

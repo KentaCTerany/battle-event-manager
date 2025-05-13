@@ -84,6 +84,7 @@
   transform: translateX(-50%);
 }
 .BEM-tournament_upperText > p {
+  height: 2.1rem;
   text-align: center;
 }
 .BEM-tournament_upperText > p:first-child {
@@ -746,6 +747,7 @@
   background: none;
 }
 .BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-frame_head,
+.BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-setting,
 .BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-frame_foot,
 .BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-panel,
 .BEM-tournament-frame:has(.-html2pdf) .BEM-tournament-option,

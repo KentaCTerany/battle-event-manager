@@ -5,9 +5,11 @@ export default class TournamentGenerator {
 
   generateHTML(battlers, matchNum) {
     const matchTree = this.getMatchTree(battlers);
+    const { formData } = this.app.setting;
+
     return `
       <div class="BEM-tournament_upperText">
-        <p>A-POP HOUSE 1on1 side</p>
+        <p>${formData?.eventText || ''}</p>
         <p>トーナメント表</p>
       </div>
       <div class="BEM-tournament_body">
@@ -17,6 +19,15 @@ export default class TournamentGenerator {
         <button class="BEM-tournament-option_reset">ALL RESET</button>
       </div>
     `;
+  }
+
+  getTournamentRandomOrder() {
+    const { battlerList } = this.app;
+    for (let i = battlerList.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [battlerList[i], battlerList[j]] = [battlerList[j], battlerList[i]];
+    }
+    return this.app.battlerList;
   }
 
   getTournamentSeedOrder() {

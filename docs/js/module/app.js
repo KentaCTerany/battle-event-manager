@@ -3,7 +3,7 @@ import TournamentManager from './Tournament/Tournament.js';
 export default class BattleEventManager {
   constructor() {
     this.container = document.getElementById('battleEventManager');
-    this.tournament = new TournamentManager({ app: this, mode: 'ranking' });
+    this.tournament = new TournamentManager({ app: this, mode: 'seed' });
   }
   init() {
     this.generateVariableScript();
@@ -16,10 +16,13 @@ export default class BattleEventManager {
   }
 
   generateVariableScript() {
-    const scriptElem = document.createElement('script');
-    scriptElem.setAttribute('src', '/js/export.js');
-    scriptElem.setAttribute('type', 'module');
+    const exportScriptElem = document.createElement('script');
+    const html2pdfScriptElem = document.createElement('script');
+    html2pdfScriptElem.setAttribute('src', '/js/lib/html2pdf.bundle.min.js');
+    exportScriptElem.setAttribute('src', '/js/export.js');
+    exportScriptElem.setAttribute('type', 'module');
 
-    document.body.insertAdjacentElement('beforeend', scriptElem);
+    document.body.insertAdjacentElement('beforeend', html2pdfScriptElem);
+    document.body.insertAdjacentElement('beforeend', exportScriptElem);
   }
 }

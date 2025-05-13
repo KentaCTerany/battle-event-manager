@@ -14,19 +14,30 @@ export default class TournamentSetting {
     e.preventDefault();
 
     const inputs = this.form.querySelectorAll('input');
-    const formData = {};
-    inputs.forEach((input) => {
-      // console.log(input.name, input.value);
+    const formData = {
+      battlerList: [],
+    };
 
-      formData[input.name] = input.value.trim();
+    inputs.forEach((input) => {
+      if (input.name.includes('entry')) {
+        const replacedName = input.name.replace('entry', '');
+        const entryKey = replacedName.substr(replacedName.indexOf('-') + 1);
+        const entryIndex = Number(replacedName.substr(0, replacedName.indexOf('-')));
+
+        if (!formData.battlerList[entryIndex]) formData.battlerList[entryIndex] = {};
+        formData.battlerList[entryIndex][entryKey] = String(input.value) || '';
+      } else if (input.name.includes('mode')) {
+        if (!input.checked) return;
+        formData.mode = input.value;
+      } else {
+        formData[input.name] = input.value.trim();
+      }
     });
 
-    this.app.battlerList = Array.from({ length: 16 }, (_, i) => ({
-      name: formData[`name-${i}`] || '',
-      desc: formData[`desc-${i}`] || '',
-      info: formData[`info-${i}`] || '',
-    }));
+    this.formData = formData;
 
+    this.app.battlerList = this.formData.battlerList;
+    this.app.mode = this.formData.mode;
     this.app.initTournament();
   }
 
@@ -63,15 +74,15 @@ export default class TournamentSetting {
       <h2>イベント情報</h2>
       <ul>
         <li>
-          <label>テキスト: <input type="text" name=""></label>
+          <label>テキスト: <input type="text" name="eventText"></label>
           <p>トーナメント表の上部に出力されます。<br>イベント名や部門名などを想定しています。</p>
         </li>
         <li>
-          <label>イベント日付: <input type="date" name=""></label>
+          <label>イベント日付: <input type="date" name="eventDate"></label>
           <p>ロゴの下に生成されます。<br>イベントの開催日を入力します。</p>
         </li>
         <li>
-          <label>イベントロゴなど: <input type="file" name="" accept="image/*"></label>
+          <label>イベントロゴなど: <input type="file" name="image" accept="image/*"></label>
           <p>トーナメント表の下部に出力されます。<br>イベントのロゴなどを想定しています。</p>
         </li>
       </ul>
@@ -115,9 +126,9 @@ export default class TournamentSetting {
           .map(
             (_, index) => `
             <li>
-              <label>名前: <input type="text" name="name-${index}"></label>
-              <label>情報: <input type="text" name="desc-${index}"></label>
-              <label>備考: <input type="text" name="info-${index}" value="${index + 1}位"></label>
+              <label>名前: <input type="text" name="entry${index}-name"></label>
+              <label>情報: <input type="text" name="entry${index}-desc"></label>
+              <label>備考: <input type="text" name="entry${index}-info" value="${index + 1}位"></label>
             </li>
           `
           )

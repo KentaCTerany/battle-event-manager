@@ -1,4 +1,4 @@
-import { exportMedia } from '../../export.js';
+import { exportMedia } from '../../utils/export.js';
 import TournamentSetting from './TournamentSetting.js';
 import TournamentGenerator from './TournamentGenarator.js';
 import TournamentManagerResultPanel from './TournamentResultPanel.js';
@@ -25,7 +25,7 @@ const battlerList = [
 export default class TournamentManager {
   constructor({ app, mode = 'random' }) {
     this.app = app;
-    this.mode = mode;
+    this.option = { mode };
     this.battlerList = battlerList;
     this.container = null;
     this.matchNum = 4;
@@ -38,17 +38,25 @@ export default class TournamentManager {
     this.generateFrame();
     this.generateSettingUI();
     this.addEvents();
-    this.initTournament();
+    // this.initTournament();
   }
 
   initTournament() {
     const existTournament = this.container.querySelector('.BEM-tournament_body');
-    if (existTournament) {
-      this.container.innerHTML = '';
-    }
+    if (existTournament) this.container.innerHTML = '';
 
+    this.loadSetting();
     this.fotmatBattlerList();
     this.generateTournament();
+  }
+
+  loadSetting() {
+    const { eventInfo, battlerList, option } = this.setting.formData;
+    this.eventInfo = eventInfo;
+    this.battlerList = battlerList;
+    this.option = option;
+
+    console.log('loaded', this.setting.formData);
   }
 
   generateFrame() {
@@ -59,7 +67,9 @@ export default class TournamentManager {
       </div>
       <div class="BEM-tournament-frame_body">
         <div class="BEM-tournament-setting"></div>
-        <div class="BEM-tournament"></div>
+        <div class="BEM-tournament" data-generated="false">
+          <div class="BEM-tournament_empty-message">まずはトーナメントを生成しましょう！</div>
+        </div>
       </div>
       <div class="BEM-tournament-frame_foot">
         <div class="BEM-tournament-frame_PDFControl BEM-tournament-PDFControl">
@@ -83,14 +93,17 @@ export default class TournamentManager {
   }
 
   addEvents() {
-    this.resultPanel.addResultPanelEvent();
+    this.resultPanel.addEvents();
 
-    document.addEventListener('click', (e) => {
-      const hasClassName = (className) => e.target.classList.contains(className);
-      if (hasClassName('BEM-tournament-result')) this.onClickTournamentResult(e);
-      else if (hasClassName('BEM-tournament-PDFControl_button')) this.exportToPDF();
-      else if (hasClassName('BEM-tournament-option_reset')) this.onClickOptionReset();
-    });
+    const handleClick = (e) => {
+      const isMatch = (selector) => e.target.matches(selector);
+
+      if (isMatch('.BEM-tournament-result')) return this.onClickTournamentResult(e);
+      if (isMatch('.BEM-tournament-PDFControl_button')) return this.exportToPDF();
+      if (isMatch('.BEM-tournament-option_reset')) return this.onClickOptionReset();
+    };
+
+    document.addEventListener('click', handleClick);
   }
 
   onClickTournamentResult(e) {
@@ -126,6 +139,8 @@ export default class TournamentManager {
 
     this.container.insertAdjacentHTML('beforeend', this.getTournamentBodyHTML());
 
+    this.container.dataset.generated = true;
+
     if (this.matchNum === 3) {
       this.container.style.setProperty('--battler-gap', '56px');
       this.container.style.setProperty('--match-width', '56px');
@@ -138,12 +153,12 @@ export default class TournamentManager {
   getTournamentBodyHTML() {
     let battlers = [];
 
-    if (this.mode === 'seed') {
+    if (this.option.mode === 'seed') {
       battlers = this.generator
         .getTournamentSeedOrder()
         .map((i) => this.battlerList[i - 1])
         .reverse();
-    } else if (this.mode === 'random') {
+    } else if (this.option.mode === 'random') {
       battlers = this.generator.getTournamentRandomOrder();
     } else {
       battlers = [...this.battlerList];

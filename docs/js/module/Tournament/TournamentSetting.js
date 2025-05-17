@@ -1,47 +1,63 @@
+import { getFormatedDate } from '../../utils/date.js';
+
 export default class TournamentSetting {
   constructor({ tournamentApp }) {
     this.app = tournamentApp;
+    this.form = null;
+    this.formData = {};
   }
 
   addSettingEvents() {
-    // const bindEvents = (array, event, handler) => array.forEach((elem) => elem.addEventListener(event, handler.bind(this)));
     this.form = this.app.form;
     this.form.addEventListener('submit', this.onSubmitForm.bind(this));
-    // bindEvents(descInputs, 'change', this.onChangePanelCheckbox);
   }
 
   onSubmitForm(e) {
     e.preventDefault();
+    this.updateFormData();
+  }
 
-    const inputs = this.form.querySelectorAll('input');
-    const formData = {
-      battlerList: [],
-    };
-
-    inputs.forEach((input) => {
-      if (input.name.includes('entry')) {
-        const replacedName = input.name.replace('entry', '');
-        const entryKey = replacedName.substr(replacedName.indexOf('-') + 1);
-        const entryIndex = Number(replacedName.substr(0, replacedName.indexOf('-')));
-
-        if (!formData.battlerList[entryIndex]) formData.battlerList[entryIndex] = {};
-        formData.battlerList[entryIndex][entryKey] = String(input.value) || '';
-      } else if (input.name.includes('mode')) {
-        if (!input.checked) return;
-        formData.mode = input.value;
-      } else {
-        formData[input.name] = input.value.trim();
-      }
-    });
-
-    this.formData = formData;
-
-    this.app.battlerList = this.formData.battlerList;
-    this.app.mode = this.formData.mode;
+  async updateFormData() {
+    await this.updateEventInfoData();
+    this.updateTournamentOptionData();
+    this.updateBattlerListData();
     this.app.initTournament();
   }
 
-  updateBattlerList() {}
+  async updateEventInfoData() {
+    const eventTextElem = this.form.querySelector('[name="event-text"]');
+    const eventDateElem = this.form.querySelector('[name="event-date"]');
+    const eventImgElem = this.form.querySelector('[name="event-image"]');
+
+    this.formData.eventInfo = {
+      text: eventTextElem.value,
+      date: eventDateElem.value,
+      image: await this.readImageAsDataURL(eventImgElem),
+    };
+  }
+
+  updateTournamentOptionData() {
+    const optionModeElem = this.form.querySelector('[name="option-mode"]:checked');
+
+    this.formData.option = {
+      mode: optionModeElem.value,
+    };
+  }
+
+  updateBattlerListData() {
+    const battlerElems = this.form.querySelectorAll('[name^="entry"]');
+
+    this.formData.battlerList = [];
+
+    battlerElems.forEach((elem) => {
+      const replacedName = elem.name.replace('entry', '');
+      const entryKey = replacedName.substr(replacedName.indexOf('-') + 1);
+      const entryIndex = Number(replacedName.substr(0, replacedName.indexOf('-')));
+
+      if (!this.formData.battlerList?.[entryIndex]) this.formData.battlerList[entryIndex] = {};
+      this.formData.battlerList[entryIndex][entryKey] = String(elem.value) || '';
+    });
+  }
 
   getSettingHTML() {
     return `
@@ -70,19 +86,21 @@ export default class TournamentSetting {
   }
 
   getEventInfoSettingHTML() {
+    const defaultDate = getFormatedDate();
+
     return `
       <h2>イベント情報</h2>
       <ul>
         <li>
-          <label>テキスト: <input type="text" name="eventText"></label>
+          <label>テキスト: <input type="text" name="event-text" value="イベント名 / 部門名"></label>
           <p>トーナメント表の上部に出力されます。<br>イベント名や部門名などを想定しています。</p>
         </li>
         <li>
-          <label>イベント日付: <input type="date" name="eventDate"></label>
+          <label>イベント日付: <input type="date" name="event-date" value="${defaultDate}"></label>
           <p>ロゴの下に生成されます。<br>イベントの開催日を入力します。</p>
         </li>
         <li>
-          <label>イベントロゴなど: <input type="file" name="image" accept="image/*"></label>
+          <label>イベントロゴなど: <input type="file" name="event-image" accept="image/*"></label>
           <p>トーナメント表の下部に出力されます。<br>イベントのロゴなどを想定しています。</p>
         </li>
       </ul>
@@ -135,5 +153,19 @@ export default class TournamentSetting {
           .join('')}
       </ol>
     `;
+  }
+
+  async readImageAsDataURL(inputElement) {
+    const file = inputElement.files?.[0];
+    if (!file) return false;
+
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('ファイルの読み込みに失敗しました'));
+
+      reader.readAsDataURL(file);
+    });
   }
 }

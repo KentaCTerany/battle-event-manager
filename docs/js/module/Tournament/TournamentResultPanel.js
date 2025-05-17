@@ -18,38 +18,36 @@ export default class TournamentManagerResultPanel {
     return this.targetMatch?.querySelector(':scope > .BEM-tournament-result');
   }
 
-  addResultPanelEvent() {
-    const bindEvents = (array, event, handler) => array.forEach((elem) => elem.addEventListener(event, handler.bind(this)));
-    const closeButtons = this.container.querySelectorAll('.BEM-tournament-panel_close');
-    const panelButtons = this.container.querySelectorAll('.BEM-tournament-panel_winnerSelect button');
-    const descInputs = this.container.querySelectorAll('.BEM-tournament-panel_input');
-    const resetButtons = this.container.querySelectorAll('.BEM-tournament-panel_reset');
+  addEvents() {
+    const handleClick = (e) => {
+      const isMatch = (selector) => e.target.matches(selector);
 
-    bindEvents(closeButtons, 'click', this.onClickCloseButton);
-    bindEvents(panelButtons, 'click', this.onClickPanelButton);
-    bindEvents(resetButtons, 'click', this.onClickPanelResetButton);
-    bindEvents(descInputs, 'change', this.onChangePanelCheckbox);
+      this.updateTargetByEvent(e);
+      if (isMatch('.BEM-tournament-panel_close')) return this.onClickCloseButton(e);
+      if (isMatch('.BEM-tournament-panel_winnerSelect button')) return this.onClickPanelButton(e);
+      if (isMatch('.BEM-tournament-panel_input')) return this.onChangePanelCheckbox(e);
+      if (isMatch('.BEM-tournament-panel_reset')) return this.onClickPanelResetButton(e);
+    };
+
+    document.addEventListener('click', handleClick);
   }
 
-  onClickCloseButton(e) {
+  onClickCloseButton() {
     this.hidePanel();
   }
 
-  onClickPanelButton(e) {
-    this.updateTargetByEvent(e);
+  onClickPanelButton() {
     this.setTargetPanelWin();
     this.setParentBattlerName();
     this.setTournamentWinner();
   }
 
-  onClickPanelResetButton(e) {
-    this.updateTargetByEvent(e);
+  onClickPanelResetButton() {
     this.resetMatchInfo();
     this.resetTournamentWinner();
   }
 
-  onChangePanelCheckbox(e) {
-    this.updateTargetByEvent(e);
+  onChangePanelCheckbox() {
     this.toggleTargetResultDesc();
   }
 

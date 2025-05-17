@@ -1,3 +1,5 @@
+import { getFormatedDate } from '../../utils/date.js';
+
 export default class TournamentGenerator {
   constructor({ tournamentApp }) {
     this.app = tournamentApp;
@@ -5,18 +7,22 @@ export default class TournamentGenerator {
 
   generateHTML(battlers, matchNum) {
     const matchTree = this.getMatchTree(battlers);
-    const { formData } = this.app.setting;
+    const { eventInfo } = this.app;
 
     return `
-      <div class="BEM-tournament_upperText">
-        <p>${formData?.eventText || ''}</p>
+      <div class="BEM-tournament_option BEM-tournament-option">
+        <button class="BEM-tournament-option_reset">ALL RESET</button>
+      </div>
+      <div class="BEM-tournament_upper-text">
+        <p>${eventInfo?.text || ''}</p>
         <p>トーナメント表</p>
       </div>
       <div class="BEM-tournament_body">
         ${this.getMatchHTML(matchTree, matchNum)}
       </div>
-      <div class="BEM-tournament_option BEM-tournament-option">
-        <button class="BEM-tournament-option_reset">ALL RESET</button>
+      <div class="BEM-tournament_lower-text">
+        ${eventInfo?.image ? `<div class="BEM-tournament_logo-container"><img src="${eventInfo.image}" /></div>` : ''}
+        <div class="BEM-tournament_date">${getFormatedDate(eventInfo.date, 'YYYY.MM.DD', false)}</div>
       </div>
     `;
   }

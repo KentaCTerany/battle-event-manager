@@ -16,13 +16,9 @@ export default class BattleEventManager {
   }
 
   generateVariableScript() {
-    const exportScriptElem = document.createElement('script');
     const html2pdfScriptElem = document.createElement('script');
     html2pdfScriptElem.setAttribute('src', '/js/lib/html2pdf.bundle.min.js');
-    exportScriptElem.setAttribute('src', '/js/export.js');
-    exportScriptElem.setAttribute('type', 'module');
 
     document.body.insertAdjacentElement('beforeend', html2pdfScriptElem);
-    document.body.insertAdjacentElement('beforeend', exportScriptElem);
   }
 }

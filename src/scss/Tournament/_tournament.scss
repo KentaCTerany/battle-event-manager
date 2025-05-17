@@ -50,10 +50,40 @@
         font-size: 1.2rem;
       }
     }
+
+    .BEM-tournament_lower-text {
+      bottom: 50px;
+    }
+
+    .BEM-tournament_logo-container {
+      width: 280px;
+      height: 126px;
+    }
+
+    .BEM-tournament_date {
+      font-size: 2rem;
+    }
+  }
+
+  &[data-generated='true'] {
+    .BEM-tournament_empty-message {
+      display: none;
+    }
+  }
+
+  .BEM-tournament_empty-message {
+    @include center-ab;
+
+    font-size: 2rem;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 0.05em;
+    pointer-events: none;
   }
 
   .BEM-tournament_body {
     position: relative;
+    z-index: 1;
     display: grid;
     justify-content: center;
   }
@@ -62,6 +92,37 @@
     position: absolute;
     top: 16px;
     right: 16px;
+  }
+
+  .BEM-tournament_lower-text {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    display: grid;
+    gap: 4px;
+    transform: translateX(-50%);
+  }
+
+  .BEM-tournament_logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 272px;
+    height: 100px;
+
+    > img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .BEM-tournament_date {
+    font-size: 1.6rem;
+    text-align: center;
   }
 }
 
@@ -90,9 +151,10 @@
   }
 }
 
-.BEM-tournament_upperText {
+.BEM-tournament_upper-text {
   position: absolute;
   top: calc(54px - 2em);
+
   @include center-ab(true, false);
 
   > p {
@@ -113,15 +175,18 @@
 
   .-html2pdf & {
     top: 54px;
+    display: grid;
+    gap: 1.5rem;
 
     > p {
       &:first-child {
-        font-size: 19px;
+        font-size: 1.8rem;
       }
 
       &:last-child {
-        font-size: 17px;
-        line-height: 2;
+        font-size: 1.6rem;
+        line-height: 1;
+        letter-spacing: 0.08em;
       }
     }
   }

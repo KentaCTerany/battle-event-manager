@@ -1,8 +1,245 @@
-@use 'Tournament/main';
+@use 'Tournament/main' as Tournament;
+@use 'Prelim/main' as Prelim;
+@use 'base';
 
 :root {
   font-size: 10px;
   font-family: 'Noto Sans JP', sans-serif;
+
+  --theme-color: #991914;
+}
+
+.BEM-app {
+  .BEM-app__header {
+    position: relative;
+    z-index: 10;
+    height: 64px;
+    padding: 0.5em 1.5em;
+    font-size: 2rem;
+    box-shadow: 0 0 4px #a6a6a6;
+  }
+}
+
+.BEM-app-main {
+  display: grid;
+  height: 100vh;
+
+  &:has(.BEM-app-side-nav) {
+    grid-template-columns: minmax(auto, 240px) 1fr;
+  }
+
+  .BEM-app-main__nav {
+  }
+
+  .BEM-app-main__frame {
+    width: 100%;
+    max-width: 1080px;
+    padding: 2.5em 1.5em;
+    margin-inline: auto;
+  }
+}
+
+.BEM-app-side-nav {
+  display: grid;
+  height: 100%;
+  box-shadow: 4px 0 4px -4px #a6a6a6;
+
+  ul {
+    background-color: #d0d0d0;
+
+    li {
+      height: 5em;
+      text-decoration: none;
+      border-top: #d0d0d0 1px solid;
+
+      button {
+        width: 100%;
+        height: 100%;
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: #333;
+        text-align: right;
+        background-color: #fff;
+        border: none;
+        border-radius: 0;
+        padding-inline: 1.5em 2em;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &.--active {
+          position: relative;
+          font-weight: 700;
+          text-decoration: underline;
+
+          &::before {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: block;
+            width: 0.5em;
+            height: 100%;
+            background-color: var(--theme-color);
+            content: '';
+          }
+        }
+      }
+
+      &:has(.BEM-app-side-nav__event-board) {
+        height: auto;
+        padding: 1em;
+        background-color: var(--theme-color);
+      }
+
+      &:last-child {
+        border-bottom: #d0d0d0 1px solid;
+      }
+    }
+  }
+
+  .BEM-app-side-nav__event-board {
+    padding: 1em 1.25em 1.5em;
+    background-color: #fff;
+    border: #a6a6a6 1px solid;
+    border-radius: 12px;
+
+    > dt {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-block: 0.5em 0.25em;
+    }
+
+    > dd {
+      font-size: 1.1rem;
+
+      &.--id {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
+  }
+}
+
+.BEM-app-header {
+  .BEM-app-header__heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .BEM-app-header__logo {
+    height: 100%;
+    font-size: 0;
+
+    > img {
+      height: 100%;
+    }
+  }
+}
+
+.BEM-app-event-setting {
+  display: grid;
+  align-items: center;
+  gap: 1em;
+
+  .--form-alert {
+    font-size: 1.2rem;
+  }
+
+  .BEM-app-event-setting__battler {
+    max-height: 350px;
+    grid-template-columns: auto;
+    overflow: scroll;
+
+    label {
+      ul {
+        li {
+          display: grid;
+          gap: 0.75em;
+          grid-template-columns: 1.5em 1.5fr 1fr 1fr 2em;
+          margin-bottom: 0.5em;
+
+          &.--head {
+            position: sticky;
+            top: -1em;
+            background-color: #fff;
+            margin-bottom: 0.25em;
+          }
+
+          span.--index {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+          }
+
+          input {
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+  }
+
+  .BEM-app-event-setting__battler-delete {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    font-weight: 400;
+    color: #333;
+    background: none;
+    border: none;
+
+    &::after,
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      display: block;
+      width: 14px;
+      height: 1px;
+      background: #333;
+      content: '';
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  .BEM-app-event-setting__battler-add {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    font-weight: 400;
+    color: #333;
+    background: none;
+    border: #333 1px solid;
+    border-radius: 999px;
+
+    &::after,
+    &::before {
+      position: absolute;
+      top: 8.5px;
+      left: 2px;
+      display: block;
+      width: 14px;
+      height: 1px;
+      background: #333;
+      content: '';
+    }
+
+    &::after {
+      transform: rotate(90deg);
+    }
+  }
 }
 
 * {

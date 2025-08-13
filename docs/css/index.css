@@ -811,9 +811,300 @@
   opacity: 0;
 }
 
+.BEM-app-prelim-setting .BEM-app-prelim-setting__item > p {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+.BEM-app-prelim-setting .BEM-app-prelim-setting__item label {
+  font-size: 1.2rem;
+}
+
+h2 {
+  position: relative;
+  margin: 1.2em 0 0.8em;
+  font-size: 2rem;
+  line-height: 1.2;
+  padding-left: 1em;
+}
+h2:first-child {
+  margin-top: 0;
+}
+h2::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: inline-block;
+  width: 0.33em;
+  height: 1.2em;
+  background-color: var(--theme-color);
+  content: "";
+  transform: translateY(-50%);
+}
+
+fieldset {
+  display: grid;
+  padding: 1em 1em 2em;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  gap: 1em 0.75em;
+  grid-template-columns: 1fr 1fr;
+}
+fieldset legend {
+  font-weight: 700;
+  color: #999;
+}
+fieldset .--labelList {
+  display: flex;
+  gap: 1em;
+}
+
+label {
+  display: grid;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: #333;
+  gap: 0.25em;
+}
+label:has([name=event-name]) {
+  grid-column: 1/3;
+}
+label:has(input[type=radio]), label:has(input[type=checkbox]) {
+  align-items: center;
+  width: fit-content;
+  grid-template-columns: auto auto;
+}
+label .--form-alert {
+  font-weight: 700;
+  color: #c00;
+}
+label .--form-alert-message {
+  font-size: 1.2rem;
+  color: #c00;
+}
+label input {
+  display: block;
+  width: 100%;
+  height: 2em;
+  font-size: 1.6rem;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  padding-inline: 0.5em;
+}
+label input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+button {
+  width: fit-content;
+  padding: 0.5em 1.5em;
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--theme-color);
+  border-radius: 999px;
+  cursor: pointer;
+  margin-inline: auto;
+}
+button:hover {
+  opacity: 0.95;
+}
+
 :root {
   font-size: 10px;
   font-family: "Noto Sans JP", sans-serif;
+  --theme-color: #991914;
+}
+
+.BEM-app .BEM-app__header {
+  position: relative;
+  z-index: 10;
+  height: 64px;
+  padding: 0.5em 1.5em;
+  font-size: 2rem;
+  box-shadow: 0 0 4px #a6a6a6;
+}
+
+.BEM-app-main {
+  display: grid;
+  height: 100vh;
+}
+.BEM-app-main:has(.BEM-app-side-nav) {
+  grid-template-columns: minmax(auto, 240px) 1fr;
+}
+.BEM-app-main .BEM-app-main__frame {
+  width: 100%;
+  max-width: 1080px;
+  padding: 2.5em 1.5em;
+  margin-inline: auto;
+}
+
+.BEM-app-side-nav {
+  display: grid;
+  height: 100%;
+  box-shadow: 4px 0 4px -4px #a6a6a6;
+}
+.BEM-app-side-nav ul {
+  background-color: #d0d0d0;
+}
+.BEM-app-side-nav ul li {
+  height: 5em;
+  text-decoration: none;
+  border-top: #d0d0d0 1px solid;
+}
+.BEM-app-side-nav ul li button {
+  width: 100%;
+  height: 100%;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+  background-color: #fff;
+  border: none;
+  border-radius: 0;
+  padding-inline: 1.5em 2em;
+}
+.BEM-app-side-nav ul li button:hover {
+  text-decoration: underline;
+}
+.BEM-app-side-nav ul li button.--active {
+  position: relative;
+  font-weight: 700;
+  text-decoration: underline;
+}
+.BEM-app-side-nav ul li button.--active::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 0.5em;
+  height: 100%;
+  background-color: var(--theme-color);
+  content: "";
+}
+.BEM-app-side-nav ul li:has(.BEM-app-side-nav__event-board) {
+  height: auto;
+  padding: 1em;
+  background-color: var(--theme-color);
+}
+.BEM-app-side-nav ul li:last-child {
+  border-bottom: #d0d0d0 1px solid;
+}
+.BEM-app-side-nav .BEM-app-side-nav__event-board {
+  padding: 1em 1.25em 1.5em;
+  background-color: #fff;
+  border: #a6a6a6 1px solid;
+  border-radius: 12px;
+}
+.BEM-app-side-nav .BEM-app-side-nav__event-board > dt {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-block: 0.5em 0.25em;
+}
+.BEM-app-side-nav .BEM-app-side-nav__event-board > dd {
+  font-size: 1.1rem;
+}
+.BEM-app-side-nav .BEM-app-side-nav__event-board > dd.--id {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.BEM-app-header .BEM-app-header__heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  clip: rect(0, 0, 0, 0);
+}
+.BEM-app-header .BEM-app-header__logo {
+  height: 100%;
+  font-size: 0;
+}
+.BEM-app-header .BEM-app-header__logo > img {
+  height: 100%;
+}
+
+.BEM-app-event-setting {
+  display: grid;
+  align-items: center;
+  gap: 1em;
+}
+.BEM-app-event-setting .--form-alert {
+  font-size: 1.2rem;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler {
+  max-height: 350px;
+  grid-template-columns: auto;
+  overflow: scroll;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler label ul li {
+  display: grid;
+  gap: 0.75em;
+  grid-template-columns: 1.5em 1.5fr 1fr 1fr 2em;
+  margin-bottom: 0.5em;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler label ul li.--head {
+  position: sticky;
+  top: -1em;
+  background-color: #fff;
+  margin-bottom: 0.25em;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler label ul li span.--index {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler label ul li input {
+  font-size: 1.2rem;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler-delete {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  font-weight: 400;
+  color: #333;
+  background: none;
+  border: none;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler-delete::after, .BEM-app-event-setting .BEM-app-event-setting__battler-delete::before {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  display: block;
+  width: 14px;
+  height: 1px;
+  background: #333;
+  content: "";
+  transform: rotate(45deg);
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler-delete::after {
+  transform: rotate(-45deg);
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler-add {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-weight: 400;
+  color: #333;
+  background: none;
+  border: #333 1px solid;
+  border-radius: 999px;
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler-add::after, .BEM-app-event-setting .BEM-app-event-setting__battler-add::before {
+  position: absolute;
+  top: 8.5px;
+  left: 2px;
+  display: block;
+  width: 14px;
+  height: 1px;
+  background: #333;
+  content: "";
+}
+.BEM-app-event-setting .BEM-app-event-setting__battler-add::after {
+  transform: rotate(90deg);
 }
 
 * {

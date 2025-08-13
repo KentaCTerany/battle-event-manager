@@ -34,6 +34,27 @@ export default class TournamentManager {
     this.resultPanel = new TournamentManagerResultPanel({ tournamentApp: this });
   }
 
+  get html() {
+    return `
+    <div class="BEM-tournament-frame">
+      <div class="BEM-tournament-frame_head">
+        <div class="BEM-tournament-frame_title">Tournament Generator</div>
+      </div>
+      <div class="BEM-tournament-frame_body">
+        <div class="BEM-tournament-setting">${this.setting.getSettingHTML()}</div>
+        <div class="BEM-tournament" data-generated="false">
+          <div class="BEM-tournament_empty-message">まずはトーナメントを生成しましょう！</div>
+        </div>
+      </div>
+      <div class="BEM-tournament-frame_foot">
+        <div class="BEM-tournament-frame_PDFControl BEM-tournament-PDFControl">
+          <button class="BEM-tournament-PDFControl_button">PDF出力</button>
+        </div>
+      </div>
+    </div>
+    `;
+  }
+
   init() {
     this.generateFrame();
     this.generateSettingUI();
@@ -94,6 +115,7 @@ export default class TournamentManager {
 
   addEvents() {
     this.resultPanel.addEvents();
+    this.setting.addSettingEvents();
 
     const handleClick = (e) => {
       const isMatch = (selector) => e.target.matches(selector);

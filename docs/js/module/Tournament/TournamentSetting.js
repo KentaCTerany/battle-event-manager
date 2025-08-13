@@ -8,8 +8,15 @@ export default class TournamentSetting {
   }
 
   addSettingEvents() {
-    this.form = this.app.form;
-    this.form.addEventListener('submit', this.onSubmitForm.bind(this));
+    document.addEventListener('submit', (e) => {
+      const isMatch = (selector) => e.target.matches(selector);
+
+      if (isMatch('.BEM-tournament-setting form')) {
+        this.onSubmitForm(e);
+      }
+    });
+    // this.form = this.app.form;
+    // this.form.addEventListener('submit', this.onSubmitForm.bind(this));
   }
 
   onSubmitForm(e) {

@@ -1,5 +1,6 @@
 @use 'Tournament/main' as Tournament;
-@use 'Prelim/main' as Prelim;
+@use 'Prelim/prelim';
+@use 'Ranking/Ranking';
 @use 'base';
 
 :root {
@@ -105,18 +106,32 @@
     border-radius: 12px;
 
     > dt {
-      font-size: 1.4rem;
-      font-weight: 700;
       line-height: 1.5;
-      margin-block: 0.5em 0.25em;
+
+      &.--name {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #333;
+      }
+
+      &.--sub-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #666;
+        text-align: center;
+
+        // font-style: italic;
+      }
     }
 
     > dd {
       font-size: 1.1rem;
+      margin-top: 0.25em;
 
       &.--id {
         font-size: 0.9rem;
         color: #666;
+        margin-bottom: 0.25em;
       }
     }
   }

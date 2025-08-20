@@ -1,0 +1,46 @@
+@use 'judgeSheet';
+
+.BEM-app-ranking__actions {
+  margin-block: 1em 2em;
+}
+
+.BEM-app-ranking-judge-sheet__actions {
+  margin: 10px 0;
+}
+
+.BEM-app-ranking-judge-sheet__clear-ranks-btn {
+  padding: 4px 8px;
+  background-color: #806666;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #544444;
+  }
+}
+
+.BEM-app-ranking-judge-sheet__rank-input {
+  width: 100%;
+
+  &.duplicate-rank {
+    color: #f00;
+    background-color: #fff0f0;
+    border: 2px solid #f00;
+  }
+}
+
+@media print {
+  .BEM-app-ranking-judge-sheet__actions {
+    display: none;
+  }
+
+  .BEM-app-ranking-judge-sheet__rank-input {
+    display: none;
+  }
+
+  .BEM-app-ranking-judge-sheet__rank {
+    min-height: 2em;
+    border-bottom: 1px solid #000;
+  }
+}

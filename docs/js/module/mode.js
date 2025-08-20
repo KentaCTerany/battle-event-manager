@@ -10,6 +10,7 @@ export default class BattleEventManagerMode {
     return [
       { html: this.dom.getEventSettingHTML() },
       { html: this.dom.getPrelimHTML() },
+      { html: this.dom.getRankingHTML() },
       {
         html: this.dom.getTournamentHTML(),
       },
@@ -58,7 +59,9 @@ export default class BattleEventManagerMode {
     e.target.classList.add('--active');
 
     this.stateIndex = stateIndex;
+    console.log(this.app.eventData);
     this.app.updateEventData({ id: this.app.eventData.id });
+    console.log(this.app.eventData);
     this.render();
   }
 

@@ -1,0 +1,167 @@
+.BEM-app-ranking__actions,
+h2,
+fieldset {
+  @media print {
+    display: none !important;
+  }
+}
+
+.BEM-app-ranking-judge-sheet {
+  display: flex;
+  @media print {
+    display: block;
+  }
+
+  &[data-is-battle='true'] {
+    .BEM-app-ranking-judge-sheet__table colgroup {
+      .BEM-app-ranking-judge-sheet__col--order,
+      .BEM-app-ranking-judge-sheet__col--number {
+        width: 1em;
+        text-align: center;
+      }
+
+      .BEM-app-ranking-judge-sheet__col--name,
+      .BEM-app-ranking-judge-sheet__col--info {
+        width: 35%;
+
+        // text-align: center;
+      }
+    }
+  }
+
+  .BEM-app-ranking-judge-sheet__group {
+    + .BEM-app-ranking-judge-sheet__group {
+      margin-top: 2em;
+    }
+  }
+
+  .BEM-app-ranking-judge-sheet__circle-group {
+    padding: 1em 2em;
+    @media print {
+      position: relative;
+      width: 210mm;
+      height: 297mm;
+    }
+
+    .BEM-app-ranking-judge-sheet__judge-info {
+      display: none;
+      @media print {
+        display: block;
+        font-size: 1.4rem;
+        margin-block: 2em 3em;
+
+        .BEM-app-ranking-judge-sheet__judge-name {
+          display: flex;
+          align-items: center;
+          gap: 1em;
+
+          .input-space {
+            flex: 1;
+            height: 1.5em;
+            min-width: 200px;
+            border-bottom: 1px solid #000;
+          }
+        }
+      }
+    }
+  }
+
+  .BEM-app-ranking-judge-sheet__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    colgroup {
+      .BEM-app-ranking-judge-sheet__col--order {
+        width: 1em;
+
+        @media print {
+          width: 2em;
+        }
+      }
+
+      .BEM-app-ranking-judge-sheet__col--number {
+        width: 1em;
+
+        @media print {
+          width: 2em;
+        }
+      }
+
+      .BEM-app-ranking-judge-sheet__col--name,
+      .BEM-app-ranking-judge-sheet__col--info {
+        width: 40%;
+
+        @media print {
+          width: 20%;
+        }
+      }
+
+      .BEM-app-ranking-judge-sheet__col--comment {
+        width: 0;
+
+        @media print {
+          width: auto;
+        }
+      }
+
+      .BEM-app-ranking-judge-sheet__col--rank {
+        width: 3em;
+        @media print {
+          width: 5em;
+        }
+      }
+    }
+
+    thead {
+      font-size: 1em;
+
+      th {
+        &.BEM-app-ranking-judge-sheet__header--comment {
+          position: absolute;
+          font-size: 0;
+          visibility: hidden;
+
+          @media print {
+            position: relative;
+            font-size: inherit;
+            visibility: visible;
+          }
+        }
+      }
+    }
+
+    tbody {
+      font-size: 1.2em;
+    }
+
+    td {
+      padding: 0.5em;
+      overflow: hidden;
+      white-space: nowrap;
+
+      &.BEM-app-ranking-judge-sheet__cell--order,
+      &.BEM-app-ranking-judge-sheet__cell--number {
+        padding: 0;
+      }
+
+      &.BEM-app-ranking-judge-sheet__cell--info {
+        font-size: 1rem;
+      }
+
+      &.BEM-app-ranking-judge-sheet__cell--order,
+      &.BEM-app-ranking-judge-sheet__cell--number,
+      &.BEM-app-ranking-judge-sheet__cell--rank {
+        text-align: center;
+      }
+
+      &.BEM-app-ranking-judge-sheet__header--comment {
+        overflow: visible;
+        text-overflow: clip;
+
+        // コメント欄は複数行を許可
+        white-space: normal;
+      }
+    }
+  }
+}

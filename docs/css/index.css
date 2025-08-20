@@ -811,6 +811,82 @@
   opacity: 0;
 }
 
+/* メディアクエリ：印刷時のスタイル */
+@media print {
+  /* 印刷時のページ設定 */
+  @page {
+    margin: 0;
+    size: a4 portrait;
+  }
+  /* メインコンテナの印刷スタイル */
+  .BEM-app-main {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+@media print {
+  /* 印刷時のページ設定 */
+  @page {
+    margin: 0;
+    size: a4 portrait; /* 横の場合はlandscape */
+  }
+  /* 印刷時に不要な要素を非表示 */
+  body > *:not(.BEM-app-main),
+  .BEM-app-header,
+  .BEM-app-side-nav {
+    display: none !important;
+  }
+  .BEM-app-main {
+    padding: 0 !important;
+  }
+  .BEM-app-main__frame {
+    padding: 0 !important;
+  }
+  /* 予選表の印刷スタイル */
+  .BEM-app-prelim {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+  }
+  .BEM-app-prelim .BEM-app-prelim__setting,
+  .BEM-app-prelim h2,
+  .BEM-app-prelim .BEM-app-prelim-setting__buttons {
+    display: none !important;
+  }
+  .BEM-app-prelim .BEM-app-prelim-frame {
+    display: grid;
+    height: 100%;
+    padding: 3em 2em;
+    gap: 3em;
+    grid-template-rows: 1fr 3fr;
+  }
+  .BEM-app-prelim .BEM-app-prelim-frame .BEM-app-prelim-frame__header {
+    margin: 0;
+  }
+  .BEM-app-prelim .BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__title p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 0.1em;
+  }
+  .BEM-app-prelim .BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__title p.custom-title {
+    font-weight: 400;
+  }
+  .BEM-app-prelim .BEM-app-prelim-frame .BEM-app-prelim-frame__groups table thead tr th {
+    font-size: 1.2rem;
+    padding-block: 0.5em;
+  }
+  .BEM-app-prelim .BEM-app-prelim-frame .BEM-app-prelim-frame__groups table tbody tr td {
+    font-size: 1rem;
+    overflow: hidden;
+    padding-block: 0.2em !important;
+    text-wrap: nowrap;
+  }
+}
+.BEM-app-prelim-setting {
+  margin-bottom: 1em;
+}
 .BEM-app-prelim-setting .BEM-app-prelim-setting__item > p {
   font-size: 1.4rem;
   line-height: 1.5;
@@ -818,7 +894,303 @@
 .BEM-app-prelim-setting .BEM-app-prelim-setting__item label {
   font-size: 1.2rem;
 }
+.BEM-app-prelim-setting__buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-block: 1em 2em;
+}
 
+.BEM-app-prelim-frame {
+  position: relative;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__header {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 2em;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px; /* 固定幅を設定 */
+  height: 170px; /* 固定高さを設定 */
+  margin-block: auto;
+  margin-inline: auto; /* 水平方向の中央揃え */
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__logo > img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto; /* 画像自体も中央揃え */
+  object-fit: contain;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__title {
+  display: grid;
+  align-content: center;
+  margin-top: 1em;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__title h3 {
+  font-size: 2.4rem;
+  margin-bottom: 0.5em;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__title p {
+  font-size: 1.6rem;
+  color: #666;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__header .BEM-app-prelim-frame__title p.custom-title {
+  font-size: 1.6rem;
+  color: #333;
+  margin-top: 0.5em;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__groups {
+  display: grid;
+  gap: 1rem;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__groups.--list {
+  grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__groups.--battle {
+  width: 75%;
+  margin: 0 auto;
+  grid-template-columns: minmax(120px, 1fr);
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group {
+  width: 100%;
+  border-collapse: collapse;
+  border-color: #333;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group thead {
+  background-color: #f5f5f5;
+  border: 1.5px solid #333;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group thead th {
+  padding: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr:hover {
+  background-color: #f0f0f0;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr.dragging {
+  cursor: move;
+  opacity: 0.5;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr td {
+  padding: 0.6rem;
+  font-size: 1.2rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr td:first-child {
+  width: 2em;
+  font-weight: bold;
+  text-align: center;
+  background-color: #f8f8f8;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr td:nth-child(2) {
+  width: 45%;
+  padding-left: 1rem;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr td:nth-child(3) {
+  color: #666;
+}
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr.BEM-app-prelim-frame__entry td:nth-child(2),
+.BEM-app-prelim-frame .BEM-app-prelim-frame__group tbody tr.BEM-app-prelim-frame__entry td:nth-child(3) {
+  color: #333;
+}
+
+@media print {
+  .BEM-app-ranking__actions,
+  h2,
+  fieldset {
+    display: none !important;
+  }
+}
+
+.BEM-app-ranking-judge-sheet {
+  display: flex;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet {
+    display: block;
+  }
+}
+.BEM-app-ranking-judge-sheet[data-is-battle=true] .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--order,
+.BEM-app-ranking-judge-sheet[data-is-battle=true] .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--number {
+  width: 1em;
+  text-align: center;
+}
+.BEM-app-ranking-judge-sheet[data-is-battle=true] .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--name,
+.BEM-app-ranking-judge-sheet[data-is-battle=true] .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--info {
+  width: 35%;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__group + .BEM-app-ranking-judge-sheet__group {
+  margin-top: 2em;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__circle-group {
+  padding: 1em 2em;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__circle-group {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__circle-group .BEM-app-ranking-judge-sheet__judge-info {
+  display: none;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__circle-group .BEM-app-ranking-judge-sheet__judge-info {
+    display: block;
+    font-size: 1.4rem;
+    margin-block: 2em 3em;
+  }
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__circle-group .BEM-app-ranking-judge-sheet__judge-info .BEM-app-ranking-judge-sheet__judge-name {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__circle-group .BEM-app-ranking-judge-sheet__judge-info .BEM-app-ranking-judge-sheet__judge-name .input-space {
+    flex: 1;
+    height: 1.5em;
+    min-width: 200px;
+    border-bottom: 1px solid #000;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--order {
+  width: 1em;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--order {
+    width: 2em;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--number {
+  width: 1em;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--number {
+    width: 2em;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--name,
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--info {
+  width: 40%;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--name,
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--info {
+    width: 20%;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--comment {
+  width: 0;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--comment {
+    width: auto;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--rank {
+  width: 3em;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table colgroup .BEM-app-ranking-judge-sheet__col--rank {
+    width: 5em;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table thead {
+  font-size: 1em;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table thead th.BEM-app-ranking-judge-sheet__header--comment {
+  position: absolute;
+  font-size: 0;
+  visibility: hidden;
+}
+@media print {
+  .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table thead th.BEM-app-ranking-judge-sheet__header--comment {
+    position: relative;
+    font-size: inherit;
+    visibility: visible;
+  }
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table tbody {
+  font-size: 1.2em;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td {
+  padding: 0.5em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td.BEM-app-ranking-judge-sheet__cell--order, .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td.BEM-app-ranking-judge-sheet__cell--number {
+  padding: 0;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td.BEM-app-ranking-judge-sheet__cell--info {
+  font-size: 1rem;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td.BEM-app-ranking-judge-sheet__cell--order, .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td.BEM-app-ranking-judge-sheet__cell--number, .BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td.BEM-app-ranking-judge-sheet__cell--rank {
+  text-align: center;
+}
+.BEM-app-ranking-judge-sheet .BEM-app-ranking-judge-sheet__table td.BEM-app-ranking-judge-sheet__header--comment {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.BEM-app-ranking__actions {
+  margin-block: 1em 2em;
+}
+
+.BEM-app-ranking-judge-sheet__actions {
+  margin: 10px 0;
+}
+
+.BEM-app-ranking-judge-sheet__clear-ranks-btn {
+  padding: 4px 8px;
+  background-color: #806666;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.BEM-app-ranking-judge-sheet__clear-ranks-btn:hover {
+  background-color: #544444;
+}
+
+.BEM-app-ranking-judge-sheet__rank-input {
+  width: 100%;
+}
+.BEM-app-ranking-judge-sheet__rank-input.duplicate-rank {
+  color: #f00;
+  background-color: #fff0f0;
+  border: 2px solid #f00;
+}
+
+@media print {
+  .BEM-app-ranking-judge-sheet__actions {
+    display: none;
+  }
+  .BEM-app-ranking-judge-sheet__rank-input {
+    display: none;
+  }
+  .BEM-app-ranking-judge-sheet__rank {
+    min-height: 2em;
+    border-bottom: 1px solid #000;
+  }
+}
 h2 {
   position: relative;
   margin: 1.2em 0 0.8em;
@@ -865,7 +1237,7 @@ label {
   color: #333;
   gap: 0.25em;
 }
-label:has([name=event-name]) {
+label:has([name=event-name]), label:has([name=event-sub-name]) {
   grid-column: 1/3;
 }
 label:has(input[type=radio]), label:has(input[type=checkbox]) {
@@ -893,6 +1265,37 @@ label input {
 label input::placeholder {
   color: #999;
   font-style: italic;
+}
+label input[type=file] {
+  padding: 0;
+  border: none;
+}
+label.--logo-upload {
+  grid-column: 1/3;
+}
+label.--logo-upload .--preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 120px;
+  border: 2px dashed #ccc;
+  margin-bottom: 1em;
+}
+label.--logo-upload .--preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+label.--logo-upload .--input-group {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+label.--logo-upload .--input-group .--clear-logo {
+  padding: 0.25em 1em;
+  font-size: 1.2rem;
+  background-color: #666;
 }
 
 button {
@@ -996,17 +1399,27 @@ button:hover {
   border-radius: 12px;
 }
 .BEM-app-side-nav .BEM-app-side-nav__event-board > dt {
+  line-height: 1.5;
+}
+.BEM-app-side-nav .BEM-app-side-nav__event-board > dt.--name {
   font-size: 1.4rem;
   font-weight: 700;
-  line-height: 1.5;
-  margin-block: 0.5em 0.25em;
+  color: #333;
+}
+.BEM-app-side-nav .BEM-app-side-nav__event-board > dt.--sub-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #666;
+  text-align: center;
 }
 .BEM-app-side-nav .BEM-app-side-nav__event-board > dd {
   font-size: 1.1rem;
+  margin-top: 0.25em;
 }
 .BEM-app-side-nav .BEM-app-side-nav__event-board > dd.--id {
   font-size: 0.9rem;
   color: #666;
+  margin-bottom: 0.25em;
 }
 
 .BEM-app-header .BEM-app-header__heading {

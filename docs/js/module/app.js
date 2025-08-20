@@ -4,6 +4,7 @@ import BattleEventManagerMode from './mode.js';
 import PrelimManager from './Prelim/Prelim.js';
 import TournamentManager from './Tournament/Tournament.js';
 import Storage from './storage.js';
+import RankingManager from './Ranking/Ranking.js';
 
 setDebugMode();
 
@@ -15,7 +16,8 @@ export default class BattleEventManager {
     this.name = 'BEM-app';
     this.dom = new BattleEventManagerDOM({ app: this });
     this.mode = new BattleEventManagerMode({ app: this });
-    this.prelim = new PrelimManager();
+    this.prelim = new PrelimManager({ app: this });
+    this.ranking = new RankingManager({ app: this });
     this.tournament = new TournamentManager({ app: this, mode: 'seed' });
     this.storage = new Storage({ app: this });
     this.eventData = null;
@@ -42,11 +44,46 @@ export default class BattleEventManager {
       const isMatch = (selector) => e.target.matches(selector);
       if (isMatch('.BEM-app-event-setup__button')) return this.onClickEventSetup(e);
       if (isMatch('.BEM-app-event-setting__button')) return this.onClickEventSetting(e);
+      if (isMatch('.--clear-logo')) return this.onClickClearLogo(e);
+    };
+
+    const handleChange = (e) => {
+      const isMatch = (selector) => e.target.matches(selector);
+      if (isMatch('input[name="event-logo"]')) return this.onChangeEventLogo(e);
     };
 
     document.addEventListener('click', handleClick);
+    document.addEventListener('change', handleChange);
     this.mode.addEvents();
+    this.prelim.addEvents();
     this.tournament.addEvents();
+  }
+
+  async onChangeEventLogo(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const base64 = await this.convertImageToBase64(file);
+      this.updateEventData({ logo: base64 });
+      this.mode.render();
+    } catch (error) {
+      console.error('画像のアップロードに失敗しました:', error);
+    }
+  }
+
+  onClickClearLogo(e) {
+    this.updateEventData({ logo: null });
+    this.mode.render();
+  }
+
+  convertImageToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
   }
 
   onClickEventSetup() {
@@ -54,6 +91,7 @@ export default class BattleEventManager {
     const eventName = settings.querySelector('input[name="event-name"]').value;
     const eventDate = settings.querySelector('input[name="event-date"]').value;
     const eventVenue = settings.querySelector('input[name="event-venue"]').value;
+    const eventSubName = settings.querySelector('input[name="event-sub-name"]').value;
     const id = crypto.randomUUID();
 
     if (!eventName) {
@@ -61,7 +99,7 @@ export default class BattleEventManager {
       return;
     }
 
-    this.updateEventData({ id, name: eventName, date: eventDate, venue: eventVenue });
+    this.updateEventData({ id, name: eventName, date: eventDate, venue: eventVenue, subName: eventSubName });
 
     this.setup = true;
     this.mode.stateIndex = 0;
@@ -69,34 +107,59 @@ export default class BattleEventManager {
   }
 
   onClickEventSetting() {
-    const settings = document.querySelector('.BEM-app-event-setup');
+    const settings = document.querySelector('.BEM-app-event-setting');
     const eventName = settings.querySelector('input[name="event-name"]').value;
     const eventDate = settings.querySelector('input[name="event-date"]').value;
     const eventVenue = settings.querySelector('input[name="event-venue"]').value;
+    const eventSubName = settings.querySelector('input[name="event-sub-name"]').value;
 
     if (!eventName) {
       settings.querySelector('.--form-alert-message').innerHTML = '入力してください';
       return;
     }
 
-    this.updateEventData({ name: eventName, date: eventDate, venue: eventVenue });
+    // バトラーリストの更新処理
+    const battlerList = [];
+    settings.querySelectorAll('.--battler').forEach((battler, index) => {
+      const name = battler.querySelector('input[name="battler-name"]').value;
+      const desc = battler.querySelector('input[name="battler-desc"]').value;
+      const info = battler.querySelector('input[name="battler-info"]').value;
+
+      // 少なくとも名前が入力されている場合のみ追加
+      if (name) {
+        battlerList.push({ name, desc, info });
+      }
+    });
+
+    this.updateEventData({
+      name: eventName,
+      date: eventDate,
+      venue: eventVenue,
+      subName: eventSubName,
+      battlerList: battlerList,
+    });
   }
 
-  updateEventData({ id = this.eventData.id, name = this.eventData.name, date = this.eventData.date, venue = this.eventData.venue, battlerList = null }) {
+  updateEventData(newData = {}) {
+    // 現在のデータと新しいデータをマージ
     this.eventData = {
-      id,
-      name,
-      date,
-      venue,
-      battlerList,
+      ...this.eventData, // 既存のデータを展開
+      ...newData, // 新しいデータで上書き
     };
+
+    // ナビゲーションの更新
     const navElem = document.querySelector('.BEM-app-side-nav');
-
-    this.storage.save({ eventData: this.eventData, stateIndex: this.mode.stateIndex });
-
     if (navElem) navElem.remove();
-
     this.mode.container.insertAdjacentHTML('beforebegin', this.dom.getNavHTML());
+
+    // データの保存
+    this.storage.save({
+      eventData: this.eventData,
+      stateIndex: this.mode.stateIndex,
+    });
+
+    // デバッグログ
+    this.cs.log('イベントデータを更新:', this.eventData);
   }
 
   generateVariableScript() {

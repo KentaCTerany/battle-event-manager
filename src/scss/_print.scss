@@ -1,0 +1,81 @@
+// プレースホルダーセレクタ
+%print-page-break {
+  break-after: page;
+}
+
+%print-avoid-break {
+  break-inside: avoid;
+}
+
+%print-table-base {
+  border: 1px solid #000;
+  border-collapse: collapse;
+
+  th,
+  td {
+    background-color: #fff !important;
+    border: 1px solid #000;
+  }
+
+  th {
+    border-bottom: 2px solid #000;
+  }
+}
+
+%print-input-base {
+  background: none;
+  border: none;
+}
+
+%print-input-space {
+  border-bottom: 1px solid #000;
+}
+
+%print-memo-space {
+  min-height: 100px;
+  border: 1px solid #000;
+}
+
+@media print {
+  // 共通の印刷スタイル
+  @page {
+    margin: 10mm;
+    size: a4 portrait;
+  }
+
+  /* 印刷時に不要な要素を非表示 */
+  body > *:not(.BEM-app-main) {
+    display: none !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  // 印刷時に非表示にする要素
+  .no-print {
+    display: none !important;
+  }
+
+  // テーブル共通スタイル
+  table {
+    @extend %print-table-base;
+  }
+
+  // フォームコントロール共通スタイル
+  input,
+  textarea {
+    @extend %print-input-base;
+  }
+
+  // 入力スペース共通スタイル
+  .input-space {
+    @extend %print-input-space;
+  }
+
+  // メモスペース共通スタイル
+  .memo-space {
+    @extend %print-memo-space;
+  }
+}

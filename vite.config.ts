@@ -6,3 +6,4 @@ export default defineConfig(async () => {
     plugins: [reactPlugin()],
   }
 })
+  // Ensure that the React plugin is used with dynamic import

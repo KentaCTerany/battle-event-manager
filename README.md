@@ -1,22 +1,19 @@
-# BEM / Battle-Event-Manager
+# Vite + Deno + React + TypeScript
 
-ダンスバトルを開催する際に使えるWebアプリケーションの制作を目指すためのリポジトリです。
+## Running
 
-## バージョン
-### **0.0.0**
-*初回コミット*
+You need to have Deno v2.0.0 or later installed to run this repo.
 
-## 実装予定の機能
+Start a dev server:
 
-### フェーズ1 / 予選サポート機能
-- 予選対戦表作成機能
-- 予選対戦表（参加者用）PDF出力機能
-- 予選対戦表（審査員用）PDF出力機能
-- 予選得点入力機能
-- 順位表生成機能
-- 本戦トーナメント表生成機能
+```
+$ deno task dev
+```
 
-### フェーズ2 / 本戦サポート機能
+## Deploy
 
-- 試合順管理機能
-- 試合結果入力機能
+Build production assets:
+
+```
+$ deno task build
+```

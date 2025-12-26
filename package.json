@@ -1,16 +1,24 @@
 {
-  "name": "dance-battle-manager",
+  "name": "battle-event-manager",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "lite-server --config=json/bs-config.json"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "private": true,
   "packageManager": "pnpm@10.7.1",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "mkdir -p docs",
+    "build": "vite build && rm -rf docs/* && cp -R dist/* docs/",
+    "preview": "vite preview --port 5173",
+    "clean:docs": "rm -rf docs/*"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
   "devDependencies": {
-    "lite-server": "^2.6.1"
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "typescript": "5.2.2",
+    "vite": "5.1.8",
+    "@vitejs/plugin-react": "^5.1.2"
   }
 }

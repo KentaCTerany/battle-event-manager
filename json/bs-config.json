@@ -1,6 +1,0 @@
-{
-  "server": {
-    "baseDir": "docs"
-  },
-  "files": ["docs/*.html", "docs/*.css", "docs/*.js"]
-}

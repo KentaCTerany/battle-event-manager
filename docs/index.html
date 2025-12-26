@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="/css/index.css" />
     <link rel="icon" href="/img/favicon.png" />
     <script src="/js/lib/html2pdf.bundle.min.js"></script>
+    <!-- PDF.js本体 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <!-- PDF.js初期設定 -->
+    <script>
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+    </script>
+    <!-- メインアプリケーション -->
     <script type="module" src="/js/main.js"></script>
     <title>Battle Event Manager</title>
   </head>

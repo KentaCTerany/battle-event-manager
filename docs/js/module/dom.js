@@ -100,6 +100,16 @@ export default class BattleEventManagerDOM {
             </div>
           </label>
         </fieldset>
+        <fieldset>
+          <legend>エントリーリストのインポート</legend>
+          <label>
+            <span>PDFファイルからインポート</span>
+            <div class="--input-group">
+              <input type="file" name="entry-list-pdf" accept=".pdf">
+              <small>※ PDFファイルから参加者情報を読み込みます</small>
+            </div>
+          </label>
+        </fieldset>
         ${this.getBattlerSettingHTML(settingName)}
         <button class="${settingName}__button">更新</button>
       </div>

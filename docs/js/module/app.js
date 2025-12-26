@@ -5,6 +5,7 @@ import PrelimManager from './Prelim/Prelim.js';
 import TournamentManager from './Tournament/Tournament.js';
 import Storage from './storage.js';
 import RankingManager from './Ranking/Ranking.js';
+import { PDFReader } from '../utils/pdfReader.js';
 
 setDebugMode();
 
@@ -50,6 +51,7 @@ export default class BattleEventManager {
     const handleChange = (e) => {
       const isMatch = (selector) => e.target.matches(selector);
       if (isMatch('input[name="event-logo"]')) return this.onChangeEventLogo(e);
+      if (isMatch('input[name="entry-list-pdf"]')) return this.onChangePDFFile(e);
     };
 
     document.addEventListener('click', handleClick);
@@ -84,6 +86,50 @@ export default class BattleEventManager {
       reader.onerror = (error) => reject(error);
       reader.readAsDataURL(file);
     });
+  }
+
+  async onChangePDFFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      console.log('PDFファイル読み込み開始:', file.name);
+      const pdfReader = new PDFReader();
+      const entries = await pdfReader.readPDF(file);
+      console.log('解析されたエントリー:', entries);
+
+      if (!entries || entries.length === 0) {
+        throw new Error('エントリーを抽出できませんでした');
+      }
+
+      // エントリーリストのフォームに反映
+      const settings = document.querySelector('.BEM-app-event-setting');
+      const battlerContainer = settings.querySelector('.BEM-app-event-setting__battler ul');
+
+      // 既存のエントリーをクリア（ヘッダー行は残す）
+      const headerRow = battlerContainer.querySelector('li.--head');
+      battlerContainer.innerHTML = '';
+      battlerContainer.appendChild(headerRow);
+
+      // 新しいエントリーを追加
+      entries.forEach((entry, index) => {
+        console.log(`エントリー ${index + 1} を追加:`, entry);
+        const html = `
+          <li class="--battler">
+            <span class="--index">${index + 1}</span>
+            <input type="text" name="battler-name" value="${entry.name.replace(/"/g, '&quot;')}">
+            <input type="text" name="battler-desc" value="${entry.desc.replace(/"/g, '&quot;')}">
+            <input type="text" name="battler-info" value="${entry.info.replace(/"/g, '&quot;')}">
+            <button class="BEM-app-event-setting__battler-delete"></button>
+          </li>`;
+        battlerContainer.insertAdjacentHTML('beforeend', html);
+      });
+
+      console.log('エントリーの追加が完了しました');
+    } catch (error) {
+      console.error('PDFの読み込みエラー:', error);
+      alert(`PDFの読み込みに失敗しました。\nエラー: ${error.message}`);
+    }
   }
 
   onClickEventSetup() {

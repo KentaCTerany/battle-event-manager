@@ -24,7 +24,7 @@ export default function App() {
 
       <div className="app-container">
         <section className="event-list">
-          <div className="event-list__toolbar toolbar">
+          <div className="event-list__toolbar">
             <h2>イベント一覧</h2>
             <button className="btn primary" onClick={() => { setEditing(null); setModalOpen(true) }}>イベントを追加</button>
           </div>

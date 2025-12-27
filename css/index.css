@@ -120,6 +120,23 @@ body {
   font-size: 0.78rem;
 }
 
+/* inside tag, the remove button should be unobtrusive */
+.event-form__tag button {
+  background: transparent;
+  border: none;
+  padding: 0 4px;
+  margin: 0;
+  color: #213547;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.event-form__tag button:focus {
+  outline: 2px solid rgb(253, 253.1032258065, 255);
+  border-radius: 6px;
+}
+
 .event-form__actions {
   margin-top: 8px;
   display: flex;
@@ -232,6 +249,19 @@ body {
   align-items: flex-end;
 }
 
+/* ensure any button inside actions has consistent sizing */
+.event-item__actions .btn {
+  min-width: 88px;
+  padding: 0.5em 0.9em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-item__actions .btn.danger {
+  background: #fff5f5;
+}
+
 .event-item__action {
   min-width: 88px;
 }
@@ -247,6 +277,7 @@ body {
 /* Native dialog modal styles */
 dialog.modal {
   border: none;
+  min-width: 400px;
   padding: 0;
   background: transparent;
   z-index: 9999;

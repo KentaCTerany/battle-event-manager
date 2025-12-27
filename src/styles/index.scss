@@ -1,6 +1,8 @@
 @use 'sass:color';
-// Moved to styles/ and refined styles for form/list
-$bg: #ffffff;
+
+// Theme variables
+$bg-page: #f6f7fb; // overall page background
+$panel-bg: #ffffff; // content panels
 $text: #213547;
 $muted: #7a8894;
 $primary: #646cff;
@@ -13,21 +15,14 @@ $border: rgba(0,0,0,0.06);
   font-weight: 400;
   color-scheme: light;
   color: $text;
-  background-color: $bg;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: $bg;
+  background-color: $bg-page; /* page background */
   color: $text;
-}
-
-h1 {
-  font-size: 1.25rem;
-  line-height: 1;
-  margin: 0;
 }
 
 .app-header {
@@ -36,161 +31,54 @@ h1 {
   align-items: center;
   padding: 0 24px;
   border-bottom: 1px solid $border;
-  background: $bg;
+  background: $panel-bg;
 }
 
-.app-header .title {
-  font-weight: 700;
-  color: $text;
-}
+.app-header .title { font-weight: 700; color: $text; }
 
-.app-container {
-  padding: 24px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+.app-container { padding: 24px; max-width: 1000px; margin: 0 auto; }
 
-.app-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 16px;
-}
+.app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px; }
 
-.single-column {
-  display: block;
-}
+/* Panels (forms, lists, cards) should use panel background */
+.panel { background: $panel-bg; padding: 16px; border-radius: 8px; border: 1px solid $border; }
 
-.app-container { background: #f6f7fb; }
+/* Event list block */
+.event-list { }
+.event-list__toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
 
-.battle-form,
-.battle-list {
-  background: #fff; /* requested: panel bg #FFF */
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px solid $border;
-}
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 20px;
-}
-.modal-content {
-  background: #fff;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 720px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  border: 1px solid rgba(0,0,0,0.06);
-  overflow: hidden;
-}
-.modal-header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid $border; }
-.modal-title { font-weight:700; color: $text; }
-.modal-body { padding: 16px; }
-
-/* Make section headings less prominent */
-.battle-form h2,
-.battle-list h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: $muted;
-  margin: 0 0 12px 0;
-}
-
-.empty-state {
-  margin-top: 12px;
-  color: $muted;
-  font-size: 0.95rem;
-}
-
-/* Form elements */
-.battle-form label {
-  display: block;
-  font-size: 0.85rem;
-  color: $muted;
-  margin-bottom: 6px;
-}
-.battle-form .form-row {
-  margin-bottom: 12px;
-}
-.battle-form .input,
-.battle-form input[type="date"],
-.battle-form textarea {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: #fff;
-  color: $text;
-}
-.battle-form textarea { min-height: 80px; resize: vertical; }
+/* Event form block */
+.event-form { @extend .panel; }
+.event-form__row { margin-bottom: 12px; }
+.event-form__label { display:block; font-size:0.85rem; color: $muted; margin-bottom:6px; }
+.event-form__input { width:100%; box-sizing:border-box; padding:10px 12px; border-radius:6px; border:1px solid rgba(0,0,0,0.08); background: $panel-bg; color: $text; }
+.event-form__input--error { border-color: #c92a2a; box-shadow: 0 0 0 3px rgba(201,42,42,0.06); }
+.event-form__row--error .event-form__label { color: #c92a2a; }
+.event-form__error { color:#c92a2a; margin-top:6px; font-size:0.9rem; }
+.event-form__division-inputs { display:flex; gap:8px; align-items:center; margin-top:6px; }
+.event-form__tags { margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
+.event-form__tag { background:#eef2ff; color:$text; padding:4px 8px; border-radius:12px; display:inline-flex; gap:8px; align-items:center; font-size:0.78rem; }
+.event-form__actions { margin-top:8px; display:flex; gap:8px; }
 
 /* Buttons */
-.btn {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.45em 0.9em;
-  font-size: 0.95rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background-color 0.18s, border-color 0.18s, color 0.18s;
-  background: $button-bg;
-  color: $text;
-}
+.btn { border-radius:8px; border:1px solid transparent; padding:0.45em 0.9em; font-size:0.95rem; font-weight:600; font-family:inherit; cursor:pointer; transition: background-color 0.18s, border-color 0.18s, color 0.18s; background: $button-bg; color: $text; min-height:36px; display:inline-flex; align-items:center; justify-content:center; }
 .btn:hover { border-color: $primary; }
-.btn.primary {
-  background: $primary;
-  color: #fff;
-  border-color: color.adjust($primary, $lightness: -6%);
-}
-.btn.danger {
-  background: #fff5f5;
-  color: #b32a2a;
-  border-color: rgba(179,42,42,0.08);
-}
-.btn.small { padding: 0.25em 0.5em; font-size: 0.85rem; }
+.btn.primary { background: $primary; color: #fff; border-color: color.adjust($primary, $lightness: -6%); }
+.btn.danger { background: #fff5f5; color: #b32a2a; border-color: rgba(179,42,42,0.08); }
+.btn.small { padding:0.25em 0.5em; font-size:0.85rem; }
 
-/* Ensure action buttons are visually consistent */
-.btn, .btn.small { min-height: 36px; display: inline-flex; align-items: center; justify-content: center; }
+/* Event list items (cards) */
+.event-list__list { padding: 0; list-style: none; margin: 0; }
+.event-list__item { margin-bottom: 12px; }
+.event-item { @extend .panel; display:flex; gap:16px; align-items:flex-start; justify-content:space-between; border-radius:10px; padding:14px; box-shadow: 0 6px 16px rgba(33,53,71,0.04); transition: transform 0.12s, box-shadow 0.12s; }
+.event-item:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(33,53,71,0.06); }
+.event-item__content { flex:1 1 auto; }
+.event-item__title { font-weight:700; font-size:1rem; }
+.event-item__meta { font-size:0.9rem; color:$muted; margin-top:6px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.event-item__datetime, .event-item__location { color:$muted; }
+.event-item__divisions { margin-top:6px; }
+.event-item__division { font-size:0.9rem; color:$muted; margin-top:2px; }
+.event-item__actions { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+.event-item__action { min-width:88px; }
 
-/* Field error */
-.field-error { color: #c92a2a; margin-top: 6px; font-size: 0.9rem; }
-
-/* Tag */
-.tag { background: #eef2ff; color: $text; padding: 4px 8px; border-radius: 12px; display: inline-flex; gap: 8px; align-items: center; font-size: 0.78rem; }
-.tag button { background: transparent; border: none; cursor: pointer; font-size: 0.78rem; }
-
-/* List item */
-.battle-list ul { padding: 0; list-style: none; margin: 0; }
-.battle-list .item { border: 1px solid rgba(0,0,0,0.06); padding: 14px; border-radius: 10px; margin-bottom: 12px; background: #fff; box-shadow: 0 6px 16px rgba(33,53,71,0.04); transition: transform 0.12s, box-shadow 0.12s; }
-.battle-list .item:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(33,53,71,0.06); }
-.item-top { display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; }
-.title-block { flex: 1 1 auto; }
-.item-title { font-weight: 700; font-size: 1rem; }
-.meta { font-size: 0.9rem; color: $muted; margin-top: 6px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-.meta .datetime { color: $muted; }
-.location-inline { color: $muted; }
-.divisions { margin-top: 6px; }
-.division { font-size: 0.9rem; color: $muted; margin-top: 2px; }
-.actions-vertical { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
-
-@media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } .actions-vertical { align-items:flex-start; } }
-
-@media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } }
+@media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } .event-item__actions { align-items:flex-start; } }

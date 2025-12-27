@@ -4,21 +4,14 @@
   font-weight: 400;
   color-scheme: light;
   color: #213547;
-  background-color: #ffffff;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #f6f7fb; /* page background */
   color: #213547;
-}
-
-h1 {
-  font-size: 1.25rem;
-  line-height: 1;
-  margin: 0;
 }
 
 .app-header {
@@ -48,23 +41,16 @@ h1 {
   margin-top: 16px;
 }
 
-.single-column {
-  display: block;
-}
-
-.app-container {
-  background: #f6f7fb;
-}
-
-.battle-form,
-.battle-list {
-  background: #fff; /* requested: panel bg #FFF */
+/* Panels (forms, lists, cards) should use panel background */
+.panel, .event-item, .event-form {
+  background: #ffffff;
   padding: 16px;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.toolbar {
+/* Event list block */
+.event-list__toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -72,87 +58,72 @@ h1 {
   margin-bottom: 12px;
 }
 
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 20px;
+/* Event form block */
+.event-form__row {
+  margin-bottom: 12px;
 }
 
-.modal-content {
-  background: #fff;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 720px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.modal-title {
-  font-weight: 700;
-  color: #213547;
-}
-
-.modal-body {
-  padding: 16px;
-}
-
-/* Make section headings less prominent */
-.battle-form h2,
-.battle-list h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #7a8894;
-  margin: 0 0 12px 0;
-}
-
-.empty-state {
-  margin-top: 12px;
-  color: #7a8894;
-  font-size: 0.95rem;
-}
-
-/* Form elements */
-.battle-form label {
+.event-form__label {
   display: block;
   font-size: 0.85rem;
   color: #7a8894;
   margin-bottom: 6px;
 }
 
-.battle-form .form-row {
-  margin-bottom: 12px;
-}
-
-.battle-form .input,
-.battle-form input[type=date],
-.battle-form textarea {
+.event-form__input {
   width: 100%;
   box-sizing: border-box;
   padding: 10px 12px;
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #fff;
+  background: #ffffff;
   color: #213547;
 }
 
-.battle-form textarea {
-  min-height: 80px;
-  resize: vertical;
+.event-form__input--error {
+  border-color: #c92a2a;
+  box-shadow: 0 0 0 3px rgba(201, 42, 42, 0.06);
+}
+
+.event-form__row--error .event-form__label {
+  color: #c92a2a;
+}
+
+.event-form__error {
+  color: #c92a2a;
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+.event-form__division-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.event-form__tags {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.event-form__tag {
+  background: #eef2ff;
+  color: #213547;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.78rem;
+}
+
+.event-form__actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
 }
 
 /* Buttons */
@@ -167,6 +138,10 @@ h1 {
   transition: background-color 0.18s, border-color 0.18s, color 0.18s;
   background: #f6f7fb;
   color: #213547;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn:hover {
@@ -190,79 +165,43 @@ h1 {
   font-size: 0.85rem;
 }
 
-/* Ensure action buttons are visually consistent */
-.btn, .btn.small {
-  min-height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Field error */
-.field-error {
-  color: #c92a2a;
-  margin-top: 6px;
-  font-size: 0.9rem;
-}
-
-/* Tag */
-.tag {
-  background: #eef2ff;
-  color: #213547;
-  padding: 4px 8px;
-  border-radius: 12px;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 0.78rem;
-}
-
-.tag button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 0.78rem;
-}
-
-/* List item */
-.battle-list ul {
+/* Event list items (cards) */
+.event-list__list {
   padding: 0;
   list-style: none;
   margin: 0;
 }
 
-.battle-list .item {
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 14px;
-  border-radius: 10px;
+.event-list__item {
   margin-bottom: 12px;
-  background: #fff;
+}
+
+.event-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 14px;
   box-shadow: 0 6px 16px rgba(33, 53, 71, 0.04);
   transition: transform 0.12s, box-shadow 0.12s;
 }
 
-.battle-list .item:hover {
+.event-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(33, 53, 71, 0.06);
 }
 
-.item-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.title-block {
+.event-item__content {
   flex: 1 1 auto;
 }
 
-.item-title {
+.event-item__title {
   font-weight: 700;
   font-size: 1rem;
 }
 
-.meta {
+.event-item__meta {
   font-size: 0.9rem;
   color: #7a8894;
   margin-top: 6px;
@@ -272,41 +211,36 @@ h1 {
   flex-wrap: wrap;
 }
 
-.meta .datetime {
+.event-item__datetime, .event-item__location {
   color: #7a8894;
 }
 
-.location-inline {
-  color: #7a8894;
-}
-
-.divisions {
+.event-item__divisions {
   margin-top: 6px;
 }
 
-.division {
+.event-item__division {
   font-size: 0.9rem;
   color: #7a8894;
   margin-top: 2px;
 }
 
-.actions-vertical {
+.event-item__actions {
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: flex-end;
 }
 
-@media (max-width: 800px) {
-  .app-grid {
-    grid-template-columns: 1fr;
-  }
-  .actions-vertical {
-    align-items: flex-start;
-  }
+.event-item__action {
+  min-width: 88px;
 }
+
 @media (max-width: 800px) {
   .app-grid {
     grid-template-columns: 1fr;
+  }
+  .event-item__actions {
+    align-items: flex-start;
   }
 }/*# sourceMappingURL=index.css.map */

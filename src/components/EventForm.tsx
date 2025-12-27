@@ -74,33 +74,33 @@ export default function EventForm({ onAdd, onUpdate, editing, onCancelEdit }: Pr
   }
 
   return (
-    <form onSubmit={submit} className="battle-form">
-      <div className="form-row">
-        <label>イベント名</label>
-        <input className="input" value={title} onChange={(e) => { setTitle(e.target.value); if (error) setError('') }} />
-        {error && <div className="field-error">{error}</div>}
+    <form onSubmit={submit} className="event-form">
+      <div className={`event-form__row ${error ? 'event-form__row--error' : ''}`}>
+        <label className="event-form__label">イベント名</label>
+        <input className={`event-form__input ${error ? 'event-form__input--error' : ''}`} value={title} onChange={(e) => { setTitle(e.target.value); if (error) setError('') }} />
+        {error && <div className="event-form__error">{error}</div>}
       </div>
 
-      <div className="form-row">
-        <label>日時（任意）</label>
-        <input className="input" type="date" value={datetime} onChange={(e) => setDatetime(e.target.value)} />
+      <div className="event-form__row">
+        <label className="event-form__label">日時（任意）</label>
+        <input className="event-form__input" type="date" value={datetime} onChange={(e) => setDatetime(e.target.value)} />
       </div>
 
-      <div className="form-row">
-        <label>場所（任意）</label>
-        <input className="input" value={location} onChange={(e) => setLocation(e.target.value)} />
+      <div className="event-form__row">
+        <label className="event-form__label">場所（任意）</label>
+        <input className="event-form__input" value={location} onChange={(e) => setLocation(e.target.value)} />
       </div>
 
-      <div className="form-row">
-        <label>詳細（任意）</label>
-        <textarea className="input" value={details} onChange={(e) => setDetails(e.target.value)} />
+      <div className="event-form__row">
+        <label className="event-form__label">詳細（任意）</label>
+        <textarea className="event-form__input" value={details} onChange={(e) => setDetails(e.target.value)} />
       </div>
 
-      <div className="form-row">
-        <label>部門（複数可）</label>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 6 }}>
+      <div className="event-form__row">
+        <label className="event-form__label">部門（複数可）</label>
+        <div className="event-form__division-inputs">
           <input
-            className="input"
+            className="event-form__input"
             placeholder="例: ハウス"
             value={newDivision}
             onChange={(e) => setNewDivision(e.target.value)}
@@ -115,9 +115,9 @@ export default function EventForm({ onAdd, onUpdate, editing, onCancelEdit }: Pr
             追加
           </button>
         </div>
-        <div style={{ marginTop: 8, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div className="event-form__tags">
           {divisions.map((d) => (
-            <span key={d} className="tag">
+            <span key={d} className="event-form__tag">
               <span>{d}</span>
               <button type="button" onClick={() => removeDivision(d)} aria-label={`remove ${d}`}>
                 ✕
@@ -127,7 +127,7 @@ export default function EventForm({ onAdd, onUpdate, editing, onCancelEdit }: Pr
         </div>
       </div>
 
-      <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
+      <div className="event-form__actions">
         <button type="submit" className="btn primary">{editing ? '更新' : '追加'}</button>
         {editing && (
           <button type="button" className="btn" onClick={onCancelEdit}>キャンセル</button>

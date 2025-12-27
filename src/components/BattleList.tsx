@@ -19,7 +19,7 @@ export default function BattleList({ battles, onDelete }: Props) {
               <div style={{ fontSize: 12, color: '#666' }}>{b.divisions && b.divisions.length ? b.divisions.join(' / ') : '部門未設定'} {b.datetime ? `・${b.datetime}` : ''}</div>
             </div>
             <div>
-              <button onClick={() => onDelete(b.id)} style={{ color: 'red' }}>削除</button>
+              <button className="btn danger small" onClick={() => onDelete(b.id)}>削除</button>
             </div>
           </div>
           {b.location && <div style={{ marginTop: 6 }}>場所: {b.location}</div>}

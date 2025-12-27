@@ -82,15 +82,15 @@ export default function BattleForm({ onAdd }: Props) {
               }
             }}
           />
-          <button type="button" onClick={addDivision}>
+          <button type="button" className="btn" onClick={addDivision}>
             追加
           </button>
         </div>
         <div style={{ marginTop: 8, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {divisions.map((d) => (
-            <span key={d} style={{ background: '#eee', padding: '4px 8px', borderRadius: 12, display: 'inline-flex', gap: 8, alignItems: 'center' }}>
+            <span key={d} className="tag">
               <span>{d}</span>
-              <button type="button" onClick={() => removeDivision(d)} style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}>
+              <button type="button" onClick={() => removeDivision(d)} aria-label={`remove ${d}`}>
                 ✕
               </button>
             </span>
@@ -99,7 +99,7 @@ export default function BattleForm({ onAdd }: Props) {
       </div>
 
       <div style={{ marginTop: 8 }}>
-        <button type="submit">追加</button>
+        <button type="submit" className="btn primary">追加</button>
       </div>
     </form>
   )

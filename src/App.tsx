@@ -27,6 +27,11 @@ export default function App() {
           </section>
         ) : (
           <section className="app-grid">
+            <div className="battle-list">
+              <h2>イベント一覧</h2>
+              <BattleList battles={battles} onDelete={removeBattle} />
+            </div>
+
             <div className="battle-form">
               <h2>イベントを追加</h2>
               <BattleForm
@@ -34,11 +39,6 @@ export default function App() {
                   addBattle(data)
                 }}
               />
-            </div>
-
-            <div className="battle-list">
-              <h2>イベント一覧</h2>
-              <BattleList battles={battles} onDelete={removeBattle} />
             </div>
           </section>
         )}

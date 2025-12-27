@@ -52,9 +52,13 @@ h1 {
   display: block;
 }
 
+.app-container {
+  background: #f6f7fb;
+}
+
 .battle-form,
 .battle-list {
-  background: #f9fafb;
+  background: #fff; /* requested: panel bg #FFF */
   padding: 16px;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.06);

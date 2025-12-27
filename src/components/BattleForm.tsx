@@ -48,30 +48,31 @@ export default function BattleForm({ onAdd }: Props) {
 
   return (
     <form onSubmit={submit} className="battle-form">
-      <div>
+      <div className="form-row">
         <label>イベント名</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
 
-      <div>
+      <div className="form-row">
         <label>日時（任意）</label>
-        <input type="datetime-local" value={datetime} onChange={(e) => setDatetime(e.target.value)} />
+        <input className="input" type="datetime-local" value={datetime} onChange={(e) => setDatetime(e.target.value)} />
       </div>
 
-      <div>
+      <div className="form-row">
         <label>場所（任意）</label>
-        <input value={location} onChange={(e) => setLocation(e.target.value)} />
+        <input className="input" value={location} onChange={(e) => setLocation(e.target.value)} />
       </div>
 
-      <div>
+      <div className="form-row">
         <label>詳細（任意）</label>
-        <input value={details} onChange={(e) => setDetails(e.target.value)} />
+        <textarea className="input" value={details} onChange={(e) => setDetails(e.target.value)} />
       </div>
 
-      <div>
+      <div className="form-row">
         <label>部門（複数可）</label>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 6 }}>
           <input
+            className="input"
             placeholder="例: ハウス"
             value={newDivision}
             onChange={(e) => setNewDivision(e.target.value)}

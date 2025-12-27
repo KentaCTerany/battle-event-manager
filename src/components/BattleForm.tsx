@@ -1,0 +1,106 @@
+import React, { useState } from 'react'
+import { Division } from '../types'
+
+type Props = {
+  onAdd: (data: { title: string; datetime?: string; location?: string; details?: string; divisions: Division[] }) => void
+}
+
+export default function BattleForm({ onAdd }: Props) {
+  const [title, setTitle] = useState('')
+  const [datetime, setDatetime] = useState('')
+  const [location, setLocation] = useState('')
+  const [details, setDetails] = useState('')
+  const [divisions, setDivisions] = useState<Division[]>([])
+  const [newDivision, setNewDivision] = useState('')
+
+  function addDivision() {
+    const v = newDivision.trim()
+    if (!v) return
+    if (divisions.includes(v)) {
+      setNewDivision('')
+      return
+    }
+    setDivisions((s) => [...s, v])
+    setNewDivision('')
+  }
+
+  function removeDivision(d: Division) {
+    setDivisions((s) => s.filter((x) => x !== d))
+  }
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!title.trim()) return alert('イベント名は必須です')
+    onAdd({
+      title: title.trim(),
+      datetime: datetime || undefined,
+      location: location || undefined,
+      details: details || undefined,
+      divisions,
+    })
+    setTitle('')
+    setDatetime('')
+    setLocation('')
+    setDetails('')
+    setDivisions([])
+    setNewDivision('')
+  }
+
+  return (
+    <form onSubmit={submit} className="battle-form">
+      <div>
+        <label>イベント名</label>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      </div>
+
+      <div>
+        <label>日時（任意）</label>
+        <input type="datetime-local" value={datetime} onChange={(e) => setDatetime(e.target.value)} />
+      </div>
+
+      <div>
+        <label>場所（任意）</label>
+        <input value={location} onChange={(e) => setLocation(e.target.value)} />
+      </div>
+
+      <div>
+        <label>詳細（任意）</label>
+        <input value={details} onChange={(e) => setDetails(e.target.value)} />
+      </div>
+
+      <div>
+        <label>部門（複数可）</label>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 6 }}>
+          <input
+            placeholder="例: ハウス"
+            value={newDivision}
+            onChange={(e) => setNewDivision(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                addDivision()
+              }
+            }}
+          />
+          <button type="button" onClick={addDivision}>
+            追加
+          </button>
+        </div>
+        <div style={{ marginTop: 8, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {divisions.map((d) => (
+            <span key={d} style={{ background: '#eee', padding: '4px 8px', borderRadius: 12, display: 'inline-flex', gap: 8, alignItems: 'center' }}>
+              <span>{d}</span>
+              <button type="button" onClick={() => removeDivision(d)} style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}>
+                ✕
+              </button>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginTop: 8 }}>
+        <button type="submit">追加</button>
+      </div>
+    </form>
+  )
+}

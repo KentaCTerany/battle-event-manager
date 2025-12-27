@@ -71,6 +71,38 @@ h1 {
   border: 1px solid $border;
 }
 
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 720px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.modal-header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid $border; }
+.modal-title { font-weight:700; color: $text; }
+.modal-body { padding: 16px; }
+
 /* Make section headings less prominent */
 .battle-form h2,
 .battle-list h2 {
@@ -142,8 +174,16 @@ h1 {
 /* List item */
 .battle-list ul { padding: 0; list-style: none; margin: 0; }
 .battle-list .item { border: 1px solid rgba(0,0,0,0.03); padding: 12px; border-radius: 6px; margin-bottom: 10px; background: #fff; }
-.item .header { display:flex; justify-content:space-between; align-items:center; }
-.item .meta { font-size: 0.85rem; color: $muted; margin-top: 6px; }
-.item .location { margin-top: 8px; font-size: 0.9rem; color: $muted; }
+.item-top { display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; }
+.title-block { flex: 1 1 auto; }
+.item-title { font-weight: 700; font-size: 1rem; }
+.meta { font-size: 0.9rem; color: $muted; margin-top: 6px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.meta .datetime { color: $muted; }
+.location-inline { color: $muted; }
+.divisions { margin-top: 10px; }
+.division { font-size: 0.9rem; color: $muted; }
+.actions-vertical { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+
+@media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } .actions-vertical { align-items:flex-start; } }
 
 @media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } }

@@ -14,17 +14,30 @@ export default function EventList({ events, onDelete, onEdit }: Props) {
     <ul>
       {events.map((b) => (
         <li key={b.id} className="item">
-          <div className="header">
-            <div>
-              <div style={{ fontWeight: 700 }}>{b.title}</div>
-              <div className="meta">{b.divisions && b.divisions.length ? b.divisions.join(' / ') : '部門未設定'}{b.datetime ? `・${b.datetime}` : ''}</div>
+          <div className="item-top">
+            <div className="title-block">
+              <div className="item-title">{b.title}</div>
+              <div className="meta">
+                {b.datetime ? <span className="datetime">{b.datetime}</span> : null}
+                {b.location ? <span className="location-inline">{b.location}</span> : null}
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
+
+            <div className="actions-vertical">
               <button className="btn" onClick={() => onEdit(b)}>編集</button>
               <button className="btn danger small" onClick={() => onDelete(b.id)}>削除</button>
             </div>
           </div>
-          {b.location && <div className="location">場所: {b.location}</div>}
+
+          <div className="divisions">
+            {b.divisions && b.divisions.length ? (
+              b.divisions.map((d) => (
+                <div key={d} className="division">{d}</div>
+              ))
+            ) : (
+              <div className="division">部門未設定</div>
+            )}
+          </div>
         </li>
       ))}
     </ul>

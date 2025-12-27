@@ -167,21 +167,28 @@ h1 {
 }
 .btn.small { padding: 0.25em 0.5em; font-size: 0.85rem; }
 
+/* Ensure action buttons are visually consistent */
+.btn, .btn.small { min-height: 36px; display: inline-flex; align-items: center; justify-content: center; }
+
+/* Field error */
+.field-error { color: #c92a2a; margin-top: 6px; font-size: 0.9rem; }
+
 /* Tag */
 .tag { background: #eef2ff; color: $text; padding: 4px 8px; border-radius: 12px; display: inline-flex; gap: 8px; align-items: center; font-size: 0.78rem; }
 .tag button { background: transparent; border: none; cursor: pointer; font-size: 0.78rem; }
 
 /* List item */
 .battle-list ul { padding: 0; list-style: none; margin: 0; }
-.battle-list .item { border: 1px solid rgba(0,0,0,0.03); padding: 12px; border-radius: 6px; margin-bottom: 10px; background: #fff; }
+.battle-list .item { border: 1px solid rgba(0,0,0,0.06); padding: 14px; border-radius: 10px; margin-bottom: 12px; background: #fff; box-shadow: 0 6px 16px rgba(33,53,71,0.04); transition: transform 0.12s, box-shadow 0.12s; }
+.battle-list .item:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(33,53,71,0.06); }
 .item-top { display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; }
 .title-block { flex: 1 1 auto; }
 .item-title { font-weight: 700; font-size: 1rem; }
 .meta { font-size: 0.9rem; color: $muted; margin-top: 6px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
 .meta .datetime { color: $muted; }
 .location-inline { color: $muted; }
-.divisions { margin-top: 10px; }
-.division { font-size: 0.9rem; color: $muted; }
+.divisions { margin-top: 6px; }
+.division { font-size: 0.9rem; color: $muted; margin-top: 2px; }
 .actions-vertical { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
 
 @media (max-width: 800px) { .app-grid { grid-template-columns: 1fr; } .actions-vertical { align-items:flex-start; } }

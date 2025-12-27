@@ -190,6 +190,21 @@ h1 {
   font-size: 0.85rem;
 }
 
+/* Ensure action buttons are visually consistent */
+.btn, .btn.small {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Field error */
+.field-error {
+  color: #c92a2a;
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
 /* Tag */
 .tag {
   background: #eef2ff;
@@ -217,11 +232,18 @@ h1 {
 }
 
 .battle-list .item {
-  border: 1px solid rgba(0, 0, 0, 0.03);
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
   background: #fff;
+  box-shadow: 0 6px 16px rgba(33, 53, 71, 0.04);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.battle-list .item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(33, 53, 71, 0.06);
 }
 
 .item-top {
@@ -259,12 +281,13 @@ h1 {
 }
 
 .divisions {
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .division {
   font-size: 0.9rem;
   color: #7a8894;
+  margin-top: 2px;
 }
 
 .actions-vertical {

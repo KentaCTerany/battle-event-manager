@@ -11,6 +11,7 @@ type Props = {
 
 export default function EventForm({ onAdd, onUpdate, editing, onCancelEdit }: Props) {
   const [title, setTitle] = useState('')
+  const [error, setError] = useState('')
   const [datetime, setDatetime] = useState('')
   const [location, setLocation] = useState('')
   const [details, setDetails] = useState('')
@@ -20,6 +21,7 @@ export default function EventForm({ onAdd, onUpdate, editing, onCancelEdit }: Pr
   useEffect(() => {
     if (editing) {
       setTitle(editing.title || '')
+      setError('')
       setDatetime(editing.datetime || '')
       setLocation(editing.location || '')
       setDetails(editing.details || '')
@@ -44,7 +46,10 @@ export default function EventForm({ onAdd, onUpdate, editing, onCancelEdit }: Pr
 
   function submit(e: React.FormEvent) {
     e.preventDefault()
-    if (!title.trim()) return alert('イベント名は必須です')
+    if (!title.trim()) {
+      setError('イベント名は必須です')
+      return
+    }
     const payload = {
       title: title.trim(),
       datetime: datetime || undefined,
@@ -72,7 +77,8 @@ export default function EventForm({ onAdd, onUpdate, editing, onCancelEdit }: Pr
     <form onSubmit={submit} className="battle-form">
       <div className="form-row">
         <label>イベント名</label>
-        <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input className="input" value={title} onChange={(e) => { setTitle(e.target.value); if (error) setError('') }} />
+        {error && <div className="field-error">{error}</div>}
       </div>
 
       <div className="form-row">

@@ -55,7 +55,7 @@ export default function BattleForm({ onAdd }: Props) {
 
       <div className="form-row">
         <label>日時（任意）</label>
-        <input className="input" type="datetime-local" value={datetime} onChange={(e) => setDatetime(e.target.value)} />
+        <input className="input" type="date" value={datetime} onChange={(e) => setDatetime(e.target.value)} />
       </div>
 
       <div className="form-row">

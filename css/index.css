@@ -87,8 +87,8 @@ h1 {
   margin-bottom: 12px;
 }
 
-.battle-form input[type=text],
-.battle-form input[type=datetime-local],
+.battle-form .input,
+.battle-form input[type=date],
 .battle-form textarea {
   width: 100%;
   box-sizing: border-box;
@@ -148,13 +148,14 @@ h1 {
   display: inline-flex;
   gap: 8px;
   align-items: center;
+  font-size: 0.78rem;
 }
 
 .tag button {
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
 }
 
 /* List item */

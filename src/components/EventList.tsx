@@ -17,10 +17,12 @@ export default function EventList({ events, onDelete, onEdit }: Props) {
           <div className="event-item">
             <div className="event-item__content">
               <div className="event-item__title">{b.title}</div>
-              <div className="event-item__meta">
-                {b.datetime ? <span className="event-item__datetime">{b.datetime}</span> : null}
-                {b.location ? <span className="event-item__location">{b.location}</span> : null}
-              </div>
+              {(b.datetime || b.location) && (
+                <div className="event-item__meta">
+                  {b.datetime ? <span className="event-item__datetime">{b.datetime}</span> : null}
+                  {b.location ? <span className="event-item__location">{b.location}</span> : null}
+                </div>
+              )}
 
               <div className="event-item__divisions">
                 {b.divisions && b.divisions.length ? (

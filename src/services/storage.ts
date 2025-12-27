@@ -1,31 +1,26 @@
-import { Battle } from '../types'
+import { Event } from '../types'
 
-const KEY = 'db:battles:v1'
+const KEY = 'db:events:v1'
 
-export function loadBattles(): Battle[] {
+export function loadEvents(): Event[] {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return []
     const parsed = JSON.parse(raw) as any[]
 
     // マイグレーション: 以前は単一の `division` を持っていた可能性がある
-    const migrated: Battle[] = parsed.map((item) => {
-      // 既に新フォーマットの場合
-      if (Array.isArray(item.divisions)) return item as Battle
-
-      // 旧フォーマット: division が文字列として保存されている場合
+    const migrated: Event[] = parsed.map((item) => {
+      if (Array.isArray(item.divisions)) return item as Event
       if (typeof item.division === 'string') {
         return {
           ...item,
           divisions: [item.division],
-        } as Battle
+        } as Event
       }
-
-      // 何もない場合は空配列にする
       return {
         ...item,
         divisions: Array.isArray(item.divisions) ? item.divisions : [],
-      } as Battle
+      } as Event
     })
 
     return migrated
@@ -34,9 +29,9 @@ export function loadBattles(): Battle[] {
   }
 }
 
-export function saveBattles(battles: Battle[]) {
+export function saveEvents(events: Event[]) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(battles))
+    localStorage.setItem(KEY, JSON.stringify(events))
   } catch {
     // ignore
   }

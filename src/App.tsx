@@ -1,10 +1,12 @@
-import React from 'react'
-import useBattles from './hooks/useBattles'
-import BattleForm from './components/BattleForm'
-import BattleList from './components/BattleList'
+import React, { useState } from 'react'
+import useEvents from './hooks/useEvents'
+import EventForm from './components/EventForm'
+import EventList from './components/EventList'
+import { Event } from './types'
 
 export default function App() {
-  const { battles, addBattle, removeBattle } = useBattles()
+  const { events, addEvent, updateEvent, removeEvent } = useEvents()
+  const [editing, setEditing] = useState<Event | null>(null)
 
   return (
     <div>
@@ -13,14 +15,18 @@ export default function App() {
       </header>
 
       <div className="app-container">
-        {battles.length === 0 ? (
+        {events.length === 0 ? (
           <section className="single-column">
             <div className="battle-form">
               <h2>イベントを追加</h2>
-              <BattleForm
-                onAdd={(data) => {
-                  addBattle(data)
+              <EventForm
+                onAdd={(data) => addEvent(data)}
+                editing={editing}
+                onUpdate={(ev) => {
+                  updateEvent(ev)
+                  setEditing(null)
                 }}
+                onCancelEdit={() => setEditing(null)}
               />
               <div className="empty-state">イベントがまだ登録されていません。まずはイベントを追加してください。</div>
             </div>
@@ -29,15 +35,19 @@ export default function App() {
           <section className="app-grid">
             <div className="battle-list">
               <h2>イベント一覧</h2>
-              <BattleList battles={battles} onDelete={removeBattle} />
+              <EventList events={events} onDelete={removeEvent} onEdit={(ev) => setEditing(ev)} />
             </div>
 
             <div className="battle-form">
               <h2>イベントを追加</h2>
-              <BattleForm
-                onAdd={(data) => {
-                  addBattle(data)
+              <EventForm
+                onAdd={(data) => addEvent(data)}
+                editing={editing}
+                onUpdate={(ev) => {
+                  updateEvent(ev)
+                  setEditing(null)
                 }}
+                onCancelEdit={() => setEditing(null)}
               />
             </div>
           </section>

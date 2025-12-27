@@ -1,7 +1,7 @@
 // 部門は将来的に「ハウス」「ヒップホップ」等の任意の名称を複数持てるようにします
 export type Division = string
 
-export interface Battle {
+export interface Event {
   id: string
   title: string
   datetime?: string
